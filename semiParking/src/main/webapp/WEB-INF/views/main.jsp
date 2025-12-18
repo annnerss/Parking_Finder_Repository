@@ -7,6 +7,6 @@
 <title>Parking Finder</title>
 </head>
 <body>
-	<h1>메인 페이지</h1>
+	<h1>메인 페이지1</h1>
 </body>
 </html>
