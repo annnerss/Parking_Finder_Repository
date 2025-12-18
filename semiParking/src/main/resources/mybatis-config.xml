@@ -10,7 +10,7 @@
   	</settings>
   	
     <typeAliases>
-  		
+  		<typeAlias type="com.kh.parking.qna.model.vo.Qna" alias="Qna"/>
   	</typeAliases>
   
   </configuration>
