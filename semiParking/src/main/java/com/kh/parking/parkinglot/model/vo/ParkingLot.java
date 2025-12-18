@@ -1,4 +1,5 @@
 package com.kh.parking.parkinglot.model.vo;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,16 +12,16 @@ import java.sql.Date;
 @Data
 @Builder
 public class ParkingLot {
-    private int parkingNo; //ÁÖÂ÷Àå °ü¸® ¹øÈ£
-    private String parkingName; //ÁÖÂ÷ÀåÀÌ¸§
-    private double location_X; //À§µµ
-    private double location_Y; //°æµµ
-    private int total; //ÃÑ ±¸È¹¼ö
-    private int current;//ÁÖÂ÷°¡´ÉÇÑ ±¸È¹ ¼ö
-    private Date openTime; //¿©´Â½Ã°£
-    private Date closeTime; //´İ´Â½Ã°£
-    private int price; //±âº»¿ä±İ
-    private int priceTime; //½Ã°£´ç ¿ä±İ
-    private String phone; //¿¬¶ôÃ³
-    private String status; //¿î¿µ ¿©ºÎ
+    private int parkingNo; //ì£¼ì°¨ì¥ ê´€ë¦¬ ë²ˆí˜¸
+    private String parkingName; //ì£¼ì°¨ì¥ì´ë¦„
+    private double location_X; //ìœ„ë„
+    private double location_Y; //ê²½ë„
+    private int total; //ì´ êµ¬íšìˆ˜
+    private int current;//ì£¼ì°¨ê°€ëŠ¥í•œ êµ¬íš ìˆ˜
+    private Date openTime; //ì—¬ëŠ”ì‹œê°„
+    private Date closeTime; //ë‹«ëŠ”ì‹œê°„
+    private int price; //ê¸°ë³¸ìš”ê¸ˆ
+    private int priceTime; //ì‹œê°„ë‹¹ ìš”ê¸ˆ
+    private String phone; //ì—°ë½ì²˜
+    private String status; //ìš´ì˜ ì—¬ë¶€
 }

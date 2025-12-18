@@ -1,4 +1,5 @@
 package com.kh.parking.reservation.model.vo;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +12,10 @@ import java.sql.Date;
 @Data
 @Builder
 public class Reservation {
-    private int reservationNo; //¿¹¾à¹øÈ£
-    private Date startTime; //ÀÔÂ÷¿¹¾à½Ã°£
-    private Date endTime; //ÃâÂ÷¿¹¾à½Ã°£
-    private String status; //»óÅÂ¿©ºÎ(¿¹¾àÁß/¿¹¾àÃë¼Ò/ÁÖÂ÷¿Ï·á?)
-    private int parkingNo; //ÁÖÂ÷Àå °ü¸®¹øÈ£(¿Ü·¡Å°)
-    private String memberId; //ÀÌ¿ëÀÚ ¾ÆÀÌµğ(¿Ü·¡Å°)
+    private int reservationNo; //ì˜ˆì•½ë²ˆí˜¸
+    private Date startTime; //ì…ì°¨ì˜ˆì•½ì‹œê°„
+    private Date endTime; //ì¶œì°¨ì˜ˆì•½ì‹œê°„
+    private String status; //ìƒíƒœì—¬ë¶€(ì˜ˆì•½ì¤‘/ì˜ˆì•½ì·¨ì†Œ/ì£¼ì°¨ì™„ë£Œ?)
+    private int parkingNo; //ì£¼ì°¨ì¥ ê´€ë¦¬ë²ˆí˜¸(ì™¸ë˜í‚¤)
+    private String memberId; //ì´ìš©ì ì•„ì´ë””(ì™¸ë˜í‚¤)
 }
