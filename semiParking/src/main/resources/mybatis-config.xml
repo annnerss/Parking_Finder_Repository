@@ -10,7 +10,7 @@
   	</settings>
   	
     <typeAliases>
-  		
+    	<typeAlias type="com.kh.parking.member.model.vo.Member" alias="Member"/>
   	</typeAliases>
   
   </configuration>
