@@ -6,17 +6,19 @@
 <mapper namespace="reserveMapper">
     <insert id="reserve" parameterType="Reservation">
         INSERT INTO
-        RESERVATION(RESERVATION_NO
+        RESERVATION (RESERVATION_NO
                     ,START_TIME
                     ,END_TIME
                     ,P_NO
-                    ,MEM_NO)
-        VALUES(SEQ_RESNO.NEXTVAL
+                    ,MEM_ID)
+        VALUES (SEQ_RESNO.NEXTVAL
                 ,#{startTime}
                 ,#{endTime}
                 ,#{parkingNo}
-                ,#{memberId})
+                ,#{memberId}
+        )
     </insert>
+
 
 
 </mapper>

@@ -15,20 +15,19 @@
     <div class="reserve-container">
         <h2 class="text-center">주차장 예약</h2>
         <br>
-        <input type="hidden" id="basePrice" value="${parkingLot.price}">
+        <input type="hidden" id="basePrice" value="${parkingLot.price*10}">
         <input type="hidden" id="unitPrice" value="${parkingLot.priceTime}">
-
 
         <form action="reserve.port" method="post">
             <div class="form-group">
                 <label>주차장 이름:</label>
-                <input type="text" class="form-control" name="parkingName" value="${parkingLot.getParkingLotName}" readonly>
+                <input type="text" class="form-control" name="parkingName" value="${parkingLot.parkingName}" readonly>
+                <input type="hidden" class="form-control" name="parkingNo" value="${parkingLot.parkingNo}">
             </div>
 
-            <!-- default = "${loginMember.getVehicleId}" -->
             <div class="form-group">
                 <label>예약자ID:</label>
-                <input type="text" class="form-control" name="memberId" value="${loginMember.getMemberId}" required>
+                <input type="text" class="form-control" name="memberId" value="${loginMember.memberId}" required>
             </div>
 
             <div class="form-group">
@@ -57,16 +56,19 @@
     function calcPrice() {
         const startVal = document.getElementById("startTime").value;
         const endVal = document.getElementById("endTime").value;
-        // const basePrice = parseInt(document.getElementById("basePrice").value); 
-        // const unitPrice = parseInt(document.getElementById("unitPrice").value); 
-        const basePrice = 5000;
-        const unitPrice = 500;
+        const basePrice = parseInt(document.getElementById("basePrice").value); 
+        let unitPrice = parseInt(document.getElementById("unitPrice").value);
+        if(unitPrice == 0) {
+            unitPrice = 500;
+        }
+        // const basePrice = 5000;
+        // const unitPrice = 500;
         if (startVal && endVal) {
             const start = new Date(startVal);
             const end = new Date(endVal);
 
             const diffMS = end - start;
-            const diffHours = diffMS / (1000 * 60 * 60);
+            const diffHours = diffMS / (1000 * 60 * 60); //ms단위 *초 *분 *시간
 
             console.log(diffHours);
 
@@ -85,7 +87,7 @@
                 total = basePrice + ((Math.ceil(diffHours)-1) * unitPrice);
             }
            
-            document.getElementById("totalPrice").value = total+"원";
+            document.getElementById("totalPrice").value = total;
         }
     }
 </script>

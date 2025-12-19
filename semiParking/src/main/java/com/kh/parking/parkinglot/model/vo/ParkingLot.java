@@ -12,7 +12,7 @@ import java.sql.Date;
 @Data
 @Builder
 public class ParkingLot {
-    private int parkingNo; //주차장 관리 번호
+    private String parkingNo; //주차장 관리 번호
     private String parkingName; //주차장이름
     private double location_X; //위도
     private double location_Y; //경도

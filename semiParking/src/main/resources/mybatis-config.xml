@@ -10,7 +10,8 @@
   	</settings>
   	
     <typeAliases>
-  		
+        <typeAlias type="com.kh.parking.reservation.model.vo.Reservation" alias="Reservation"/>
+        <typeAlias type="com.kh.parking.parkinglot.model.vo.ParkingLot" alias="ParkingLot"/>
   	</typeAliases>
   
   </configuration>
