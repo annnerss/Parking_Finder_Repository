@@ -37,9 +37,6 @@ public class parkingLotController {
     public List<ParkingLot> ParkingList(){
         List<ParkingLot> list = service.ParkingList();
 
-        for(ParkingLot lot : list){
-            System.out.println(lot);
-        }
         return list;
     }
 
@@ -73,7 +70,7 @@ public class parkingLotController {
     @GetMapping(value= "/getRoute.get", produces = "application/json; charset=UTF-8")
     public String getRoute(@RequestParam String start, @RequestParam String goal){
         try {
-            String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving";
+            String apiUrl = "https://maps.apigw.ntruss.com/map-direction/v1/driving";
             String query = "?goal=" + goal + "&start=" + start + "&option=trafast"; // trafast: 실시간 빠른길
 
             URL url = new URL(apiUrl + query);
@@ -89,8 +86,10 @@ public class parkingLotController {
 
             if(responseCode == 200){
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                System.out.println("?");
             }else{
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+                System.out.println("??");
             }
 
             String inputLine;
@@ -100,6 +99,7 @@ public class parkingLotController {
             }
             br.close();
 
+            System.out.println(response);
             return response.toString();
 
         } catch (Exception e){

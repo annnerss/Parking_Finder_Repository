@@ -5,19 +5,110 @@
 <meta charset="UTF-8">
 <title>주차장 예약 (네이버 지도)</title>
 <style>
-    body, html { margin:0; padding:0; height:100%; }
-    #map { width: 100%; height: 100vh; }
-    
-    /* 인포윈도우 스타일 */
-    .iw_inner { padding: 10px; min-width: 200px; }
-    .iw_inner h4 { margin: 0 0 10px 0; font-size: 16px; }
-    .btn-group { display: flex; gap: 5px; margin-top: 10px; }
-    
-    .btn-reserve { 
-        flex: 1; padding: 5px; background: #28a745; color: white; border: none; cursor: pointer; border-radius: 4px;
+    /* [1] 지도를 화면에 꽉 채우기 위한 필수 설정 */
+    body, html { 
+        margin: 0; 
+        padding: 0; 
+        height: 100%; 
+        overflow: hidden; /* 스크롤 방지 */
     }
-    .btn-route { 
-        flex: 1; padding: 5px; background: #03c75a; color: white; border: none; cursor: pointer; border-radius: 4px;
+    
+    #map { 
+        width: 100%; 
+        height: 100vh; /* 화면 전체 높이 */
+    }
+    
+    /* [2] 검색창 스타일 (지도 위에 둥둥 떠있어야 함) */
+    #search-box {
+        position: absolute;
+        top: 20px; 
+        left: 20px; 
+        z-index: 100; /* 지도보다 위에 오도록 설정 */
+        background: white; 
+        padding: 15px; 
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        display: flex; 
+        gap: 10px;
+    }
+    
+    #search-box input { 
+        padding: 8px; 
+        width: 200px; 
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    #search-box button { 
+        padding: 8px 15px; 
+        cursor: pointer; 
+        background: #007bff; 
+        color: white; 
+        border: none; 
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    
+    /* [3] 인포윈도우(정보창) 디자인 */
+    .iw_inner { 
+        padding: 5px; 
+        min-width: 280px; /* 창 넓이 확보 */
+    }
+    
+    .iw_inner h4 { 
+        margin: 0 0 10px 0; 
+        font-size: 18px; 
+        font-weight: bold; 
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+    }
+    
+    .iw_inner p { 
+        margin: 5px 0; 
+        font-size: 14px; 
+        color: #555; 
+    }
+
+    /* [4] 버튼 그룹 스타일 */
+    .btn-group { 
+        display: flex; 
+        gap: 5px; 
+        margin-top: 15px; 
+    }
+    
+    .btn-reserve, .btn-route {
+        flex: 1; /* 반반 채우기 */
+        padding: 8px 0;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .btn-reserve { background-color: #28a745; } /* 초록색 */
+    .btn-reserve:hover { background-color: #218838; }
+
+    .btn-route { background-color: #007bff; }   /* 파란색 */
+    .btn-route:hover { background-color: #0069d9; }
+
+    /* [5] 경로 탐색 결과 박스 (기본 숨김) */
+    .route-info {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 13px;
+        display: none; /* 처음에 안 보임 */
+    }
+    
+    .time-highlight { 
+        color: #d63384; 
+        font-weight: bold; 
+        font-size: 15px; 
     }
 </style>
 <!-- jQuery -->
@@ -99,6 +190,7 @@
             title: parking.parkingName
             // icon: "이미지경로" (필요시 추가)
         });
+        
 
         // 인포윈도우 내용 (HTML)
         const contentString = `
@@ -113,9 +205,9 @@
                         onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${parking.parkingNo}'">
                         예약
                     </button>
-                    <!-- 길찾기 버튼: 네이버 지도 웹사이트로 연결 -->
+
                     <button class="btn-route" 
-                        onclick="findRoute(\${lat}, \${lng}, '\${parking.parkingName}')">
+                        onclick="findRoute(\${lat}, \${lng}, '\${parking.parkingName}', this)">
                         길찾기
                     </button>
                 </div>
@@ -149,11 +241,34 @@
 
     let currentPath = null;
 
-    function findRoute(destLat, destLng, destName){
+    function formatTime(ms) {
+        const totalMinutes = Math.round(ms / 1000 / 60);
+        
+        if (totalMinutes < 60) {
+            return totalMinutes + "분";
+        } else {
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            return hours + "시간 " + minutes + "분";
+        }
+    }
+
+    // 거리 포맷팅 (미터 -> km)
+    function formatDistance(meters) {
+        if (meters < 1000) {
+            return meters + "m";
+        } else {
+            return (meters / 1000).toFixed(1) + "km"; // 소수점 첫째 자리까지
+        }
+    }
+
+    function findRoute(destLat, destLng, destName, btnElement){
         if(!myLocation){
             alert("위치를 찾을 수 없습니다.")
             return;
         }
+
+        if(btnElement) btnElement.innerText = "탐색중...";
 
         const startStr = myLocation.lng() + "," +myLocation.lat();
         const goalStr = destLng + "," + destLat;
@@ -169,6 +284,20 @@
             success: function(data){
                 // console.log(data);
                 if(data.code === 0){
+                    const summary = data.route.trafast[0].summary;
+                
+                    const durationStr = formatTime(summary.duration);   // 예: 1시간 5분
+                    const distanceStr = formatDistance(summary.distance); // 예: 15.2km
+                    
+                    // 1. 화면에 정보 표시 (버튼 텍스트 변경 or 알림창)
+                    if(btnElement) {
+                        // 버튼 글씨를 "15분 (3km)" 형태로 변경하고 클릭 방지
+                        btnElement.innerHTML = `<b>\${durationStr}</b> <small>(\${distanceStr})</small>`;
+                        btnElement.style.backgroundColor = "#555"; // 색상 변경
+                        btnElement.disabled = true; // 중복 클릭 방지
+                    } else {
+                        alert(`소요시간: \${durationStr}, 거리: \${distanceStr}`);
+                    }
                     if(currentPath){
                         currentPath.setMap(null);
                     }
