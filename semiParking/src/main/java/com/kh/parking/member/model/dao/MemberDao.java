@@ -23,10 +23,21 @@ public class MemberDao {
 	public String selectMember2(SqlSessionTemplate sqlSession, String inputId) {
 		return sqlSession.selectOne("memberMapper.selectMember2", inputId); 
 	}
-
-	//사용자가 로그인을 시도하려고 할때 사용자 정보가 있으면 마지막 로그인 한 날짜를 업데이트 처리 
+	
+	
+	//사용자가 로그인을 시도하려고 할때 사용자 정보가 있으면 마지막 로그인 한 날짜를 업데이트 처리 및 휴면 계정까지 처리하기 
 	public int updateDate(SqlSessionTemplate sqlSession, Member loginMember) {
 		return sqlSession.update("memberMapper.updateDate",loginMember); 
+	}
+
+	//정보 수정 (휴면 계정이면 status도 바꿔주자. 근데 사실 휴면계정이든 아니든 status Y로 고정 시켜도 문제없다. N은 탈퇴 한사람으로 가정) 
+	public int updateMember(SqlSessionTemplate sqlSession, Member loginMember) {
+		return sqlSession.update("memberMapper.updateMember",loginMember); 
+	}
+	
+	//회원 삭제(DB에서 아예 삭제가 아닌 STATUS='N'으로)
+	public int deleteMember(SqlSessionTemplate sqlSession, Member loginMember) {
+		return sqlSession.delete("memberMapper.deleteMember", loginMember); 
 	}
 
 }
