@@ -57,8 +57,11 @@ public class parkingLotController {
 
         int result = service.reserve(reservation);
 
+        ParkingLot parkingLot = service.parkingDetail(reservation.getParkingNo());
+
         if(result > 0){
             model.addAttribute("price", price);
+            model.addAttribute("parkingLot", parkingLot);
             return "payment/payment";
         }else{
             model.addAttribute("alertMsg","오류");
