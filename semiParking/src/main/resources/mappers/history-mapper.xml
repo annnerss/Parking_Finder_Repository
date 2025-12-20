@@ -11,13 +11,17 @@
   			   TO_CHAR(H_DATE,'FMMM.FMDD') "H_DATE"
   		FROM HISTORY
   		WHERE REF_MID = #{memId}
-  		ORDER BY H_DATE DESC 	    		
+  		ORDER BY HISTORY.H_DATE DESC 	    		
 		<!-- 검색을 하는 것이므로 가장 최근에 검색한걸 맨위로 나오게 하자.--> 
   		<!-- 외래키로 연결 됐으니까 memId를 참조해야한다. -->
   		<!-- TO_CHAR(H_DATE,'FMMM.FMDD') "H_DATE"
   			 이렇게 작성한 이유는 1월 1일 같은 경우는 01.01로 표기된다. 0을 없애기 위함이다.
   			 
   			 또한 프로젝트 발표날짜가 1월 2일이기 때문에 1.2로 표현하는게 깔끔하다. 
+  			 
+  			 여기서 ORDER BY H_DATE DESC로 하면 안된다. 그럼 문자열 형태라 순서가 깨진다.
+  			 
+  			 따라서 위처럼 ORDER BY HISTORY.H_DATE DESC 로 바꾼다. 
   		 -->
   	</select>
   	
