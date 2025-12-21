@@ -11,16 +11,20 @@ import java.sql.Date;
 @Data
 @Builder
 public class ParkingLot {
-    private int parkingNo; //ÁÖÂ÷Àå °ü¸® ¹øÈ£
-    private String parkingName; //ÁÖÂ÷ÀåÀÌ¸§
-    private double location_X; //À§µµ
-    private double location_Y; //°æµµ
-    private int total; //ÃÑ ±¸È¹¼ö
-    private int current;//ÁÖÂ÷°¡´ÉÇÑ ±¸È¹ ¼ö
-    private Date openTime; //¿©´Â½Ã°£
-    private Date closeTime; //´Ý´Â½Ã°£
-    private int price; //±âº»¿ä±Ý
-    private int priceTime; //½Ã°£´ç ¿ä±Ý
-    private String phone; //¿¬¶ôÃ³
-    private String status; //¿î¿µ ¿©ºÎ
+    private String parkingNo; // pNo -> parkingNoë¡œ ìˆ˜ì • 
+    private String parkingName; 
+    private double location_X; 
+    private double location_Y; 
+    private int total; 
+    private int current;
+    private Date openTime; 
+    private Date closeTime; 
+    private int price; 
+    private int priceTime; 
+    private String phone; 
+    private String status;
+    
+   
+    
+    
 }

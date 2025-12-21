@@ -25,7 +25,7 @@ public class HistoryController {
 	//검색 내용을 조회, 날짜도 나오게 해야한다.(아이디를 기반으로)
 	@ResponseBody
 	@RequestMapping(value="/searchList.parking", produces="application/json;charset=UTF-8")
-	public ArrayList<History> selectHistory(String memId, Model model) {
+	public ArrayList<History> selectHistory(String memId) {
 		
 	   //Member loginMember = (Member) session.getAttribute("loginMember"); //getAttribute는 Object형을 반환하니 다운 캐스팅 
 	   
@@ -78,7 +78,7 @@ public class HistoryController {
 		
 		//이제 검색 내용에 맞게 이동을 해야 하니까
 		
-		//return "redirect:/searchList?keyword="+keyword; (검색 내용에 맞는 곳으로 이동) 
+		//return "redirect:/searchList?keyword="+keyword+"&searchBno="+bno; (검색 내용에 맞는 곳으로 이동) 
 		
 	}
 	
