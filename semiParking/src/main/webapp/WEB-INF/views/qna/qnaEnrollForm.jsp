@@ -16,31 +16,31 @@
 		<div class="innerOuter">
 			<h2 class="text-center">문의사항 글 작성</h2>
 			<br>
-			<form id="enrollForm" method="post" action="${contextRoot }/insert.qn">
+			<form id="enrollForm" method="post" action="${contextRoot }/qnaInsert.qn">
 				<table align="center">
 				<!-- 공개 범위, 주차장명, 작성자, 내용 -->
 					<tr>
 						<th id="qnaRange">공개 범위 설정</th>
-						<td><input type="radio" id="manager" class="form-control" name="qType" checked></td>
+						<td><input type="radio" id="all" class="form-control" name="qType" value="0" checked></td>
 						<td><label for="all">전체 공개</label></td>
-						<td><input type="radio" id="manager" class="form-control" name="qType"></td>
+						<td><input type="radio" id="manager" class="form-control" name="qType" value="1"></td>
 						<td><label for="manager">관리자에게만 공개</label></td>
 					</tr>
 					<tr>
 						<th><label for="pname">주차장명</label></th>
-						<td colspan="4"><input type="text" id="pname" class="form-control"></td>
+						<td colspan="4"><input type="text" id="pname" name="pNo" class="form-control"></td>
 					</tr>
 					<tr>
 						<th><label for="qnaWriter">작성자</label></th>
-                        <td colspan="4"><input type="text" id="qnaWriter" class="form-control" value="" readonly></td>
+                        <td colspan="4"><input type="text" id="qnaWriter" name="memId" class="form-control" value="userId" readonly></td>
 					</tr>
 					<tr>
 						<th><label for="qnaTitle">제목</label></th>
-						<td colspan="4"><input type="text" id="qnaTitle" class="form-control"></td>					
+						<td colspan="4"><input type="text" id="qnaTitle" name="qTitle" class="form-control"></td>					
 					</tr>
 					<tr>
 						<th><label for="qnaContent">내용</label></th>
-						<td colspan="4"><textarea id="qnaContent" class="form-control" rows="15" style="resize:none;"></textarea></td>					
+						<td colspan="4"><textarea id="qnaContent" name="content" class="form-control" rows="15" style="resize:none;"></textarea></td>					
 					</tr>
 				</table>
 				<br><br>
@@ -50,6 +50,7 @@
 				</div>
 			</form>
 		</div>
+		
 	</div>
 	
 	

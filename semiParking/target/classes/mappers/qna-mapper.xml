@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace="qnaMapper">
   	
   	<!-- 문의사항 총 개수 -->
@@ -12,12 +13,75 @@
 	</select>
 	
 	<!-- 문의사항 목록 조회 -->
-	<select id="qnaListView" resultType="Qna">
-		SELECT Q_NO, Q_TYPE, Q_TITLE, CONTENT, CREATE_DATE, MEM_ID, P_NO
-		FROM QNA Q
-		JOIN MEMBER USING (MEM_ID)
-		JOIN PARKINGLOT USING(P_NO)
-		WHERE Q.STATUS = 'Y'
-		ORDER BY Q.CREATE_DATE DESC
+	<select id="qnaList" resultType="Qna">
+		SELECT Q.Q_NO
+			  ,Q.Q_TITLE
+			  ,Q.MEM_ID
+			  ,Q.P_NO
+			  ,Q.CREATE_DATE
+			  ,Q.Q_TYPE
+	    FROM QNA Q
+	    JOIN MEMBER M ON Q.MEM_ID = M.MEM_ID
+	    JOIN PARKINGLOT P ON Q.P_NO = P.P_NO
+	    WHERE Q.STATUS = 'Y'
+	    ORDER BY Q.CREATE_DATE DESC
 	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="increaseCount" parameterType="_int">
+		UPDATE QNA
+		SET COUNT = COUNT + 1
+		WHERE Q_NO = #{qno}
+		AND STATUS = 'Y'
+	</update>
+	
+	<!-- 문의사항 글 상세보기 -->
+	<select id="qnaDetail" resultType="Qna" parameterType="_int">
+		SELECT Q.Q_NO
+			  ,Q.Q_TITLE
+			  ,Q.CONTENT
+			  ,Q.MEM_ID
+			  ,Q.P_NO
+			  ,Q.CREATE_DATE
+			  ,Q.Q_TYPE
+	    FROM QNA Q
+	    JOIN MEMBER M ON Q.MEM_ID = M.MEM_ID
+	    JOIN PARKINGLOT P ON Q.P_NO = P.P_NO
+	    WHERE Q_NO = #{qno} 
+	    AND Q.STATUS = 'Y'
+	    ORDER BY Q.CREATE_DATE DESC
+	</select>
+	
+	<!-- 문의사항 게시글 작성 - pName으로 pNo 리턴받기-->
+	<select id="selectPNoByPName" resultType="string">
+	    SELECT P_NO
+	    FROM PARKINGLOT
+	    WHERE P_NAME = #{pName}
+	</select>
+	
+	
+	<!-- 문의사항 게시글 등록 -->
+	<insert id="qnaInsert" parameterType="Qna">
+		INSERT INTO QNA (
+		    Q_NO,
+		    Q_TYPE,
+		    Q_TITLE,
+		    CONTENT,
+		    MEM_ID,
+		    P_NO
+		)
+		VALUES (
+		    SEQ_QNO.NEXTVAL,
+		    #{qType},
+		    #{qTitle},
+		    #{content},
+		    #{memId},
+		    (
+		        SELECT P_NO
+		        FROM PARKINGLOT
+		        WHERE P_NAME = #{pName}
+		    )
+		)
+	</insert>
+	
 </mapper>

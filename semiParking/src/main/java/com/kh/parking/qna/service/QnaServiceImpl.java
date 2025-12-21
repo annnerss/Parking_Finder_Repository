@@ -28,10 +28,29 @@ public class QnaServiceImpl implements QnaService{
 
 	//문의사항 목록 조회
 	@Override
-	public ArrayList<Qna> qnaListView(PageInfo pi) {
+	public ArrayList<Qna> qnaList(PageInfo pi) {
 
-		return dao.qnaListView(sqlSession, pi);
+		return dao.qnaList(sqlSession, pi);
 	}
 	
+	//문의사항 글 상세보기
+	@Override
+	public Qna qnaDetail(int qno) {
+		
+		return dao.qnaDetail(sqlSession, qno);
+	}
+	
+
+	//문의사항 게시글 작성 - pName으로 pNo 리턴받기
+
+  
+	//문의사항 게시글 등록
+	@Override
+	public int qnaInsert(Qna q) {
+		
+		return dao.qnaInsert(sqlSession, q);
+	}
+
+
 	
 }
