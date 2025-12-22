@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="favoriteMapper">
+
+	<insert id="insertFavorite" parameterType="map">
+		INSERT INTO FAVORITE(REF_MID,
+							 P_NO)
+		VALUES(#{memId},#{parkingNo})
+	</insert>
+	
+	<select id="selectFavorite" parameterType="string" resultType="ParkingLot">
+		SELECT P.P_NO AS parkingNo,
+			   P.P_NAME AS parkingName, 
+			   P.P_TOTAL,
+			   P.OPENTIME,
+			   P.CLOSETIME,
+			   P.PRICE,
+			   P.PRICE_TIME
+		FROM PARKINGLOT P
+		JOIN FAVORITE F ON F.P_NO = P.P_NO
+		WHERE F.REF_MID = #{memId} <!-- 세션에서 갖고온 로그인 회원 아이디를 여기다가 쓰기 -->	
+		AND P.P_NO = F.P_NO
+		ORDER BY F.FA_DATE DESC
+		<!-- parkingName으로 이름을 바꾼이유는 제대로 인식을 하지 못하기 때문. -->
+		<!-- 찜 목록을 조회 할 때는 FAVORITE 테이블에 있는 P_NO와 join을 시켜야 한다. -->
+		<!-- 그리고 주차장 관리번호는 목록 조회할때 나중에 hidden으로 넣는게 좋음 왜냐 상세보기를 눌렀을때 관리번호를 가지고 이동하는게 좋다.  --> 
+		<!-- 조회 할 땐 시간 순으로 -->  
+	</select>
+	
+	<select id="isFavorite" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM FAVORITE
+		WHERE REF_MID = #{memId}
+		AND P_NO = #{parkingNo}
+		<!-- 중복 체크를 할땐 memId, parkingNo 두개를 가지고 해야한다. -->
+		<!-- 만약에 parkingNo로만 조건을 걸면 어떤 회원이던지간에 주차장번호가 100번을 찜 한 고객들을 조회 아이디는 하나만 필요하다.-->
+	</select>
+	
+</mapper>  

@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Reply {
 	private int replyNo;
+	private String replyWriter;
 	private String replyContent;
-	private Date createDate;
+	private String createDate;
 	private String status;
 	private int refQno;
 }
