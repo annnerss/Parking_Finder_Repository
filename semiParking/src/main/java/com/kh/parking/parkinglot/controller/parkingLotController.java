@@ -9,13 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -57,6 +53,7 @@ public class parkingLotController {
         ParkingLot parkingLot = service.parkingDetail(reservation.getParkingNo());
 
         if(result > 0){
+            service.currentUpdate();
             model.addAttribute("price", price);
             model.addAttribute("parkingLot", parkingLot);
             return "payment/payment";

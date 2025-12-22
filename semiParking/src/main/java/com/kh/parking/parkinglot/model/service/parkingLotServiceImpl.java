@@ -19,16 +19,25 @@ public class parkingLotServiceImpl implements parkingLotService{
 
     @Override
     public int reserve(Reservation reservation) {
+
         return dao.reserve(sqlSession, reservation);
     }
 
     @Override
     public List<ParkingLot> ParkingList() {
+
         return dao.ParkingList(sqlSession);
     }
 
     @Override
     public ParkingLot parkingDetail(String parkingNo) {
+
         return dao.ParkingDetail(sqlSession, parkingNo);
+    }
+
+    @Override
+    public int currentUpdate() {
+
+        return dao.currentUpdate(sqlSession);
     }
 }

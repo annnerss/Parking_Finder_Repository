@@ -171,6 +171,29 @@
             success: function(list) {
                 console.log("주차장 개수: " + list.length);
                 list.forEach(parking => createMarker(parking));
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const targetLat = urlParams.get('lat');
+                const targetLng = urlParams.get('lng');
+                const targetName = urlParams.get('name');
+
+                if(targetLat && targetLng && targetName){
+                    const moveLatLng = new naver.maps.LatLng(targetLat,targetLng);
+                    map.setCenter(moveLatLng);
+                    map.setZoom(18);
+                }
+
+                let targetMarker = null;
+                for(let m of markers){
+                    if(m.getTitle() === targetName){
+                        targetMarker = m;
+                        break;
+                    }
+                }
+
+                if(targetMarker){
+                    naver.maps.Event.trigger(targetMarker,"click");
+                }
             },
             error: function() { console.log("로딩 실패"); }
         });
@@ -190,6 +213,8 @@
             title: parking.parkingName
             // icon: "이미지경로" (필요시 추가)
         });
+
+        markers.push(marker);
         
 
         // 인포윈도우 내용 (HTML)

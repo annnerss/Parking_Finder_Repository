@@ -23,4 +23,9 @@ public class parkingLotDao {
 
         return sqlSession.selectOne("parkingMapper.parkingDetail",parkingNo);
     }
+
+    public int currentUpdate(SqlSessionTemplate sqlSession) {
+
+        return sqlSession.update("parkingMapper.currentUpdate");
+    }
 }

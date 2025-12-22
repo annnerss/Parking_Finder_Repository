@@ -11,4 +11,6 @@ public interface parkingLotService {
     List<ParkingLot> ParkingList();
 
     ParkingLot parkingDetail(String parkingNo);
+
+    int currentUpdate();
 }
