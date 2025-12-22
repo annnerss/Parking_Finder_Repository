@@ -94,7 +94,7 @@
   		SET STATUS = 'N'
   		WHERE MEM_ID = #{memId} 
   	</update>
-
   	
+    	
   
 </mapper>

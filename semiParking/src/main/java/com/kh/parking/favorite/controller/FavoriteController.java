@@ -74,6 +74,18 @@ public class FavoriteController {
     
     
     /*
+    @ResponseBody
+    @RequestMapping(value="/parkingSearch.get", produces="application/json;charset=UTF-8")
+    public ArrayList<ParkingLot> parkingSearch(String 
+      
+     
+    */
+    
+    /*
+    
+    // 찜 목록 삭제 -> 
+    
+    
     //찜 목록 조회하기 (비동기 통신 이용하기) 
     @ResponseBody
     @RequestMapping(value="/select.parking", produces="produces=application/json;charset=UTF-8")

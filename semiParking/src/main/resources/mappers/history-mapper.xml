@@ -33,6 +33,61 @@
 		<!--hDate는 어차피 디폴트값이 SYSDATE니까 상관 없다.-->						
   	</insert>
   	
+  	<select id="searchListCount" parameterType="string" resultType="int">
+  		SELECT COUNT(*)
+  		FROM PARKINGLOT
+  		WHERE P_NAME LIKE '%' || #{keyword} || '%'
+  		AND STATUS = 'Y'	
+  	</select>
+  	
+  	<select id="searchParking" parameterType="string" resultMap="parkingResultSet">
+  		SELECT P_NO,
+  			   P_NAME,
+  			   LOCATION_X,
+  			   LOCATION_Y,
+  			   P_TOTAL,
+  			   P_CURRENT,
+  			   OPENTIME,
+  			   CLOSETIME,
+  			   PRICE,
+  			   PRICE_TIME,
+  			   PHONE,
+  			   STATUS
+  		FROM PARKINGLOT
+  		WHERE P_NAME LIKE '%' || #{keyword} || '%'    
+  		ORDER BY P_NO ASC
+  	</select>
+  	
+  	<resultMap id="parkingResultSet" type="ParkingLot">
+
+	    <!-- 1. PK (기본키) : 맨 위에 작성 -->
+	    <id column="P_NO" property="parkingNo" />
+	
+	    <!-- 2. 일반 컬럼들 -->
+	    <result column="P_NAME"      property="parkingName" />
+	
+	    <!-- 좌표 연결 -->
+	    <result column="LOCATION_X"  property="location_X" />
+	    <result column="LOCATION_Y"  property="location_Y" />
+	
+	    <!-- 주차 공간 정보 -->
+	    <result column="P_TOTAL"     property="total" />
+	    <result column="P_CURRENT"   property="current" />
+	
+	    <!-- 운영 시간 -->
+	    <result column="OPENTIME"    property="openTime" />
+	    <result column="CLOSETIME"   property="closeTime" />
+	
+	    <!-- 요금 정보 -->
+	    <result column="PRICE"       property="price" />
+	    <result column="PRICE_TIME"  property="priceTime" />
+	
+	    <!-- 기타 -->
+	    <result column="PHONE"       property="phone" />
+	    <result column="STATUS"      property="status" />
+
+	</resultMap>
+  	
   	
   
 </mapper>

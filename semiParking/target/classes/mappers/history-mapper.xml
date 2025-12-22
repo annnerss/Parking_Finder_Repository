@@ -11,13 +11,17 @@
   			   TO_CHAR(H_DATE,'FMMM.FMDD') "H_DATE"
   		FROM HISTORY
   		WHERE REF_MID = #{memId}
-  		ORDER BY H_DATE DESC 	    		
+  		ORDER BY HISTORY.H_DATE DESC 	    		
 		<!-- 검색을 하는 것이므로 가장 최근에 검색한걸 맨위로 나오게 하자.--> 
   		<!-- 외래키로 연결 됐으니까 memId를 참조해야한다. -->
   		<!-- TO_CHAR(H_DATE,'FMMM.FMDD') "H_DATE"
   			 이렇게 작성한 이유는 1월 1일 같은 경우는 01.01로 표기된다. 0을 없애기 위함이다.
   			 
   			 또한 프로젝트 발표날짜가 1월 2일이기 때문에 1.2로 표현하는게 깔끔하다. 
+  			 
+  			 여기서 ORDER BY H_DATE DESC로 하면 안된다. 그럼 문자열 형태라 순서가 깨진다.
+  			 
+  			 따라서 위처럼 ORDER BY HISTORY.H_DATE DESC 로 바꾼다. 
   		 -->
   	</select>
   	
@@ -28,6 +32,61 @@
 		
 		<!--hDate는 어차피 디폴트값이 SYSDATE니까 상관 없다.-->						
   	</insert>
+  	
+  	<select id="searchListCount" parameterType="string" resultType="int">
+  		SELECT COUNT(*)
+  		FROM PARKINGLOT
+  		WHERE P_NAME LIKE '%' || #{keyword} || '%'
+  		AND STATUS = 'Y'	
+  	</select>
+  	
+  	<select id="searchParking" parameterType="string" resultMap="parkingResultSet">
+  		SELECT P_NO,
+  			   P_NAME,
+  			   LOCATION_X,
+  			   LOCATION_Y,
+  			   P_TOTAL,
+  			   P_CURRENT,
+  			   OPENTIME,
+  			   CLOSETIME,
+  			   PRICE,
+  			   PRICE_TIME,
+  			   PHONE,
+  			   STATUS
+  		FROM PARKINGLOT
+  		WHERE P_NAME LIKE '%' || #{keyword} || '%'    
+  		ORDER BY P_NO ASC
+  	</select>
+  	
+  	<resultMap id="parkingResultSet" type="ParkingLot">
+
+	    <!-- 1. PK (기본키) : 맨 위에 작성 -->
+	    <id column="P_NO" property="parkingNo" />
+	
+	    <!-- 2. 일반 컬럼들 -->
+	    <result column="P_NAME"      property="parkingName" />
+	
+	    <!-- 좌표 연결 -->
+	    <result column="LOCATION_X"  property="location_X" />
+	    <result column="LOCATION_Y"  property="location_Y" />
+	
+	    <!-- 주차 공간 정보 -->
+	    <result column="P_TOTAL"     property="total" />
+	    <result column="P_CURRENT"   property="current" />
+	
+	    <!-- 운영 시간 -->
+	    <result column="OPENTIME"    property="openTime" />
+	    <result column="CLOSETIME"   property="closeTime" />
+	
+	    <!-- 요금 정보 -->
+	    <result column="PRICE"       property="price" />
+	    <result column="PRICE_TIME"  property="priceTime" />
+	
+	    <!-- 기타 -->
+	    <result column="PHONE"       property="phone" />
+	    <result column="STATUS"      property="status" />
+
+	</resultMap>
   	
   	
   
