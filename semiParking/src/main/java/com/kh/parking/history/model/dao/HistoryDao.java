@@ -49,5 +49,23 @@ public class HistoryDao {
 	public int searchListCount(SqlSessionTemplate sqlSession, String keyword) {
 		return sqlSession.selectOne("historyMapper.searchListCount", keyword); 
 	}
+
+	public ArrayList<ParkingLot> searchKeywordParking(SqlSessionTemplate sqlSession, String value) {
+		
+		return (ArrayList) sqlSession.selectList("historyMapper.searchKeywordParking", value);
+		
+	}
+
+	public boolean checkContent(SqlSessionTemplate sqlSession, HashMap<String, String> paramMap) {
+		int result = sqlSession.selectOne("historyMapper.checkContent", paramMap);
+		
+		if(result > 0) { // 중복 됐으니까 데이터를 추가하지 말기 
+			return true;
+		}   
+		
+		// 이건 중복이 안된것이다. false를 반환해서 데이터 추가하기
+		return false; 
+		
+	}
 	
 }

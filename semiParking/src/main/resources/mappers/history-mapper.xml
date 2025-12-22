@@ -58,6 +58,21 @@
   		ORDER BY P_NO ASC
   	</select>
   	
+  	<select id="searchKeywordParking" parameterType="string" resultMap="parkingResultSet">
+  		SELECT P_NAME
+  		FROM PARKINGLOT
+  		WHERE P_NAME LIKE '%' || #{keyword} || '%'
+  		ORDER BY P_NO ASC
+  	</select>
+  	
+  	<select id="checkContent" parameterType="map" resultType="int">
+  		SELECT COUNT(*)
+  		FROM HISTORY
+  		WHERE SEARCH_CONTENT = #{keyword}
+  		AND REF_MID = #{memId} 
+  	
+  	</select>
+  	
   	<resultMap id="parkingResultSet" type="ParkingLot">
 
 	    <!-- 1. PK (기본키) : 맨 위에 작성 -->

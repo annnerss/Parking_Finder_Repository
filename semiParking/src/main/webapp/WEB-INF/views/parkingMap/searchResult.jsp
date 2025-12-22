@@ -30,7 +30,9 @@
                  onclick="moveMap('${p.location_Y}', '${p.location_X}', '${p.parkingName}')">
 
                 <div class="p-title">${p.parkingName}</div>
-
+                
+				
+	
                 <div class="p-info">
                     <span>기본 요금 : ${p.price}</span>
                     <span>시간당 추가요금 : ${p.priceTime}</span>
