@@ -29,6 +29,10 @@ public class parkingLotDao {
 		
 		return (List)sqlSession.selectList("parkingMapper.parkingListView",null,rowBounds);
 	}
+	
+	public List<ParkingLot> searchParking(SqlSessionTemplate sqlSession, String keyword) {
+		return sqlSession.selectList("parkingMapper.searchParking",keyword);
+	}
 
 	public int listCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("parkingMapper.listCount");
@@ -65,6 +69,7 @@ public class parkingLotDao {
 	public int deletePayment(SqlSessionTemplate sqlSession, int rNo) {
 		return sqlSession.update("reserveMapper.deletePayment",rNo);
 	}
+
 
 
     

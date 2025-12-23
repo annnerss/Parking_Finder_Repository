@@ -118,8 +118,8 @@
 					            	<c:otherwise>
 						            	<!-- 일반 멤버용 메뉴 -->
 						                <li><a href="${contextRoot }/mypage.me">마이페이지</a></li>
-				               			<li>찜목록</li>
-				               			<li>쿠폰 등록</li>
+				               			<li><a href="${contextRoot}/favorites.parking">찜목록</a></li>
+				               			<li><a href="${contextRoot}">쿠폰등록</a></li>
 				               			<li><a href="${contextRoot }/logout.me">로그아웃</a></li>
 					            	</c:otherwise>
 				                </c:choose>

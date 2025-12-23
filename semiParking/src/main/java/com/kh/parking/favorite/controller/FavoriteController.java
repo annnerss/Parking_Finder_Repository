@@ -35,7 +35,7 @@ public class FavoriteController {
     
     	//그럼 만약에 찜 목록에서 사용자가 찜한걸 삭제하고 싶으면 비동기 처리? 혹은 동기 처리? 
     	
-    	return "favorite/favoriteParking";
+    	return "member/favoriteParking";
     	
     }
     

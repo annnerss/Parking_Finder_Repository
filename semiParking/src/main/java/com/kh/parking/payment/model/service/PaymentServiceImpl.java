@@ -40,15 +40,15 @@ public class PaymentServiceImpl implements PaymentService {
 	// 카카오페이 결제창 연결
     @Override
     public ReadyRes payReady(OrderRequest request) {
-    
+    	System.out.println(request.getPartner_order_id());
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("cid", cid);                                    // 가맹점 코드(테스트용)
-        parameters.put("partner_order_id", String.valueOf(request.getReservationNo()));   //예약 번호                    // 주문번호
-        parameters.put("partner_user_id", request.getMemberId());           // 회원 아이디
+        parameters.put("partner_order_id", request.getPartner_order_id());   //예약 번호                    // 주문번호
+        parameters.put("partner_user_id", request.getPartner_user_id());           // 회원 아이디
         parameters.put("item_name", request.getParkingName());        // 주차장 이름
-        parameters.put("parkingNo", request.getParkingNo());			//주차장 번호
+        parameters.put("item_code", request.getParkingNo());			//주차장 번호
         parameters.put("quantity", "1");                                 // 상품 수량
-        parameters.put("total_amount", String.valueOf(request.getTotalPrice()));    // 상품 총액
+        parameters.put("total_amount", String.valueOf(request.getTotal_amount()));    // 상품 총액
         parameters.put("tax_free_amount", "0");                                 // 상품 비과세 금액
         parameters.put("approval_url", "http://localhost:8080/parking/payment/approve"); // 결제 성공 시 URL
         parameters.put("cancel_url", "http://localhost:8080/parking/payment/cancel");      // 결제 취소 시 URL
@@ -58,20 +58,19 @@ public class PaymentServiceImpl implements PaymentService {
         // : Rest 방식 API를 호출할 수 있는 Spring 내장 클래스
         //   REST API 호출 이후 응답을 받을 때까지 기다리는 동기 방식 (json, xml 응답)
         // RestTemplate의 postForEntity : POST 요청을 보내고 ResponseEntity로 결과를 반환받는 메소드
-                                      
+        
+        
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(parameters, getHeaders());
 
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://open-api.kakaopay.com/online/v1/payment/ready";
         ResponseEntity<ReadyRes> response = restTemplate.postForEntity(url, entity, ReadyRes.class);
-        
         SessionUtil.addAttribute("tid",Objects.requireNonNull(response.getBody()).getTid());
-        SessionUtil.addAttribute("reservationNo", Objects.requireNonNull(request.getReservationNo()));
-        SessionUtil.addAttribute("memId", Objects.requireNonNull(request.getMemberId()));
-        SessionUtil.addAttribute("parkingName", Objects.requireNonNull(request.getParkingName()));
-        SessionUtil.addAttribute("parkingNo", Objects.requireNonNull(request.getParkingNo()));
-        SessionUtil.addAttribute("totalPrice", Objects.requireNonNull(request.getTotalPrice()));
-        
+        SessionUtil.addAttribute("partner_order_id", Objects.requireNonNull(request.getPartner_order_id()));
+        SessionUtil.addAttribute("partner_user_id", Objects.requireNonNull(request.getPartner_user_id()));
+        SessionUtil.addAttribute("item_name", Objects.requireNonNull(request.getParkingName()));
+        SessionUtil.addAttribute("item_code", Objects.requireNonNull(request.getParkingNo()));
+        SessionUtil.addAttribute("total_amount", Objects.requireNonNull(request.getTotal_amount()));
         return response.getBody();
        
     }
@@ -84,22 +83,20 @@ public class PaymentServiceImpl implements PaymentService {
         Map<String, String> parameters = new HashMap<>();
         parameters.put("cid", cid);              // 가맹점 코드(테스트용)
         parameters.put("tid", SessionUtil.getStringAttribute("tid"));                       // 결제 고유번호
-        parameters.put("partner_order_id", SessionUtil.getStringAttribute("reservationNo")); // 주문번호
-        parameters.put("partner_user_id", SessionUtil.getStringAttribute("memId"));    // 회원 아이디
+        parameters.put("partner_order_id", SessionUtil.getStringAttribute("partner_order_id")); // 주문번호
+        parameters.put("partner_user_id", SessionUtil.getStringAttribute("partner_user_id"));    // 회원 아이디
         parameters.put("pg_token", pgToken);              // 결제승인 요청을 인증하는 토큰
-        System.out.println("여기" + SessionUtil.getStringAttribute("reservationNo"));
         
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(parameters, this.getHeaders());
         
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://open-api.kakaopay.com/online/v1/payment/approve";
         ResponseEntity<PaymentApprove> response = restTemplate.postForEntity(url, entity, PaymentApprove.class);
-        
-        response.getBody().setReservationNo(Integer.parseInt(SessionUtil.getStringAttribute("reservationNo")));
-        response.getBody().setMemId(SessionUtil.getStringAttribute("memId"));
-        response.getBody().setParkingName(SessionUtil.getStringAttribute("parkingName"));
-        response.getBody().setParkingNo(SessionUtil.getStringAttribute("parkingNo"));
-        response.getBody().setTotalPrice(Integer.parseInt(SessionUtil.getStringAttribute("totalPrice")));
+        response.getBody().setPartner_order_id(SessionUtil.getStringAttribute("partner_order_id"));
+        response.getBody().setPartner_user_id(SessionUtil.getStringAttribute("partner_user_id"));
+        response.getBody().setItem_name(SessionUtil.getStringAttribute("item_name"));
+        response.getBody().setItem_code(SessionUtil.getStringAttribute("item_code"));
+        response.getBody().setTotal_amount(SessionUtil.getIntAttribute("total_amount"));
         
         log.info("결제승인 응답객체: " + response);
 

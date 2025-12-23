@@ -115,6 +115,13 @@
 				#{refQno})
 	</insert>
 	
+	<update id="deleteReply" parameterType="Reply">
+		UPDATE REPLY
+		SET STATUS = 'N'
+		WHERE REPLY_NO = #{replyNo}
+		AND REPLY_WRITER = #{replyWriter}
+	</update>
+	
 	
 	
 	

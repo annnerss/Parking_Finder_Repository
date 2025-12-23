@@ -56,15 +56,22 @@
         WHERE STATUS = 'Y'
     </select>
     
+    <select id="searchParking" resultMap="parkingResultSet" parameterType="string">
+    	SELECT P_NO,P_NAME
+    	FROM PARKINGLOT
+    	WHERE STATUS='Y'
+    	AND P_NAME LIKE '%' || #{keyword} || '%'
+    </select>
+    
     <select id="parkingDetail" resultMap="parkingResultSet">
-        SELECT (P_NO,
+        SELECT P_NO,
         		P_NAME,
 				OPENTIME,
 				CLOSETIME,
 				PRICE,
 				PRICE_TIME,
 				PHONE,
-				STATUS)
+				STATUS
         FROM PARKINGLOT
         WHERE STATUS='Y'
         AND P_NO = #{parkingNo}

@@ -46,7 +46,7 @@
  				#{created_at},
  				#{approved_at},
  				#{payload},
- 				#{price})
+ 				#{total_amount})
  	</insert>
  	
  	<select id="reserveList" resultMap="ReservationMap">

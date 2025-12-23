@@ -147,10 +147,10 @@ public class parkingLotController {
     @PostMapping("/delete.re")
     public String deleteReserve(int rNo,HttpSession session) {
     	int result = service.deleteReserve(rNo);
-    	//int result2 = service.deletePayment(rNo);
+    	int result2 = service.deletePayment(rNo);
     	
-    	//if((result + result2) > 1) {
-    	if(result > 0) {
+    	if((result + result2) > 1) {
+    	//if(result > 0) {
     		session.setAttribute("alertMsg","예약이 성공적으로 삭제되었습니다");
     	}else {
     		session.setAttribute("alertMsg","예약 삭제를 실패했습니다");
@@ -196,5 +196,12 @@ public class parkingLotController {
             e.printStackTrace();
             return "{\"message\":\"error\"}";
         }
+    }
+    
+    @ResponseBody
+    @RequestMapping(value="/searchParking.pk", produces="application/json;charset=UTF-8")
+    public List<ParkingLot> searchParking(String keyword){
+    	List<ParkingLot> pList = service.searchParking(keyword);
+    	return pList;
     }
 }

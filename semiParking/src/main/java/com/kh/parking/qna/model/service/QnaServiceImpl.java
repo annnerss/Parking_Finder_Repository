@@ -77,5 +77,10 @@ public class QnaServiceImpl implements QnaService{
 		return dao.insertReply(sqlSession,r);
 	}
 
+	@Override
+	public int deleteReply(Reply r) {
+		return dao.deleteReply(sqlSession,r);
+	}
+
 
 }

@@ -39,4 +39,7 @@ public interface QnaService {
 	
 	//새로운 댓글 작성
 	int insertReply(Reply r);
+
+	//댓글 삭제 기능
+	int deleteReply(Reply r);
 }

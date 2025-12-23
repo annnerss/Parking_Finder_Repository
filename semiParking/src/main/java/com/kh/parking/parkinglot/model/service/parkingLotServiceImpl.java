@@ -74,4 +74,9 @@ public class parkingLotServiceImpl implements parkingLotService{
 		return dao.deletePayment(sqlSession,rNo);
 	}
 
+	@Override
+	public List<ParkingLot> searchParking(String keyword) {
+		return dao.searchParking(sqlSession,keyword);
+	}
+
 }

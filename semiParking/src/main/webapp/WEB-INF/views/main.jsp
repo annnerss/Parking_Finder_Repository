@@ -101,17 +101,6 @@
 	        padding: 20px 0;
 	    }
 	
-	    .favorite-link {
-	        display: block;
-	        text-align: right;
-	        margin-top: 20px;
-	    }
-	
-	    .favorite-link a {
-	        text-decoration: none;
-	        color: #EF4444;
-	        font-weight: 600;
-	    }
 	</style>
 </head>
 <body>
@@ -126,52 +115,12 @@
 	            <button type="submit">검색</button>
 	        </div>
 	    </form>
-	
+	    
 	    <!-- 검색 기록 -->
 	    <!-- 검색 했던 목록들을 보여주기 위한 태그 -->
 	    <div id="searchHistory"></div>
 	
 	   
-	</div>
-	
-	<c:if test="${not empty loginMember}">
-	      <div class="favorite-link">
-	          <a href="${contextRoot}/favorites.parking">찜 목록</a>
-	      </div>
-	</c:if>
-	
-	<!-- 주차장 목록 데이터가 지금 당장은 없으니까 더미 데이터를 이용해서 테스트 해보기 찜이 잘되는지, 찜 목록에 들어가는지 등 보기 위함 -->
-	<div>
-    	<span>강남대로150길</span> <!-- 이건 주차장 목록이라고 생각. -->
-		<c:if test="${not empty loginMember}">
-			<!-- 찜 하기 버튼은 회원일때만 보이게 하자. 주차장 정보는 보이게 하는게 좋다. (비회원이여도 주차장 정보는 보게 해주는게 맞다.) -->
-	    	<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
-	        	<input type="hidden" name="parkingNo" value="122-1-000001">
-	        	<button type="submit">:하트2:찜하기</button>
-	    	</form>
-    	</c:if>
-	</div>
-	
-	<div>
-    	<span>논현로131길</span>
-		<c:if test="${not empty loginMember}">
-			<!-- 찜 하기 버튼은 회원일때만 보이게 하자. 주차장 정보는 보이게 하는게 좋다. (비회원이여도 주차장 정보는 보게 해주는게 맞다.) -->
-	    	<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
-	        	<input type="hidden" name="parkingNo" value="122-1-000002">
-	        	<button type="submit">:하트2:찜하기</button>
-	    	</form>
-    	</c:if>
-	</div>
-	
-	<div>
-    	<span>테헤란로69길</span>
-		<c:if test="${not empty loginMember}">
-			<!-- 찜 하기 버튼은 회원일때만 보이게 하자. 주차장 정보는 보이게 하는게 좋다. (비회원이여도 주차장 정보는 보게 해주는게 맞다.)  -->
-	    	<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
-	        	<input type="hidden" name="parkingNo" value="122-1-000003">
-	        	<button type="submit">:하트2: 찜하기</button>
-	    	</form>
-    	</c:if>
 	</div>
 	
 	<!-- 지도 불러오기 -->

@@ -67,7 +67,8 @@ public class QnaDao {
 		return sqlSession.insert("qnaMapper.insertReply",r);
 	}
 
-
-	
+	public int deleteReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.update("qnaMapper.deleteReply",r);
+	}
 
 }

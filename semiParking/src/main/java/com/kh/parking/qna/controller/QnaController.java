@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.parking.common.model.vo.PageInfo;
 import com.kh.parking.common.template.Pagination;
@@ -124,5 +125,26 @@ public class QnaController {
 		int result = service.insertReply(r);
 		
 		return result;
+	}
+	
+	@PostMapping("/deleteReply.re")
+	@ResponseBody
+	public Map<String, String> deleteReply(Reply r,RedirectAttributes redirectAttributes) {
+		Map<String, String> res = new HashMap<>();
+		if(r.getReplyWriter().isEmpty()) {
+			res.put("status", "fail");
+	        res.put("message", "로그인 후 이용 가능합니다");
+		}else {
+			int result = service.deleteReply(r);
+			if(result > 0) {
+				res.put("status", result > 0 ? "success" : "fail");
+		        res.put("message", result > 0 ? "댓글 삭제 완료" : "댓글 삭제 실패");
+		    } else {
+		    	res.put("status", "fail");
+		        res.put("message", "해당 댓글 작성자만 삭제 가능합니다");
+			}
+		}
+		
+		return res;
 	}
 }

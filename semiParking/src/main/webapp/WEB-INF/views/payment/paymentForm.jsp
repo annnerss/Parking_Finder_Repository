@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -132,8 +133,10 @@
     <div class="container">
         <div class="main-info-section">
             <p class="ticket-type">당일 예약권</p>
-            <p class="price">${price }원</p>
-            <p class="duration">구매당일 00:00~23:59 사이 주차가능</p>
+            <p class="price">
+            	<fmt:formatNumber value="${price }" type="number" groupingUsed="true"/>원
+            </p>
+            <p class="duration">구매당일 영업시간 사이 주차가능</p>
         </div>
 		<input type="hidden" value="${reservation }">
         <div class="note-box">
@@ -187,11 +190,11 @@
 	        $("#btn-pay-ready").click(function() {
 	            // 아래 데이터 외에도 필요한 데이터를 원하는 대로 담고, Controller에서 @RequestBody로 받으면 됨
 	            let data = {
-	            	reservationNo : ${reservation.reservationNo},
-	            	memberId : "${reservation.memberId}",
+	            	partner_order_id : ${reservation.reservationNo}.toString(),
+	            	partner_user_id : "${reservation.memberId}",
 	            	parkingName: "${reservation.parkingName}",
 	            	parkingNo : "${reservation.parkingNo}",
-	                totalPrice: ${price}
+	            	total_amount: ${price}
 	            };
 
 	            $.ajax({
