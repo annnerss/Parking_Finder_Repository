@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class Scheduler {
 
-    @Autowired
-    private parkingLotServiceImpl service;
-
-    @Scheduled(cron = "*/5 * * * * *")
-    public void currentUpdate(){
-        service.currentUpdate();
-
-        System.out.println(new java.util.Date()+"주차장 현황 갱신");
-    }
+//    @Autowired
+//    private parkingLotServiceImpl service;
+//
+//    @Scheduled(cron = "*/5 * * * * *")
+//    public void currentUpdate(){
+//        service.currentUpdate();
+//
+//        System.out.println(new java.util.Date()+"주차장 현황 갱신");
+//    }
 }

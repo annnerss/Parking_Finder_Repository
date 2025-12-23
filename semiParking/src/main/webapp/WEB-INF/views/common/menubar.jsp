@@ -2,10 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <title>메뉴바</title>
     <!-- jQuery 라이브러리 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- 부트스트랩에서 제공하고 있는 스타일 -->
@@ -13,37 +17,44 @@
     <!-- 부트스트랩에서 제공하고 있는 스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        div {box-sizing:border-box;}
+        div {
+        	box-sizing:border-box;
+        	font-family:'Nanum Gothic';
+        }
+        
         #header {
             width:80%;
-            height:100px;
+            height:80px;
             padding-top:20px;
             margin:auto;
         }
-        #header>div {width:100%; margin-bottom:10px;}
-        #header_1 {height:40%;}
-        #header_2 {height:60%;}
-
-        #header_1>div{
-            height:100%;
-            float:left;
-        }
-        #header_1_left {width:30%; position:relative;}
-        #header_1_center {width:40%;}
-        #header_1_right {width:30%;}
-
-        #header_1_left>img {height:80%; position:absolute; margin:auto; top:0px; bottom:0px; right:0px; left:0px;}
-        #header_1_right {text-align:center; line-height:35px; font-size:12px; text-indent:35px;}
-        #header_1_right>a {margin:5px;}
-        #header_1_right>a:hover {cursor:pointer;}
-
-        #header_2>ul {width:100%; height:100%; list-style-type:none; margin:auto; padding:0;}
-        #header_2>ul>li {float:left; width:25%; height:100%; line-height:55px; text-align:center;}
-        #header_2>ul>li a {text-decoration:none; color:black; font-size:18px; font-weight:900;}
-
-        #header_2 {border-top:1px solid lightgray;}
+        
+        #header>div {width:100%; margin-bottom:10px;position:relative;}
+        #header_1>ul {width:100%; height:100%; list-style-type:none; margin:auto; padding:0;}
+        #header_1>ul>li {float:left; width:25%; height:100%; line-height:55px; text-align:center;}
+        #header_1>ul>li a {text-decoration:none; color:black; font-size:18px; font-weight:900;}
+        #header_1 {height:60%; border-top:1px solid lightgray;}
 
         #header a {text-decoration:none; color:black;}
+        
+        #menubar:hover{cursor:pointer;}
+        
+        #menu {
+        	margin-top:20px;
+        	display:none; 
+        	background-color: rgba(190, 191, 204, 0.5); 
+        	right:1px; 
+        	width:250px; 
+        	position:absolute;
+        	z-index: 2;
+        }
+        
+        #menu>ul{
+        	list-style-type:none;
+        	padding-top:10px;
+        }
+        
+        #menu>ul>li {cursor:pointer;}
 
         /* 세부페이지마다 공통적으로 유지할 style */
         .content {
@@ -70,69 +81,52 @@
 			alert("${alertMsg}");
 		</script>
 		
-		<!-- 알림메시지 지워주기 -->
 		<c:remove var="alertMsg"/>
 	</c:if>
 	
+	<script>
+		function toggleMenu(){
+			$("#menu").slideToggle("fast"); 
+		}
+	</script>
 	
     <div id="header">
         <div id="header_1">
-            <div id="header_1_left">
-                <img src="https://www.iei.or.kr/resources/images/common/top_logo_s.jpg" alt="">
-            </div>
-            <div id="header_1_center"></div>
-            <div id="header_1_right">
-               <c:choose>
-                <c:when test="${empty loginMember }">
-                	<!-- 회원가입 페이지 이동 및 회원가입 처리 해보기 
-                		 페이지 이동 메소드명 : enrollForm()
-                		 페이지 이동 매핑주소 : enrollForm.me
-                		 회원가입 요청 메소드명 : insertMember()
-                		 회원가입 요청 매핑주소 : insert.me
-                		 
-                		 회원가입 처리시 나이를 꼭 입력할것 만약 입력하지 않은 경우 나는 400번 오류를 
-                		 해결할 방법도 생각해보기 
-                		 회원가입 성공시 : 메인페이지로 이동(재요청) 및 회원가입 성공! 메시지 alert 띄우기 
-                		 회원가입 실패시 : 에러페이지로 이동(재요청) 및 회원가입 실패! 메시지 h1요소에 띄우기 
-                		 
-                	 -->
-                	
-	                <a href="${contextRoot }/enrollForm.me">회원가입</a>
-    	            <a data-toggle="modal" data-target="#loginModal">로그인</a> <!-- 모달의 원리 : 이 버튼 클릭시 data-targer에 제시되어있는 해당 아이디의 div요소를 띄워줌 -->
-                </c:when>
-                <c:otherwise>
-                <!-- 로그인 후 -->
-                    <lable>${loginMember.memName}님 환영합니다</label> &nbsp;&nbsp;
-                    <a href="${contextRoot}/mypage.me">마이페이지</a>
-                    <!-- 마이페이지 이동하기 / 메소드명 mypage() / 매핑주소 : mypage.me -->
-                    <a href="${contextRoot}/logout.me">로그아웃</a>
-                    <!-- 로그아웃 처리 하기 메소드명 logout() / 매핑주소 : logout.me / 처리 후 이전 경로로 이동되도록 처리하기 -->
-                </c:otherwise>
-               </c:choose>
-            </div>
-        </div>
-        <div id="header_2">
             <ul>
-                <li><a href="${contextRoot}">HOME</a></li>
-                <li><a href="">공지사항</a></li>
-                
-                <!-- 
-                     list.bo 요청시 boardListView가 띄워지도록 해보기
-                	 나머지 Board관련 클래스들 만들기 service,impl,dao,board VO까지
-                	 boardListView() 메소드 
-                	 게시글 목록 불러와서 boardListView.jsp 에 해당 목록 출력하기
-                	 페이징처리도 해야하니 mybatisProject를 참고하여 페이징에 필요한 VO와 메소드를 활용하여
-                	 페이징처리까지 해보기 rowBounds 사용하기
-                	 mapper : board-mapper(namespace = boardMapper)
-                	 alias : Board
-                	 페이징에 필요한 VO 및 클래스 등은 common 패키지쪽에 넣어서 사용하기
-                	 
-                	 
-                 -->
-                <li><a href="${contextRoot }/list.bo">자유게시판</a></li>
-                <!-- 자유게시판을 눌렀을때 BoardController에서 urlPattern이 /list.bo인곳으로 이동 -->
-                <li><a href="${contextRoot}/photoList.ph">사진게시판</a></li>
+            	<li><a href="${contextRoot }"><img src="https://img.icons8.com/?size=100&id=MpRGXrNqKV9E&format=png&color=000000" alt="로고" style="width:40px"></a></li>
+                <li><a href="${contextRoot}/service.pk">서비스 소개</a></li>
+                <li><a href="${contextRoot }/qnaListView.qn">문의사항</a></li>
+                <li><img src="https://img.icons8.com/?size=100&id=aflTW0mA9OBv&format=png&color=000000" id="menubar" alt="메뉴바" style="width:30px" onclick="toggleMenu()"></li>
             </ul>
+            <div id="menu">
+                	<ul>
+		               	<c:choose>
+			            	<c:when test="${empty loginMember }">
+			            		<li><a data-toggle="modal" data-target="#loginModal">로그인</a></li>
+               					<li><a href="${contextRoot }/enrollForm.me">회원가입</a></li>
+			            	</c:when>
+			            	<c:otherwise>
+				                <!-- 로그인 후 -->
+				                <li>${loginMember.memName}님 환영합니다</li>&nbsp;
+				                <c:choose>
+				                	<c:when test="${loginMember.memId eq 'admin'}">
+				                		<!-- 관리자용 메뉴 -->
+				                		<li><a href="${contextRoot }/reserveList.get">전체 예약 정보 목록</a></li>
+				                		<li><a href="${contextRoot }/parkingListView.get">주차장 정보 수정</a></li>
+				                		<li><a href="${contextRoot }/logout.me">로그아웃</a></li>
+					            	</c:when>
+					            	<c:otherwise>
+						            	<!-- 일반 멤버용 메뉴 -->
+						                <li><a href="${contextRoot }/mypage.me">마이페이지</a></li>
+				               			<li>찜목록</li>
+				               			<li>쿠폰 등록</li>
+				               			<li><a href="${contextRoot }/logout.me">로그아웃</a></li>
+					            	</c:otherwise>
+				                </c:choose>
+			            	</c:otherwise>
+		            	</c:choose>
+                	</ul>
+            </div>
         </div>
     </div>
 
@@ -146,7 +140,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
         
-                <form action="${contextRoot}/login.me" method="post">
+                <form action="${contextRoot }/login.me" method="post">
                     <!-- Modal body -->
                     <div class="modal-body">
                         <label for="userId" class="mr-sm-2">ID : </label>

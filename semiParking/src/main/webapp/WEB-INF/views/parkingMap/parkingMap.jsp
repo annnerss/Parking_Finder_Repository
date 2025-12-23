@@ -5,17 +5,19 @@
 <meta charset="UTF-8">
 <title>주차장 예약 (네이버 지도)</title>
 <style>
-    /* [1] 지도를 화면에 꽉 채우기 위한 필수 설정 */
+    /* [1] 지도를 화면에 꽉 채우기 위한 필수 설정 
     body, html { 
         margin: 0; 
         padding: 0; 
         height: 100%; 
-        overflow: hidden; /* 스크롤 방지 */
-    }
+        overflow: hidden; /* 스크롤 방지
+    }*/
     
-    #map { 
-        width: 100%; 
+    #map {
+    	margin-left: 100px;
+    	margin-right: 100px;
         height: 100vh; /* 화면 전체 높이 */
+        z-index: 1;
     }
     
     /* [2] 검색창 스타일 (지도 위에 둥둥 떠있어야 함) */
@@ -92,18 +94,6 @@
 
     .btn-route { background-color: #007bff; }   /* 파란색 */
     .btn-route:hover { background-color: #0069d9; }
-
-    /* [5] 경로 탐색 결과 박스 (기본 숨김) */
-    .route-info {
-        margin-top: 10px;
-        padding: 10px;
-        background-color: #f8f9fa;
-        border: 1px solid #e9ecef;
-        border-radius: 5px;
-        text-align: center;
-        font-size: 13px;
-        display: none; /* 처음에 안 보임 */
-    }
     
     .time-highlight { 
         color: #d63384; 
@@ -171,29 +161,6 @@
             success: function(list) {
                 console.log("주차장 개수: " + list.length);
                 list.forEach(parking => createMarker(parking));
-
-                const urlParams = new URLSearchParams(window.location.search);
-                const targetLat = urlParams.get('lat');
-                const targetLng = urlParams.get('lng');
-                const targetName = urlParams.get('name');
-
-                if(targetLat && targetLng && targetName){
-                    const moveLatLng = new naver.maps.LatLng(targetLat,targetLng);
-                    map.setCenter(moveLatLng);
-                    map.setZoom(18);
-                }
-
-                let targetMarker = null;
-                for(let m of markers){
-                    if(m.getTitle() === targetName){
-                        targetMarker = m;
-                        break;
-                    }
-                }
-
-                if(targetMarker){
-                    naver.maps.Event.trigger(targetMarker,"click");
-                }
             },
             error: function() { console.log("로딩 실패"); }
         });
@@ -212,10 +179,7 @@
             position: position,
             title: parking.parkingName
             // icon: "이미지경로" (필요시 추가)
-        });
-
-        markers.push(marker);
-        
+        });    
 
         // 인포윈도우 내용 (HTML)
         const contentString = `
@@ -226,11 +190,20 @@
                 <p> 현재 주차 가능 주차면: \${parking.total-parking.current}면</p>
 
                 <div class="btn-group">
-                    <button class="btn-reserve" 
-                        onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${parking.parkingNo}'">
-                        예약
-                    </button>
-
+	                <c:choose>
+	                	<c:when test="\${empty loginMember}">
+		                	<button class="btn-reserve" style="background-color:lightgray"
+		                        onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${parking.parkingNo}'" disabled>
+		                        예약
+		                    </button>
+	                	</c:when>
+	                	<c:otherwise>
+		                	<button class="btn-reserve"
+		                        onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${parking.parkingNo}'">
+		                        예약
+		                    </button>
+	                	</c:otherwise>
+	                </c:choose>
                     <button class="btn-route" 
                         onclick="findRoute(\${lat}, \${lng}, '\${parking.parkingName}', this)">
                         길찾기
@@ -251,7 +224,7 @@
         markers.push(marker);
         infoWindows.push(infowindow);
 
-        // 마커 클릭 이벤트
+        //마커 클릭 이벤트
         naver.maps.Event.addListener(marker, "click", function(e) {
             // 다른 열린 창이 있다면 닫기
             infoWindows.forEach(iw => iw.close());
@@ -262,6 +235,7 @@
                 infowindow.open(map, marker);
             }
         });
+        
     }
 
     let currentPath = null;
@@ -307,7 +281,6 @@
             },
             dataType: "json",
             success: function(data){
-                // console.log(data);
                 if(data.code === 0){
                     const summary = data.route.trafast[0].summary;
                 
@@ -359,6 +332,28 @@
                 alert("경로 탐색 요청 실패");
             }
         });
+    }
+
+    function moveMap(lat, lng, name){
+        const moveLatLng = new naver.maps.LatLng(lat, lng);
+
+        map.setCenter(moveLatLng);
+        map.setZoom(18);
+
+        let targetMarker = null;
+
+        for(let marker of markers){
+            if(marker.getTitle() === name){
+                targetMarker = marker;
+                break;
+            }
+        }
+
+        if(targetMarker){
+            naver.maps.Event.trigger(targetMarker,"click");
+        }else{
+            console.log("비상");
+        }
     }
 </script>
 

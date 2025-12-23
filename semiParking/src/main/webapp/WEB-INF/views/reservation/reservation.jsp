@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label>예약자ID:</label>
-                <input type="text" class="form-control" name="memberId" value="${loginMember.memberId}" required>
+                <input type="text" class="form-control" name="memberId" value="${loginMember.memId}" required>
             </div>
 
             <div class="form-group">
