@@ -25,6 +25,7 @@
   		 -->
   	</select>
   	
+  	<!-- 검색 히스토리에 내용 넣는 구문 -->
   	<insert id="insertContent" parameterType="map">
   		INSERT INTO HISTORY(REF_MID,
   							SEARCH_CONTENT)
@@ -33,6 +34,7 @@
 		<!--hDate는 어차피 디폴트값이 SYSDATE니까 상관 없다.-->						
   	</insert>
   	
+  	<!-- 키워드를 포함한 주차장이 몇개 있는지를 조회하는 구문 -->
   	<select id="searchListCount" parameterType="string" resultType="int">
   		SELECT COUNT(*)
   		FROM PARKINGLOT
@@ -40,6 +42,7 @@
   		AND STATUS = 'Y'	
   	</select>
   	
+  	<!-- 검색 내용란에 있는 키워드를 포함한 주차장들을 나오게 하는 구문 -->
   	<select id="searchParking" parameterType="string" resultMap="parkingResultSet">
   		SELECT P_NO,
   			   P_NAME,
@@ -58,6 +61,7 @@
   		ORDER BY P_NO ASC
   	</select>
   	
+  	<!-- 검색 버튼을 누르기전에 키워드를 검색 내용란에 넣으면 키워드를 포함하면서 데이터베이스에 등록된 주차장 목록을 미리 보여준다. (이름만) -->
   	<select id="searchKeywordParking" parameterType="string" resultMap="parkingResultSet">
   		SELECT P_NAME
   		FROM PARKINGLOT
@@ -65,13 +69,22 @@
   		ORDER BY P_NO ASC
   	</select>
   	
+  	<!-- 사용자가 키워드를 바탕으로 검색 했는데 검색 히스토리에 있는 내용과 일치하면 중복된다. 중복 체크 구문 -->
   	<select id="checkContent" parameterType="map" resultType="int">
   		SELECT COUNT(*)
   		FROM HISTORY
   		WHERE SEARCH_CONTENT = #{keyword}
   		AND REF_MID = #{memId} 
-  	
   	</select>
+  	
+  	<!-- 검색 히스토리 내용과 검색 내용이 일치는 하지만 검색했을때의 시점만 바꾸는 구문 -->
+  	<update id="updatehDate">
+  		UPDATE HISTORY
+  		SET H_DATE = SYSDATE
+  		WHERE SEARCH_CONTENT = #{keyword}
+  		AND REF_MID = #{memId}  		 
+  	</update>
+  	
   	
   	<resultMap id="parkingResultSet" type="ParkingLot">
 

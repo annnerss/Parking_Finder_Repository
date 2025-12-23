@@ -1,10 +1,13 @@
 package com.kh.parking.member.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +36,7 @@ public class MemberController {
 		// 일단 우선순위는 로그인 로직부터
 		Member loginMember = service.selectMember(member); // 아이디와 비밀번호로 데이터베이스에 접근 후, 조회, 휴면 처리까지 싹 다하기
 		
-		System.out.println(loginMember.getStatus()); //확인용 
+		//System.out.println(loginMember.getStatus()); //확인용 
 		
 		if(loginMember!=null && bcrypt.matches(member.getMemPwd(), loginMember.getMemPwd())) { // 평문과 암호화된 비밀번호가 일치하는지 검증
 			
@@ -44,7 +47,7 @@ public class MemberController {
 					
 			} else if(loginMember.getStatus().equals("H")) { // STATUS가 H면 휴면 계정이니까 강제로 이동 
 				
-				session.setAttribute("alertMsg", "휴면 계정입니다. 마이 페이지에서 정보를 수정후, 수정버튼을 눌러주세요. 수정을 안하면 휴면 상태가 유지 됩니다.");
+				session.setAttribute("alertMsg", "휴면 계정입니다. 마이 페이지에서 휴면 해지를 하지 않으면 상태가 유지 됩니다.");
 				session.setAttribute("loginMember", loginMember); // 세션에 로그인 정보 담기
 				
 				//마이페이지로 이동 할 시 회원 정보도 유지해줘야 한다.
@@ -64,7 +67,13 @@ public class MemberController {
 	
 	//마이 페이지로 이동 
 	@RequestMapping("/mypage.me")
-	public String moveMypage() {
+	public String moveMypage(HttpSession session, Model model) { // 휴면인 계정은 로그인 할 때 강제로 마이페이지로 이동 시켰음에도 불구하고 휴면 해제를 안하면 마이페이지로 이동 할 때마다 휴면 해제하라고 요구
+		Member loginMember = (Member)session.getAttribute("loginMember");
+		
+		if(loginMember.getStatus().equals("H")) {
+			model.addAttribute("alertMsg", "휴면 계정입니다. 마이 페이지에서 휴면 해지를 하지 않으면 상태가 유지 됩니다."); 
+		}
+			
 		return "member/mypage"; 
 	}
 	
@@ -73,16 +82,37 @@ public class MemberController {
 		
 		//휴면 상태 풀어주는 작업도 해야하고 휴면이 아닌 다른 회원이여도 수정 하는 작업은 해줘야 한다. 
 		
+		//휴면 계정인 경우엔 조건 status='H'를 걸어둬서 attribute 설정 
+		
 		System.out.println(loginMember); // 확인용 
 		
-		int result = service.updateMember(loginMember); // 수정한 페이지에 있는 정보들 갖고오기 
+		int result = service.updateMember(loginMember); // DB에선 회원 수정 된 문장. 
+		
+		//DB에선 수정 됐지만 지금 loginMember 자체는 로그인 했을때의 정보이다. setAttribute 해줘야한다. 
 		
 		if(result > 0) {
+			
+			if(loginMember.getStatus().equals("H")) { // 이건 지금 로그인 했을때의 회원 정보기때문에 당연히 H 
+				
+				loginMember = service.selectMember(loginMember); // 다시 조회해서 수정된 멤버 갖고오기 
+				
+				//수정된 멤버로 session에 등록 
+				
+				session.setAttribute("alertMsg", "휴면 상태가 해제 됐습니다.");
+				session.setAttribute("loginMember",loginMember);
+				
+				//return "redirect:/";
+				return "member/mypage";
+				
+			}
+			
+			loginMember = service.selectMember(loginMember); // 다시 조회해서 수정된 멤버 갖고오기
 			
 			session.setAttribute("alertMsg", "정보를 수정했습니다."); 
 			session.setAttribute("loginMember",loginMember); // DB에서 정보 수정이 다 됐으면 session에 유지 
 			
-			return "redirect:/"; 
+			//return "redirect:/"; 
+			return "member/mypage";
 			
 		} else {
 			session.setAttribute("alertMsg", "정보 수정 실패했습니다."); 
@@ -174,15 +204,6 @@ public class MemberController {
 	     
 	     return "member/mypage"; // 실패 했으니까 마이페이지로 
 	     
-	     
-		
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }

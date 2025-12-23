@@ -150,9 +150,11 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <label for="userId" class="mr-sm-2">ID : </label>
-                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="memId" name="memId"> <br>
+                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="memId" name="memId" required> <br>
                         <label for="userPwd" class="mr-sm-2">Password : </label>
-                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="memPwd" name="memPwd">
+                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="memPwd" name="memPwd" required>
+                        
+                        <!-- 아이디랑 비밀번호 둘중 하나라도 입력 안되면 로그인 버튼 누를때마다 입력하게 만들기 -->
                     </div>
                            
                     <!-- Modal footer -->

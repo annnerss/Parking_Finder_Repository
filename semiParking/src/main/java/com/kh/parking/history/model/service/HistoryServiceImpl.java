@@ -34,13 +34,25 @@ public class HistoryServiceImpl implements HistoryService {
 	@Transactional
 	@Override
 	public int insertContent(HashMap<String, String> paramMap) {
-		////////////////////////////////////////////////
-		int result = 0; // 일단 0으로 초기화
+	
+		int result = 0; 
+		// 일단 0으로 초기화 (여기서 result는 검색 입력란에 입력한 내용과 검색 히스토리에 있는 내용이 일치하면 삽입x, 안 일치하면 삽입 하게 하는 판별 변수 
 		
-		if(dao.checkContent(sqlSession, paramMap)) { // 검색 내용 중복 되는지를 체크하기. true면 중복 
+		if(dao.checkContent(sqlSession, paramMap)) { // 검색 내용 중복 되는지를 체크하기. true면 중복
+			
+			int result1 = dao.updatehDate(sqlSession, paramMap); // 검색 내용이 중복 되더라도 날짜는 바뀌게끔 (목록에는 중복안되게 반영) 
+			
+			if(result1 > 0) {
+				System.out.println("검색 하신 내용은 중복된 내용이나 검색 날짜를 갱신합니다.");
+			} else {
+				System.out.println("검색 하신 내용은 중복된 내용이나 검색 날짜를 갱신하지 못했습니다.");
+			}
+		
+			
 			return result; 
 		}
-		////////////////////////////////////////////////
+		
+		// 중복된 키워드가 아니면 날짜는 갱신된다. (insert 구문에서 검색날짜는 디폴트라 따로 안넣어도된다.) 
 		
 		
 		// HashMap을 이용해서 아이디와 키워드를 담아보자. (왜냐하면 dao에서 dml구문을 처리할땐 객체를 하나만 가져 올 수 있으므로) 

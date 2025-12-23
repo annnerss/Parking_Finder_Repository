@@ -38,7 +38,10 @@
             <form action="${contextRoot }/insert.me" method="post">
                 <div class="form-group">
                     <label for="inputId">* 아이디 : </label>
-                    <input type="text" class="form-control" id="inputId" placeholder="아이디를 입력하세요." name="memId" required> <br>
+                    <input type="text" class="form-control" id="inputId" placeholder="아이디를 입력하세요. (영어와 숫자로만 이루어진 6~12자로 입력하세요.)" name="memId" required> <br>
+                    
+                    <div id="resultId" style="font-size:0.8em; display:none"></div>
+                    
                     <button type="button" class="form-control" id="duplicate" name="duplicate">중복체크</button>
 
                     <div id="resultDiv" style="font-size:0.8em; display:none"></div>
@@ -67,7 +70,7 @@
                 </div> 
                 <br>
                 <div class="btns" align="center">
-                    <button type="submit" class="btn btn-primary disabled" onclick="return validate();">회원가입</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();" disabled>회원가입</button>
                     <!-- 중복 체크 하기전까진 비활성화 -->
                     <button type="reset" class="btn btn-danger">초기화</button>
                 </div>
@@ -77,18 +80,38 @@
     </div>
 	
 	<script>
+	
+		$("#inputId").blur(function(){
+			let regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{6,12}$/; // 영어와 숫자로만 이루어진 정규식 양끝은 영어나 숫자 아무거나
+			
+			//특수문자 및 공백은 포함하지 않는다.
+			
+			if(regExp.test($("#inputId").val())) { // 입력한 아이디가 정규식을 만족할때
+				
+				$("#resultId").html("아이디 형식이 올바릅니다. 중복 확인을 진행해주세요.");
+				
+				$("#resultId").css("display","block"); // display:none이니까 풀어줘야한다. 
+				
+			} else {
+				
+				$("#resultId").html("아이디 형식이 올바르지 않습니다. 다시 입력해 주세요 (영어와 숫자로 이루어진 6~12자)");
+				
+				$("#resultId").css("display","block");
+				
+			}
+			
+		});
 	    
 	    //중복 아이디 체크 (비동기적 통신)
 	    $("#duplicate").click(function(){
 	    	let inputId = $("#inputId").val(); // 중복확인 버튼 눌렀을때 아이디 입력란에서 값을 갖고오기 
 	    	
-	    	if(inputId.length < 5 ) {
-	    		$("#resultDiv").html("아이디는 5글자 이상 입력해야합니다.");
+	    	if(inputId.length <= 5 || inputId.length >=13) {
+	    		$("#resultDiv").html("아이디는 6글자 이상 입력해야하고 12자 이하여야 합니다.");
 	    		$("#resultDiv").css("display", "block"); // display:none이니까 풀어줘야한다. 
 	    		return; 
 	    	}
 	    	
-			
 				$.ajax({
 		    		url:"idcheck.me",
 		    		data : {
@@ -126,7 +149,7 @@
 	    	
 	    	
 	    	
-	    })
+	    });
 	    
 	   
 	    
@@ -184,22 +207,29 @@
 	    	
 			let memPwd = document.querySelector("#inputPwd"); // 가입할때 비밀번호 란에 넣는 번호 
 			let checkPwd = document.querySelector("#checkPwd"); // 가입할때 중복체크 비밀번호 
+			let vehicleId = document.querySelector("#vehicleId")
+			let userName = document.querySelector("#userName"); 
 			
-			if(regExp.test(memPwd.value) && regExp.test(checkPwd.value)) {
+			if(userName.value.length!==0 && vehicleId.value.length!==0) {
 				
-				if(memPwd.value!=checkPwd.value){
-					alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+				if(regExp.test(memPwd.value) && regExp.test(checkPwd.value)) {
 					
-					//기본 요청 막아주기
-					return false;
-				}
-			
-			} else { // 정규식을 만족하지 않으면 return false; 
-				alert("영문자,숫자,특수문자를 모두 포함해야하며 8~16자 범위여야 합니다.");
+					if(memPwd.value!=checkPwd.value){
+						alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+						
+						//기본 요청 막아주기
+						return false;
+					}
 				
-				return false; 
+				} else { // 정규식을 만족하지 않으면 return false; 
+					alert("비밀번호는 영문자,숫자,특수문자를 모두 포함해야하며 8~16자 범위여야 합니다.");
+					
+					return false; 
+				}
+					
+			} else {
+				alert("필수 입력 사항들을 입력해주세요."); 
 			}
-			
 			
 		}
 	    

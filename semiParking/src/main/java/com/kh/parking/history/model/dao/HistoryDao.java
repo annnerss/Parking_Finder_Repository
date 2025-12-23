@@ -56,6 +56,7 @@ public class HistoryDao {
 		
 	}
 
+	//검색 한 내용이 중복이면 히스토리에 중복된 검색 내용을 안나오게끔 하는 검증 메소드 
 	public boolean checkContent(SqlSessionTemplate sqlSession, HashMap<String, String> paramMap) {
 		int result = sqlSession.selectOne("historyMapper.checkContent", paramMap);
 		
@@ -66,6 +67,11 @@ public class HistoryDao {
 		// 이건 중복이 안된것이다. false를 반환해서 데이터 추가하기
 		return false; 
 		
+	}
+
+	//검색 한 내용이 중복인데 검색 히스토리에는 날짜만 갱신하게끔 하는 메소드 
+	public int updatehDate(SqlSessionTemplate sqlSession, HashMap<String, String> paramMap) {
+		return sqlSession.update("historyMapper.updatehDate",paramMap); 
 	}
 	
 }

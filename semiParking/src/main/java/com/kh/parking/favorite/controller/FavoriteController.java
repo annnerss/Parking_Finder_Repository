@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.parking.favorite.model.service.FavoriteService;
 import com.kh.parking.member.model.vo.Member;
@@ -32,8 +34,12 @@ public class FavoriteController {
     	ArrayList<ParkingLot> parkingList = service.selectParking(memId); // 찜을 한 주차장 목록들 가져오기
     	
     	model.addAttribute("parkingList",parkingList); // 모델에 주차장 목록들 담아오기 
+    	
+    	//System.out.println(parkingList); // 제대로 데이터가 들어오는지 확인 
     
     	//그럼 만약에 찜 목록에서 사용자가 찜한걸 삭제하고 싶으면 비동기 처리? 혹은 동기 처리? 
+    	
+    	
     	
     	return "favorite/favoriteParking";
     	
@@ -73,36 +79,25 @@ public class FavoriteController {
     }
     
     
-    /*
+    //찜 목록에서 삭제하기 버튼을 눌렀으면 비동기 통신을 이용하여 DB에서 삭제 및 jsp파일에서도 삭제 
     @ResponseBody
-    @RequestMapping(value="/parkingSearch.get", produces="application/json;charset=UTF-8")
-    public ArrayList<ParkingLot> parkingSearch(String 
-      
-     
-    */
-    
-    /*
-    
-    // 찜 목록 삭제 -> 
-    
-    
-    //찜 목록 조회하기 (비동기 통신 이용하기) 
-    @ResponseBody
-    @RequestMapping(value="/select.parking", produces="produces=application/json;charset=UTF-8")
-    public ArrayList<ParkingLot> selectParking(HttpSession session) { // 로그인 정보 갖고와서 조회 
+    @RequestMapping(value="/removefavorite.parking")
+    public String removeFavorite(String parkingNo,String memId,Model model) {
     	
-    	Member loginMember = (Member) session.getAttribute("loginMember");
+    	HashMap<String,String> paramMap = new HashMap<>();
     	
-    	String memId = loginMember.getMemId(); // 멤버 아이디 갖고오기 
+    	paramMap.put("parkingNo", parkingNo);
+    	paramMap.put("memId", memId);
     	
-    	ArrayList<ParkingLot> parkingList = service.selectParking(memId); // 찜을 한 주차장 목록들 가져오기
+    	int result = service.removeFavorite(paramMap);
     	
-    	return parkingList; // 찜 한 주차장 목록이 있을때랑 없을때는 Ajax에서 처리하자. 
+    	if(result > 0) {
+    		 
+    		return "삭제"; // 데이터베이스에서 삭제 했으면 삭제라는 문자열 반환 
+    	} 
+    	
+    	return "삭제X"; // 데이터베이스에서 삭제 하지 못했으면 삭제X 문자열 반환 
+      	
     }
-    */ 
     
-    
-    
-    
-
 }

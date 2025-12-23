@@ -148,7 +148,7 @@
 			<!-- 찜 하기 버튼은 회원일때만 보이게 하자. 주차장 정보는 보이게 하는게 좋다. (비회원이여도 주차장 정보는 보게 해주는게 맞다.) -->
 	    	<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
 	        	<input type="hidden" name="parkingNo" value="122-1-000001">
-	        	<button type="submit">:하트2:찜하기</button>
+	        	<button type="submit">찜하기</button>
 	    	</form>
     	</c:if>
 	</div>
@@ -159,7 +159,7 @@
 			<!-- 찜 하기 버튼은 회원일때만 보이게 하자. 주차장 정보는 보이게 하는게 좋다. (비회원이여도 주차장 정보는 보게 해주는게 맞다.) -->
 	    	<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
 	        	<input type="hidden" name="parkingNo" value="122-1-000002">
-	        	<button type="submit">:하트2:찜하기</button>
+	        	<button type="submit">찜하기</button>
 	    	</form>
     	</c:if>
 	</div>
@@ -170,7 +170,7 @@
 			<!-- 찜 하기 버튼은 회원일때만 보이게 하자. 주차장 정보는 보이게 하는게 좋다. (비회원이여도 주차장 정보는 보게 해주는게 맞다.)  -->
 	    	<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
 	        	<input type="hidden" name="parkingNo" value="122-1-000003">
-	        	<button type="submit">:하트2: 찜하기</button>
+	        	<button type="submit">찜하기</button>
 	    	</form>
     	</c:if>
 	</div>
