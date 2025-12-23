@@ -34,9 +34,11 @@
 <body>
 	<%@include file="/WEB-INF/views/common/menubar.jsp" %>
 	<h2 style="text-align:center;">주차장 리스트</h2>
+	<br>
 	<div class="content">
 		<br><br>
 		<div class="innerOuter">
+			<input type="text" id="search" name="search">	
 			<table id="ParkingList">
 				<thead>
 					<tr>

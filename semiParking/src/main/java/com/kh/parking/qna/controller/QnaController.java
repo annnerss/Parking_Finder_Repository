@@ -113,7 +113,6 @@ public class QnaController {
 	@ResponseBody
 	@RequestMapping(value="/replyList.re",produces="application/json;charset=UTF-8")
 	public List<Reply> replyList(int qNo){
-		System.out.println(qNo);
 		List<Reply> rList = service.replyList(qNo);
 		
 		return rList;
