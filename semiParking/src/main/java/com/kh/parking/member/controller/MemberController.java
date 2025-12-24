@@ -1,7 +1,5 @@
 package com.kh.parking.member.controller;
 
-import java.util.HashMap;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,6 +140,7 @@ public class MemberController {
 		return "member/memberEnrollForm"; // 회원 가입 페이지로 이동
 	}
 	
+	//회원 가입 
 	@PostMapping("/insert.me") // 회원 가입할땐 폼 태그를 이용해서 데이터를 받고 넣어야하니까 PostMapping.  
 	public String insertMember(HttpSession session, Member member) { // 폼태그에서 입력한 값 바인딩 
 		
@@ -204,6 +203,38 @@ public class MemberController {
 	     
 	     return "member/mypage"; // 실패 했으니까 마이페이지로 
 	     
+	}
+	
+	//비밀번호 변경 처리
+	@PostMapping("/changePwd.me")
+	public String changeMemberPwd(HttpSession session, String currentPwd, String newPwd) {
+		
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		
+		if(!bcrypt.matches(currentPwd, loginMember.getMemPwd())) { // 현재 비밀번호와 암호화된 비밀번호가 일치하지 않으면 true 반환(논리 부정)
+			session.setAttribute("alertMsg", "입력하신 현재 비밀번호와 회원님의 비밀번호가 일치하지 않습니다.");
+			return "member/mypage";  // 일치하지 않으니까 마이페이지
+		} 
+			
+	    loginMember.setMemPwd(bcrypt.encode(newPwd)); // 입력한 새 비밀번호를 암호화 하기 
+	    
+	    // 암호화 하고나서 DB에 비밀번호 변경
+	    
+	    int result = service.changeMemberPwd(loginMember); // 로그인한 회원을 매개변수로 넘긴 이후에 DB에 비밀번호 바꾸기
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "비밀번호가 변경 되었습니다. 비밀번호 확인을 위해 다시 로그인 해주세요.");
+			
+			session.removeAttribute("loginMember"); //로그아웃 할땐 로그인한 멤버 정보를 없애기 
+			
+			return "redirect:/"; 
+		} else {
+			session.setAttribute("alertMsg", "비밀번호 변경을 실패했습니다."); 
+			
+			return "member/mypage"; // 실패하면 다시 마이페이지 
+		}
+		
+		
 	}
 
 }

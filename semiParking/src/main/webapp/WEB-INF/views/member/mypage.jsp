@@ -166,29 +166,30 @@
 		
 		            <form action="${contextRoot}/changePwd.me" method="post"> <!-- 비밀번호 로그인 할때 컨트롤러 주소 바꾸기 -->
 		            
-		            	<input type="hidden" name="userId" value="${loginMember.memId}">
+		            	<input type="hidden" name="memId" value="${loginMember.memId}">
+		            	
 		                <!-- Modal body -->
 		                <div class="modal-body">
 		
 		                    <label>현재 비밀번호</label>
-		                    <input type="password" class="form-control"
-		                           name="currentPwd" required>
+		                    <input type="password" class="form-control" name="currentPwd" id="currentPwd" required>
 		                    <br>
 		
 		                    <label>새 비밀번호</label>
-		                    <input type="password" class="form-control"
-		                           name="newPwd" required>
+		                    <input type="password" class="form-control" id="newPwd" name="newPwd" required>
+		                    <div id="resultnewPwd" style="font-size:0.8em; display:none"></div>
+		                    
 		                    <br>
 		
 		                    <label>새 비밀번호 확인</label>
-		                    <input type="password" class="form-control"
-		                           name="checkPwd" required>
+		                    <input type="password" class="form-control" id="checknewPwd" name="checknewPwd" required>
+		                    <div id="resultchecknewPwd" style="font-size:0.8em; display:none"></div>
 		
 		                </div>
 		
 		                <!-- Modal footer -->
 		                <div class="modal-footer" align="center">
-		                    <button type="submit" class="btn btn-primary">변경하기</button>
+		                    <button type="submit" id="changeBtn" class="btn btn-primary" disabled>변경하기</button>
 		                    <button type="button" class="btn btn-secondary"
 		                            data-dismiss="modal">취소</button>
 		                </div>
@@ -197,6 +198,84 @@
 		        </div>
 		    </div>
 		</div>
+	
+	<script>
+	
+		$(function(){
+			
+			$("#newPwd").blur(function(){ // 포커스를 잃는 순간 이벤트 발생 
+				
+				let currentPwd = $("#currentPwd").val(); // 현재 비밀번호에 작성한 비밀번호
+				
+				let regExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[^\s]{8,16}$/;
+				
+				//영문자,숫자,특수문자 모두 포함 해야하고 시작과 끝의 제한은 없음. 빈 문자열은 제외 그리고 비밀번호는 8~16자 인 정규식
+				
+				let newPwd = $("#newPwd").val();
+				
+				if(regExp.test($("#newPwd").val())) { // 입력한 새 비밀번호가 정규식을 만족할때
+					
+					if(currentPwd === newPwd) { // 현재 비밀번호와 새 비밀번호가 일치한 경우 
+						$("#resultnewPwd").html("현재 비밀번호와 새 비밀번호가 일치합니다. 다시 입력해주세요.");
+						
+						$("#resultnewPwd").css("display","block");
+						
+					} else { // 현재 비밀번호와 새 비밀번호가 다른 경우 
+						
+						$("#resultnewPwd").html("사용 가능한 비밀번호입니다."); // 만족하면 메시지 추가
+						
+						$("#resultnewPwd").css("display","block"); // display:none이니까 풀어줘야 한다. 
+						
+					}
+					
+				} else { // 입력한 새 비밀번호가 정규식을 만족하지 않을때 
+					$("#resultnewPwd").html("영문자,숫자,특수문자 포함 8~16자이여야 합니다. 다시 입력해주세요.");
+					
+					$("#resultnewPwd").css("display","block"); 
+					
+					$("#changeBtn").prop("disabled",true);
+					
+				}
+				
+			});
+			
+			$("#checknewPwd").blur(function(){ // 포커스를 잃는 순간 이벤트 발생
+				
+				let currentPwd = $("#currentPwd").val(); // 현재 비밀번호에 작성한 비밀번호 
+				
+				let newPwd = $("#newPwd").val(); // 새 비밀번호 입력란에 작성한 비밀번호 
+			
+				let checknewPwd = $("#checknewPwd").val(); // 새 비밀번호 확인란에 작성한 비밀번호
+				
+				if(newPwd===checknewPwd && newPwd!==currentPwd) { // 비밀번호가 일치하면 메시지 띄우기
+					
+					// 새 비밀번호와 현재 비밀번호가 다른 조건까지 충족해야 변경하기 버튼 활성화 
+					
+					$("#resultchecknewPwd").html("새 비밀번호와 확인 비밀번호가 일치합니다.");
+				
+					$("#resultchecknewPwd").css("display","block"); 
+					
+					$("#changeBtn").prop("disabled",false);
+					
+				} else { // 일치하지 않으면 메시지 띄우기 일치하지 않는다고 메시지 띄우기
+					
+					$("#resultchecknewPwd").html("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+				
+					$("#resultchecknewPwd").css("display","block"); 
+					
+					$("#changeBtn").prop("disabled",true);
+					
+				}
+				
+			});
+			
+			
+			
+			
+			
+		});
+	
+	</script>	
     
     
     

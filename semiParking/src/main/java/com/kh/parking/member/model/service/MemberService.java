@@ -13,6 +13,8 @@ public interface MemberService {
 	int updateMember(Member loginMember); // 정보 수정 
 
 	int deleteMember(Member loginMember);
+
+	int changeMemberPwd(Member loginMember);
 	
 	
 

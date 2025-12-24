@@ -80,9 +80,18 @@ public class MemberServiceImpl implements MemberService {
 		return result; 
 	}
 	
+	//회원 상태 N으로 바꾸기 (로그인 불가능 하게) 
 	@Override
 	public int deleteMember(Member loginMember) {
 		int result = dao.deleteMember(sqlSession,loginMember); 
+		
+		return result; 
+	}
+	
+	//비밀번호 변경 메소드 
+	@Override
+	public int changeMemberPwd(Member loginMember) {
+		int result = dao.changeMemberPwd(sqlSession, loginMember); 
 		
 		return result; 
 	}
