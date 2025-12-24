@@ -475,84 +475,7 @@
                 $("#searchBtn").click();
             }
         });
-	    
-		function searchParkingList(keyword){
-			$("#view-detail").hide();
-			$("#view-list").show();
 
-			$("#result-list").html('<li style="padding:20px; text-align:center;">검색 중...</li>');
-			$.ajax({
-				url: "parkingSearch.get",
-				data:{keyword: keyword},
-				success: function(list){
-					const resultList = $("#result-list");
-					resultList.empty();
-
-					if(list.length === 0){
-						resultList.html('<li style="padding:20px; text-align:center;">검색 결과가 없습니다.</li>');
-                        return;
-					}
-
-					let html = "";
-					list.forEach(p => {
-						let item = $(`
-							<li class="result-item">
-								<h4>\${p.parkingName}</h4>
-								<p> 기본 요금 \${p.price}원</p>
-								<p>시간당 추가 요금 \${p.priceTime}원</p>
-							</li>
-						`);
-
-						item.click(function(){
-							if(window.moveMap){
-								window.moveMap(p.location_X, p.location_Y, p.parkingName);
-							}
-
-							openDetailView(p);
-						});
-
-						resultList.append(item);
-					});
-				},
-				error:function(){
-					 resultList.html('<li style="padding:20px; text-align:center; color:red;">검색 실패</li>');
-				}
-			});
-		}
-
-		function openDetailView(p){
-			const detailHtml = `
-				<div style="padding:20px;">
-					<h4 style="font-weight:bold; font-size:20px;">\${p.parkingName}</h4>
-					
-					<div class="price-box" style="background:#f8f9fa; padding:15px; border-radius:8px;">
-						<p> 기본: <strong>\${p.price}원</strong></p>
-						<p> 추가: <strong>\${p.priceTime}원</strong></p>
-					</div>
-					
-					<div style="margin-top:20px; display:flex; gap:5px;">
-						<button class="btn-reserve" style="flex:1; padding:10px; border-radius:5px; border:none; background:#28a745; color:white;"
-							onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${p.parkingNo}'">
-							예약하기
-						</button>
-						<button class="btn-route" style="flex:1; padding:10px; border-radius:5px; border:none; background:#007bff; color:white;"
-							onclick="if(window.findRoute) window.findRoute(\${p.location_X}, \${p.location_Y}, '\${p.parkingName}', this)">
-							길찾기
-						</button>
-					</div>
-					<div id="sidebar-route-result-\${p.parkingNo}" style="margin-top:10px; font-size:13px; color:#333;"></div>
-				</div>
-			`;
-			$("#detail-info-area").html(detailHtml);
-
-			$("#view-list").hide();
-			$("#view-detail").fadeIn(200);
-		}
-
-		function goBackToList(){
-			$("#view-detail").hide();
-    		$("#view-list").fadeIn(200);
-		}
 	    $("#searchHistory").on("mousedown", "li", function () {
 	        let selectedText = $(this).find("span").first().text();
 	        // 입력창 값 세팅
@@ -566,7 +489,85 @@
 	        });
 	    });
 	});
-	</script>
+
+	function searchParkingList(keyword){
+		$("#view-detail").hide();
+		$("#view-list").show();
+
+		$("#result-list").html('<li style="padding:20px; text-align:center;">검색 중...</li>');
+		$.ajax({
+			url: "parkingSearch.get",
+			data:{keyword: keyword},
+			success: function(list){
+				const resultList = $("#result-list");
+				resultList.empty();
+
+				if(list.length === 0){
+					resultList.html('<li style="padding:20px; text-align:center;">검색 결과가 없습니다.</li>');
+                    return;
+				}
+				let html = "";
+				list.forEach(p => {
+					let item = $(`
+						<li class="result-item">
+							<h4>\${p.parkingName}</h4>
+							<p> 기본 요금 \${p.price}원</p>
+							<p>시간당 추가 요금 \${p.priceTime}원</p>
+						</li>
+					`);
+
+					item.click(function(){
+						if(window.moveMap){
+							window.moveMap(p.location_X, p.location_Y, p.parkingName);
+						}
+
+						openDetailView(p);
+					});
+
+					resultList.append(item);
+				});
+			},
+			error:function(){
+				 resultList.html('<li style="padding:20px; text-align:center; color:red;">검색 실패</li>');
+			}
+		});
+	}
+
+	function openDetailView(p){
+		console.log("??")
+		const detailHtml = `
+			<div style="padding:20px;">
+				<h4 style="font-weight:bold; font-size:20px;">\${p.parkingName}</h4>
+				
+				<div class="price-box" style="background:#f8f9fa; padding:15px; border-radius:8px;">
+					<p> 기본: <strong>\${p.price}원</strong></p>
+					<p> 추가: <strong>\${p.priceTime}원</strong></p>
+				</div>
+				
+				<div style="margin-top:20px; display:flex; gap:5px;">
+					<button class="btn-reserve" style="flex:1; padding:10px; border-radius:5px; border:none; background:#28a745; color:white;"
+						onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${p.parkingNo}'">
+						예약하기
+					</button>
+					<button class="btn-route" style="flex:1; padding:10px; border-radius:5px; border:none; background:#007bff; color:white;"
+						onclick="if(window.findRoute) window.findRoute(\${p.location_X}, \${p.location_Y}, '\${p.parkingName}', this)">
+						길찾기
+					</button>
+				</div>
+				<div id="sidebar-route-result-\${p.parkingNo}" style="margin-top:10px; font-size:13px; color:#333;"></div>
+			</div>
+		`;
+		$("#detail-info-area").html(detailHtml);
+
+		$("#view-list").hide();
+		$("#view-detail").fadeIn(200);
+	}
+
+		function goBackToList(){
+			$("#view-detail").hide();
+   			$("#view-list").fadeIn(200);
+		}
+</script>
 </body>
 </html>
 

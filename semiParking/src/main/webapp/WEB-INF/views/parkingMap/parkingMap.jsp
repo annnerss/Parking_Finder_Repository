@@ -185,8 +185,8 @@
         const contentString = `
             <div class="iw_inner">
                 <h4>\${parking.parkingName}</h4>
-                <p>💰 기본요금: \${parking.price}원</p>
-                <p>🚗 총 주차면: \${parking.total}면</p>
+                <p>기본요금: \${parking.price}원</p>
+                <p>총 주차면: \${parking.total}면</p>
                 <p> 현재 주차 가능 주차면: \${parking.total-parking.current}면</p>
 
                 <div class="btn-group">
@@ -227,6 +227,8 @@
         //마커 클릭 이벤트
         naver.maps.Event.addListener(marker, "click", function(e) {
             // 다른 열린 창이 있다면 닫기
+            map.panTo(position);
+
             infoWindows.forEach(iw => iw.close());
             
             if (infowindow.getMap()) {
@@ -234,6 +236,10 @@
             } else {
                 infowindow.open(map, marker);
             }
+
+            $("#sidebar").addClass("active");
+
+            openDetailView(parking);
         });
         
     }
