@@ -35,10 +35,11 @@
 			  ,Q.P_NO
 			  ,Q.CREATE_DATE
 			  ,Q.Q_TYPE
+			  ,Q.STATUS
 	    FROM QNA Q
 	    JOIN MEMBER M ON Q.MEM_ID = M.MEM_ID
 	    JOIN PARKINGLOT P ON Q.P_NO = P.P_NO
-	    WHERE Q_NO = #{qno} 
+	    WHERE Q_NO = #{qNo} 
 	    AND Q.STATUS = 'Y'
 	    ORDER BY Q.CREATE_DATE DESC
 	</select>
@@ -77,7 +78,7 @@
 		Q_TYPE = #{qType}
 		,P_NO = #{pNo}
 		,Q_TITLE = #{qTitle}
-		,CONTENT = #{content}
+		,CONTENT = #{content} 
 		WHERE Q_NO = #{qNo}
 		AND STATUS = 'Y'
 	</update>

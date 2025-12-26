@@ -16,7 +16,7 @@
 			<h2>문의사항 글 수정하기</h2>
 			<br>
 			
-			<form id="updateForm" method="post" action="qnaUpdate.qn" enctype = "multipart/form-data">
+			<form id="updateForm" method="post" action="qnaUpdate.qn" >
 				<!-- 어떤 게시글을 수정할 것인지 식별자가 필요하기 때문에 게시글 번호 전달하기 -->
 				<input type="hidden" name="qNo" value="${q.QNo }">
 				<table align="center">
