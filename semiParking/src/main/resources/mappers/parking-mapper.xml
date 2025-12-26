@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<!--</mapper>-->
+	<mapper namespace="parkingMapper">
+
+    <!-- [1] ResultMap: DB 컬럼과 자바 변수 연결 -->
+    <resultMap id="parkingResultSet" type="ParkingLot">
+
+        <!-- 1. PK (기본키) : 맨 위에 작성 -->
+        <id column="P_NO" property="parkingNo" />
+
+        <!-- 2. 일반 컬럼들 -->
+        <result column="P_NAME"      property="parkingName" />
+
+        <!-- 좌표 연결 -->
+        <result column="LOCATION_X"  property="location_X" />
+        <result column="LOCATION_Y"  property="location_Y" />
+
+        <!-- 주차 공간 정보 -->
+        <result column="P_TOTAL"     property="total" />
+        <result column="P_CURRENT"   property="current" />
+
+        <!-- 운영 시간 -->
+        <result column="OPENTIME"    property="openTime" />
+        <result column="CLOSETIME"   property="closeTime" />
+
+        <!-- 요금 정보 -->
+        <result column="PRICE"       property="price" />
+        <result column="PRICE_TIME"  property="priceTime" />
+
+        <!-- 기타 -->
+        <result column="PHONE"       property="phone" />
+        <result column="STATUS"      property="status" />
+
+    </resultMap>
+
+    <!-- [2] Select 쿼리 -->
+    <select id="parkingList" resultMap="parkingResultSet">
+        SELECT *
+        FROM PARKINGLOT
+        WHERE STATUS = 'Y'
+    </select>
+    
+    <select id="listCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM PARKINGLOT
+		WHERE STATUS = 'Y'
+	</select>
+    
+    <select id="parkingListView" resultMap="parkingResultSet">
+        SELECT P_NO, P_NAME, STATUS	
+        FROM PARKINGLOT
+        WHERE STATUS = 'Y'
+    </select>
+    
+    <select id="parkingDetail" resultMap="parkingResultSet">
+        SELECT (P_NO,
+        		P_NAME,
+				OPENTIME,
+				CLOSETIME,
+				PRICE,
+				PRICE_TIME,
+				PHONE,
+				STATUS)
+        FROM PARKINGLOT
+        WHERE STATUS='Y'
+        AND P_NO = #{parkingNo}
+    </select>
+    
+    <update id="updateParking" parameterType="ParkingLot">
+    	UPDATE PARKINGLOT
+    	SET P_NAME = #{parkingName},
+			OPENTIME = #{openTime},
+			CLOSETIME = #{closeTime},
+			PRICE = #{price},
+			PRICE_TIME = #{priceTime},
+			PHONE = #{phone},
+			STATUS = #{status}
+		WHERE P_NO = #{parkingNo}
+    </update>
+    
+    <update id="deleteParking" parameterType="String">
+    	UPDATE PARKINGLOT
+    	SET STATUS = 'N'
+    	WHERE P_NO = #{pNo}
+    </update>
+
+</mapper>

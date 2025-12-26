@@ -4,7 +4,6 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="qnaMapper">
-  	
   	<!-- 문의사항 총 개수 -->
 	<select id="listCount" resultType="_int">
 		SELECT COUNT(*)
@@ -27,14 +26,6 @@
 	    ORDER BY Q.CREATE_DATE DESC
 	</select>
 	
-	<!-- 조회수 증가 -->
-	<update id="increaseCount" parameterType="_int">
-		UPDATE QNA
-		SET COUNT = COUNT + 1
-		WHERE Q_NO = #{qno}
-		AND STATUS = 'Y'
-	</update>
-	
 	<!-- 문의사항 글 상세보기 -->
 	<select id="qnaDetail" resultType="Qna" parameterType="_int">
 		SELECT Q.Q_NO
@@ -53,12 +44,11 @@
 	</select>
 	
 	<!-- 문의사항 게시글 작성 - pName으로 pNo 리턴받기-->
-	<select id="selectPNoByPName" resultType="string">
+	<select id="selectPNoByPName" parameterType="string" resultType="string">
 	    SELECT P_NO
 	    FROM PARKINGLOT
-	    WHERE P_NAME = #{pName}
+	    WHERE P_NAME = #{pNo}
 	</select>
-	
 	
 	<!-- 문의사항 게시글 등록 -->
 	<insert id="qnaInsert" parameterType="Qna">
@@ -76,12 +66,106 @@
 		    #{qTitle},
 		    #{content},
 		    #{memId},
-		    (
-		        SELECT P_NO
-		        FROM PARKINGLOT
-		        WHERE P_NAME = #{pName}
-		    )
+		    #{pNo}
 		)
 	</insert>
 	
+	<!-- 문의사항 게시글 수정 -->
+	<update id="qnaUpdate" parameterType="Qna">
+		UPDATE QNA
+		SET
+		Q_TYPE = #{qType}
+		,P_NO = #{pNo}
+		,Q_TITLE = #{qTitle}
+		,CONTENT = #{content}
+		WHERE Q_NO = #{qNo}
+		AND STATUS = 'Y'
+	</update>
+	
+	<!-- 문의사항 게시글 삭제 -->
+	<delete id="qnaDelete" parameterType="_int">
+		DELETE FROM QNA
+		WHERE Q_NO = #{qNo}
+	</delete>
+	
+	<!-- 문의사항 게시글 검색 -->
+	<select id="searchList" resultType="Qna"
+		parameterType="hashmap">
+		SELECT Q.Q_NO
+			  ,Q.Q_TITLE
+			  ,Q.MEM_ID
+			  ,Q.P_NO
+			  ,Q.CREATE_DATE
+			  ,Q.Q_TYPE
+		FROM QNA Q
+		JOIN MEMBER M ON Q.MEM_ID = M.MEM_ID
+	    JOIN PARKINGLOT P ON Q.P_NO = P.P_NO
+		<choose>
+			<when test="condition == 'title'">
+				WHERE Q_TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="condition == 'writer'">
+				WHERE Q.MEM_ID = #{keyword}
+			</when>
+			<otherwise>
+				WHERE Q.CONTENT LIKE '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+		AND Q.STATUS = 'Y'
+		ORDER BY Q.CREATE_DATE DESC
+	</select>
+		
+	<!-- 검색 게시글 수 -->
+	<select id="searchListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM QNA
+		<choose>
+			<when test="condition == 'title'">
+				WHERE Q_TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="condition == 'writer'">
+				WHERE MEM_ID = #{keyword}
+			</when>
+			<otherwise>
+				WHERE CONTENT LIKE '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+		AND STATUS = 'Y'
+	</select>	
+	
+	<select id="checkMem" parameterType="string" resultType="string">
+		SELECT MEM_PWD
+		FROM MEMBER
+  		WHERE MEM_ID = #{memId} 
+  		AND STATUS='Y'
+	</select>
+	
+	<select id="adminPwd" parameterType="string" resultType="string">
+		SELECT MEM_PWD
+		FROM MEMBER
+  		WHERE MEM_ID = 'admin'
+  		AND STATUS='Y'
+	</select>
+	
+	<select id="replyList" parameterType="_int" resultType="Reply">
+		SELECT REPLY_NO, 
+				REPLY_WRITER, 
+				REPLY_CONTENT, 
+				TO_CHAR(CREATE_DATE,'YYYY-MM-DD HH24:MI:SS') AS "CREATE_DATE"
+		FROM REPLY
+		WHERE STATUS = 'Y'
+		AND REF_QNO = #{qNo}
+		ORDER BY CREATE_DATE
+	</select>
+	
+	<insert id="insertReply" parameterType="Reply">
+		INSERT INTO REPLY(REPLY_NO
+						 ,REPLY_WRITER
+						 ,REPLY_CONTENT
+						 ,REF_QNO)
+		VALUES (SEQ_REPLYNO.NEXTVAL,
+				#{replyWriter},
+				#{replyContent},
+				#{refQno})
+	</insert>
 </mapper>

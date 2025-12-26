@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class PageInfo {
 	private int currentPage;
 	private int listCount;
-	private int qnaLimit;
+	private int boardLimit;
 	private int pageLimit;
 	
 	private int maxPage;

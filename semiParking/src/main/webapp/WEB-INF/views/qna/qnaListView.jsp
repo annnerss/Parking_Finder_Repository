@@ -5,16 +5,33 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 목록 조회</title>
 <style>
+	.content {
+        background-color:rgb(247, 245, 245);
+        width:80%;
+        margin:auto;
+    }
+    
+    .innerOuter {
+        border:1px solid lightgray;
+        width:80%;
+        margin:auto;
+        padding:5% 10%;
+        background-color:white;
+    }
+    
 	#qnaList>tbody>tr:hover {cursor:pointer;}
+	.select, .text{display: inline-block;}
+	#pagingArea{ width:fit-content; margin:auto; }
+	#qnaList{width:100%;}
+	
 </style>
 
 </head>
 
 <body>
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
-	
 
 	<div class="content">
 		<br><br>
@@ -23,7 +40,7 @@
 			<br>
 			
 			<!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
-			<c:if test="${empty loginMember }">
+			<c:if test="${not empty loginMember }">
 	            <a class="btn btn-secondary" style="float:right;" href="${contextRoot}/qnaInsert.qn">글쓰기</a>
             </c:if>
 			
@@ -66,15 +83,66 @@
 			<c:if test="${not empty list }">
 				<script>
 					$(function(){
+						let qno;
+						let memId;
 						$("#qnaList tbody tr").click(function() {
-							let qno = $(this).children().first().text()
+							qno = $(this).children().first().text();
+							memId = $(this).children().eq(2).text();
 							
-							location.href="detail.qn?qno="+qno;
+							if($(this).children().last().text().includes("★")){
+								$(this).attr("data-toggle","modal");
+								$(this).attr("data-target","#viewQna");
+							}else{
+								location.href = "detail.qn?qno="+qno;
+							}
 						});
 						
+						$("#viewQnaBtn").click(function(){
+							$.ajax({
+								url:"/parking/viewQna.qn",
+								type:"POST",
+								data:{pwd : $("#qnaPwd").val(),
+									  qNo : qno,
+									  memId : memId
+								},
+								success:function(response){
+									if (response.status === "success") {
+						                location.href = "detail.qn?qno=" + response.qno;
+						            } else {
+						                alert(response.message);
+						            }
+									$("#qnaPwd").val('');
+								},
+								error:function(){
+									alert("처리에 이상이 생겼습니다.");
+									$("#qnaPwd").val('');
+								}
+							});
+						});
 					});
 				</script>
 			</c:if>
+			
+			<div class="modal fade" id="viewQna" aria-hidden="false">
+		        <div class="modal-dialog modal-sm">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <h4 class="modal-title">비공개 게시글 조회</h4>
+		                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+		                </div>
+		                <div class="modal-body">
+		                    <div align="center">
+		                        글을 작성한 회원과 관리자만 조회 가능한 게시글입니다<br>
+		                        비밀번호를 입력해주세요
+		                    </div>
+		                </div>
+		                <div class="modal-footer" align="center">
+		                	<input type="password" id="qnaPwd" name="qnaPwd">	
+		                    <button type="submit" class="btn btn-danger" id="viewQnaBtn">조회</button>
+		                </div>
+		            </div>
+		        </div>
+	    	</div>
 		
 			<!-- 요청 경로 시작 : list.qn 또는 search.qn -->
 			<c:url var="url" value="${empty map?'list.qn':'search.qn' }">
@@ -140,7 +208,7 @@
 				<div class="text">
 					<input type="text" class="form-control" name="keyword" value="${map.keyword }">
 				</div>
-				<button type="submit">검색</button>	
+				<button type="submit" class="searchBtn btn btn-secondary">검색</button>	
 			</form>
 			<br><br>
 		</div>

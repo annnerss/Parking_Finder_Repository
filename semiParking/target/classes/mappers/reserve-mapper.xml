@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="reserveMapper">
+	 	
+ 	<resultMap id="ReservationMap" type="Reservation">
+        <id property="reservationNo" column="RESERVATION_NO"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime" column="END_TIME"/>
+        <result property="status" column="STATUS"/>
+        <result property="parkingName" column="P_NAME"/>
+        <result property="parkingNo" column="P_NO"/>
+        <result property="memberId" column="MEM_ID"/>
+    </resultMap>
+
+    <insert id="reserve" parameterType="Reservation">
+        INSERT INTO
+        RESERVATION (RESERVATION_NO
+                    ,START_TIME
+                    ,END_TIME
+                    ,P_NAME
+                    ,P_NO
+                    ,MEM_ID)
+        VALUES (SEQ_RESNO.NEXTVAL
+                ,#{startTime}
+                ,#{endTime}
+                ,#{parkingName}
+                ,#{parkingNo}
+                ,#{memberId}
+        )
+    </insert>
+    
+ 	<insert id="insertPayment" parameterType="PaymentApprove">
+ 		INSERT INTO PAYMENT
+ 		VALUES (#{aid},
+ 				#{tid},
+ 				#{cid},
+ 				#{partner_order_id},
+ 				#{partner_user_id},
+ 				#{payment_method_type},
+ 				#{item_name},
+ 				#{item_code},
+ 				#{quantity},
+ 				#{created_at},
+ 				#{approved_at},
+ 				#{payload},
+ 				#{price})
+ 	</insert>
+ 	
+ 	<select id="reserveList" resultMap="ReservationMap">
+ 		SELECT RESERVATION_NO
+			  ,START_TIME
+			  ,END_TIME
+			  ,P_NAME
+			  ,MEM_ID
+		FROM RESERVATION
+		WHERE STATUS = 'Y'
+ 	</select>
+
+	<select id="reserveDetail" parameterType="_int" resultMap="ReservationMap">
+		SELECT RESERVATION_NO
+			  ,START_TIME
+			  ,END_TIME
+			  ,P_NAME
+			  ,P_NO
+			  ,MEM_ID
+		FROM RESERVATION
+		WHERE STATUS = 'Y'
+		AND RESERVATION_NO = #{rNo}
+	</select>
+	
+	<update id="deleteReserve" parameterType="_int">
+		UPDATE RESERVATION
+		SET STATUS = 'N'
+		WHERE RESERVATION_NO = #{rNo}
+	</update>
+	
+	<delete id="deletePayment" parameterType="_int">
+		DELETE FROM PAYMENT
+		WHERE RESERVATION_NO = #{rNo}
+	</delete>
+ 
+ </mapper>

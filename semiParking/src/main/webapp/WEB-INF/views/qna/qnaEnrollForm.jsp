@@ -6,9 +6,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<style>
+		#qnaEnroll{ width:100%;}
 		
+	</style>
 <body>
 	<%@ include file="/WEB-INF/views/common/menubar.jsp"%>
 	<div class="content">
@@ -17,7 +19,7 @@
 			<h2 class="text-center">문의사항 글 작성</h2>
 			<br>
 			<form id="enrollForm" method="post" action="${contextRoot }/qnaInsert.qn">
-				<table align="center">
+				<table align="center" id="qnaEnroll">
 				<!-- 공개 범위, 주차장명, 작성자, 내용 -->
 					<tr>
 						<th id="qnaRange">공개 범위 설정</th>
@@ -32,7 +34,7 @@
 					</tr>
 					<tr>
 						<th><label for="qnaWriter">작성자</label></th>
-                        <td colspan="4"><input type="text" id="qnaWriter" name="memId" class="form-control" value="userId" readonly></td>
+                        <td colspan="4"><input type="text" id="qnaWriter" name="memId" class="form-control" value="${loginMember.memId }" readonly></td>
 					</tr>
 					<tr>
 						<th><label for="qnaTitle">제목</label></th>
