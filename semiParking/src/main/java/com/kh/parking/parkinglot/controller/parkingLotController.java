@@ -106,16 +106,6 @@ public class parkingLotController {
     	}
     }
 
-    @ResponseBody
-    @RequestMapping("parkingSearch.get")
-    public List<ParkingLot> searchParkingList(String keyword){
-
-        ArrayList<ParkingLot> list = service.searchParkingList(keyword);
-
-
-        return list;
-    }
-
     @GetMapping("/reservation.get")
     public String reservationForm(@RequestParam("parkingNo") String parkingNo, Model model) {
         ParkingLot parkingLot = service.parkingDetail(parkingNo);

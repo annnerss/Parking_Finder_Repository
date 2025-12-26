@@ -358,7 +358,7 @@
         if(targetMarker){
             naver.maps.Event.trigger(targetMarker,"click");
         }else{
-            console.log("비상");
+            console.log("?");
         }
     }
 </script>

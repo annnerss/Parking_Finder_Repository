@@ -187,11 +187,11 @@
 	        $("#btn-pay-ready").click(function() {
 	            // 아래 데이터 외에도 필요한 데이터를 원하는 대로 담고, Controller에서 @RequestBody로 받으면 됨
 	            let data = {
-	            	reservationNo : ${reservation.reservationNo},
+	            	reservationNo : "${reservation.reservationNo}",
 	            	memberId : "${reservation.memberId}",
 	            	parkingName: "${reservation.parkingName}",
 	            	parkingNo : "${reservation.parkingNo}",
-	                totalPrice: ${price}
+	                totalPrice: "${price}"
 	            };
 
 	            $.ajax({

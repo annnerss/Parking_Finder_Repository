@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -36,6 +37,8 @@ public class HistoryController {
 	   //Member loginMember = (Member) session.getAttribute("loginMember"); //getAttribute는 Object형을 반환하니 다운 캐스팅 
 	   
 	   ArrayList<History> selectHistory = service.selectHistory(memId); // 검색 내용 및 날짜를 담아둔 리스트
+
+        System.out.println(selectHistory);
 	   
 	   //만약에 selectHistory가 아예 없으면 -> 검색한 내용이 없습니다를 jsp페이지에 띄우면 된다.
 	   
@@ -103,46 +106,18 @@ public class HistoryController {
 	}
 	
 	
-	//검색 내용 집어 넣기 및 게시판 형태(목록)로 보여주기 
-	@RequestMapping(value="/search.parking", method=RequestMethod.GET)
-	public String insertContent(
-	        @RequestParam(value="page", required=false) Integer page,
-	        HttpSession session,
-	        String keyword,
-	        Model model) {
+	//검색 내용 집어 넣기 및 게시판 형태(목록)로 보여주기
+    @ResponseBody
+    @RequestMapping("parkingSearch.get")
+	public List<ParkingLot> insertContent(HttpSession session, String keyword) {
 
-	    Member loginMember = (Member) session.getAttribute("loginMember"); // 로그인 회원 정보 갖고오기 
-
-	    int listCount = service.searchListCount(keyword); // 키워드를 넣었을때 키워드를 포함한 주차장이 몇개가 나오는지를 보기 위함 
-
-	    //검색 결과 있으면 page=1을 강제로 URL에 노출(받아올 변수가 없음) 
-	    if (listCount > 0 && page == null) {
-	    	
-	    	String encodedKeyword =
-	    	        URLEncoder.encode(keyword, StandardCharsets.UTF_8); // keyword를 UTF-8로 
-	    	
-	        return "redirect:/search.parking?keyword=" + encodedKeyword + "&page=1";
-	        // 페이징바에서 1페이지를 갖고 오기 위함 
-	    }
-
-	    int boardLimit = 10; // 한 페이지에 게시글을 몇개 보여줄지를 정하는 변수 
-	    int pageLimit = 10; // 페이징바 10개까지 허용 11~이면 11~20
-	    int currentPage = (page == null) ? 1 : page; // 페이지가 null이면 1 페이지가 없으면 page 
-
-	    PageInfo pi = Pagination.getPageInfo(listCount, currentPage, boardLimit, pageLimit);
-	    //페이징 처리 
-	    
-	    model.addAttribute("pi", pi); // 페이징 처리하는 pi를 모델에 담기 
-
-	    ArrayList<ParkingLot> parkingList = service.searchParking(keyword, pi); // keyword를 바탕으로 페이징처리 
-	    model.addAttribute("parkingList", parkingList); // 페이징 처리한 주차장 리스트 모델에 담기
-	    model.addAttribute("keyword", keyword); // 키워드 담기 
+	    Member loginMember = (Member) session.getAttribute("loginMember"); // 로그인 회원 정보 갖고오기
+        ArrayList<ParkingLot> list = service.searchKeywordParking(keyword);
 
 	    // 비회원
-	    if (loginMember == null) { // 검색 기록을 저장할 필요가 없으니 바로 이동 
-	        return "parkingMap/searchResult";
+	    if (loginMember == null) { // 검색 기록을 저장할 필요가 없으니 바로 이동
+	        return list;
 	    }
-
 	    // 회원이면 검색 기록 저장
 	    String memId = loginMember.getMemId();
 	    
@@ -162,7 +137,7 @@ public class HistoryController {
 	    }
 	    ///////////////////////////////////
 
-	    return "parkingMap/searchResult"; // 검색 기록을 넣고 나서 페이징 바 처리한 곳으로 이동 
+	    return list; // 검색 기록을 넣고 나서 페이징 바 처리한 곳으로 이동
 	}
 	
 	

@@ -59,7 +59,7 @@
   	</select>
   	
   	<select id="searchKeywordParking" parameterType="string" resultMap="parkingResultSet">
-  		SELECT P_NAME
+  		SELECT *
   		FROM PARKINGLOT
   		WHERE P_NAME LIKE '%' || #{keyword} || '%'
   		ORDER BY P_NO ASC

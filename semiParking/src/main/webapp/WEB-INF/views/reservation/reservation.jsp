@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>주차장 예약</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
     .reserve-container { width: 500px; margin: 50px auto; padding: 30px; border: 1px solid #ddd; border-radius: 10px; }
 </style>
@@ -53,6 +54,52 @@
 
 
 <script>
+    $(function(){
+        $("#startTime").change(function(){
+            const startVal = $(this).val();
+
+            if(!startVal) return;
+
+            const startDate = new Date(startVal);
+            const now = new Date();
+
+            if(startDate < now){
+                alert("현재 시간보다 이전 시간은 예약할 수 없습니다.");
+                $(this).val("");
+                return;
+            }
+
+            const endVal = $("#endTime").val();
+            if(endVal){
+                const endDate = new Date(endVal);
+                if(endDate <= startDate){
+                    alert("입차시간보다 빠른 시간은 예약할 수 없습니다.")
+                    $("#endTime").val("");
+                } 
+            }
+        });
+
+        $("#endTime").change(function(){
+            const startVal = $("#startTime").val();
+            const endVal = $(this).val();
+
+            if(!startVal){
+                alert("입차 시간을 먼저 설정해 주세요");
+                $(this).val("");
+                return;
+            }
+
+            const endDate = new Date(endVal);
+            const startDate = new Date(startVal);
+
+            if(endDate < startDate){
+                alert("출차 시간은 입차시간보다 이후여야 합니다.");
+                $(this).val("");
+                return;
+            }
+        })
+    })
+
     function calcPrice() {
         const startVal = document.getElementById("startTime").value;
         const endVal = document.getElementById("endTime").value;
@@ -61,8 +108,6 @@
         if(unitPrice == 0) {
             unitPrice = 500;
         }
-        // const basePrice = 5000;
-        // const unitPrice = 500;
         if (startVal && endVal) {
             const start = new Date(startVal);
             const end = new Date(endVal);

@@ -74,6 +74,7 @@
         }
 
 		.sidebar-top{
+			position: relative;
 			flex: 0 0 auto;
 			border-bottom: 1px solid #ddd;
 			background: #fff;
@@ -145,7 +146,7 @@
 	        display: none;
 	        max-height: 220px;
 	        overflow-y: auto;
-	        z-index: 100;
+	        z-index: 9999;
 	    }
 	
 	    #searchHistory ul {
@@ -308,7 +309,7 @@
 	    });
 
 	    $("#keyword").click(function(){ // 클릭을 했을땐 다 보이게끔
-	
+
 	    	let value = $(this).val(); // ajax안에 넣으면 의도한 대로 값이 나오지 않음.
 	    	
 	        $.ajax({
@@ -339,10 +340,11 @@
 	
 	                for(let h of list){
 	                    if(h.searchContent){  // 만약에 검색 내용이 존재한다면 근데 이렇게 되면 조회는 계속 하니까 내용이 많아진다.
+							console.log(h);
 	                        ul.append(
 	                            $("<li>")
 	                                .append("<span>" + h.searchContent + "</span>")
-	                                .append("<span class='history-date'>" + h.hDate + "</span>") //검색 내용 및 날짜를 띄우게 하기
+	                                .append("<span>" + h.hdate + "</span>") //검색 내용 및 날짜를 띄우게 하기 class='history-date'
 	                        );
 	                    }
 	                }
@@ -534,26 +536,28 @@
 	}
 
 	function openDetailView(p){
-		console.log("??")
 		const detailHtml = `
 			<div style="padding:20px;">
-				<h4 style="font-weight:bold; font-size:20px;">\${p.parkingName}</h4>
+				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px">
+					<h4 style="font-weight:bold; font-size:20px;">\${p.parkingName}</h4>
 				
+					<button type=button class="btn btn-sm btn-outline-danger" style="font-size: 13px; padding: 5px 10px"; onclick="addFavorite('\${p.parkingNo}')">찜하기</button>
+				</div>
 				<div class="price-box" style="background:#f8f9fa; padding:15px; border-radius:8px;">
 					<p> 기본: <strong>\${p.price}원</strong></p>
 					<p> 추가: <strong>\${p.priceTime}원</strong></p>
 				</div>
-				
-				<div style="margin-top:20px; display:flex; gap:5px;">
-					<button class="btn-reserve" style="flex:1; padding:10px; border-radius:5px; border:none; background:#28a745; color:white;"
-						onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${p.parkingNo}'">
-						예약하기
-					</button>
-					<button class="btn-route" style="flex:1; padding:10px; border-radius:5px; border:none; background:#007bff; color:white;"
-						onclick="if(window.findRoute) window.findRoute(\${p.location_X}, \${p.location_Y}, '\${p.parkingName}', this)">
-						길찾기
-					</button>
+
+				<div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 15px;">
+					<h5 style="font-weight:bold;">리뷰</h5>
+					
+					<div id="review-area" style="margin-top:10px;">
+						<p style="text-align:center; color:gray; font-size:13px;">리뷰를 불러오는 중...</p>
+					</div>
 				</div>
+				
+				
+				
 				<div id="sidebar-route-result-\${p.parkingNo}" style="margin-top:10px; font-size:13px; color:#333;"></div>
 			</div>
 		`;
@@ -561,12 +565,67 @@
 
 		$("#view-list").hide();
 		$("#view-detail").fadeIn(200);
+
+		// loadReviews(p.parkingNo);
 	}
 
-		function goBackToList(){
-			$("#view-detail").hide();
-   			$("#view-list").fadeIn(200);
-		}
+	function addFavorite(parkingNo){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/favorites.parking",
+			type: "POST",
+			data:{parkingNo: parkingNo},
+			success: function(result){
+				alert("찜하기 성공");
+			},
+			error: function(){
+				alert("찜하기 실패");
+			}
+		})
+	}
+
+	function loadReviews(parkingNo) {
+		$.ajax({
+			url: "reviewList.get",
+			type: "GET",
+			data: { parkingNo: parkingNo },
+			dataType: "json",
+			success: function(list) {
+				const reviewArea = $("#review-area");
+				reviewArea.empty();
+
+				if (list.length === 0) {
+					reviewArea.html('<div style="text-align:center; padding:20px; color:#999; background:#f9f9f9; border-radius:5px;">작성된 리뷰가 없습니다.</div>');
+					return;
+				}
+
+				let html = "";
+				list.forEach(r => {
+					const stars = "⭐".repeat(r.rating);
+					
+					html += `
+						<div class="review-item" style="border-bottom:1px solid #eee; padding: 10px 0;">
+							<div style="display:flex; justify-content:space-between; font-size:12px; color:#888; margin-bottom:5px;">
+								<span>\${r.reviewWriter}</span>
+								<span>\${r.createDate}</span>
+							</div>
+							<div style="color:#f39c12; font-size:13px; margin-bottom:3px;">\${stars}</div>
+							<div style="font-size:14px; color:#333; white-space:pre-wrap;">\${r.reviewContent}</div>
+						</div>
+					`;
+				});
+
+				reviewArea.html(html);
+			},
+			error: function() {
+				$("#review-area").html('<p style="color:red; text-align:center;">리뷰 로딩 실패</p>');
+			}
+		});
+	}
+
+	function goBackToList(){
+		$("#view-detail").hide();
+   		$("#view-list").fadeIn(200);
+	}
 </script>
 </body>
 </html>
