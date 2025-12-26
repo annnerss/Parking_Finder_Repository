@@ -306,7 +306,7 @@
 	        $("#keyword").val($(this).text());
 	        $("#searchHistory").slideUp();
 	    });
-	   
+
 	    $("#keyword").click(function(){ // 클릭을 했을땐 다 보이게끔
 	
 	    	let value = $(this).val(); // ajax안에 넣으면 의도한 대로 값이 나오지 않음.
@@ -451,7 +451,6 @@
 		            }
 	    		});
 	    	}
-	    	
 	    });
 
 		$("#openSide").click(function(){
@@ -495,11 +494,12 @@
 		$("#view-list").show();
 
 		$("#result-list").html('<li style="padding:20px; text-align:center;">검색 중...</li>');
+
+		const resultList = $("#result-list");
 		$.ajax({
 			url: "parkingSearch.get",
 			data:{keyword: keyword},
 			success: function(list){
-				const resultList = $("#result-list");
 				resultList.empty();
 
 				if(list.length === 0){

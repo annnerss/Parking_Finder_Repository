@@ -109,7 +109,9 @@ public class parkingLotController {
     @ResponseBody
     @RequestMapping("parkingSearch.get")
     public List<ParkingLot> searchParkingList(String keyword){
+
         ArrayList<ParkingLot> list = service.searchParkingList(keyword);
+
 
         return list;
     }

@@ -187,7 +187,7 @@
                 <h4>\${parking.parkingName}</h4>
                 <p>기본요금: \${parking.price}원</p>
                 <p>총 주차면: \${parking.total}면</p>
-                <p> 현재 주차 가능 주차면: \${parking.total-parking.current}면</p>
+                <p> 현재 주차 가능 주차면: \${parking.current}면</p>
 
                 <div class="btn-group">
 	                <c:choose>
