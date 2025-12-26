@@ -42,6 +42,7 @@ public class FavoriteController {
     	
     	
     	return "favorite/favoriteParking";
+    	//합칠때는 "member/favoriteParking"; 
     	
     }
     

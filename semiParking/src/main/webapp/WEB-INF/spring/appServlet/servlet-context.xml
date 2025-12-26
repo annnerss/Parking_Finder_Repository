@@ -21,6 +21,28 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 12/24 추가  -->
+	<!-- 인터셉터 등록 : 어떠한 요청에 어떠한 인터셉터를 동작시킬것인지 등록하기 -->
+	<interceptors>
+		<interceptor>
+		
+			<mapping path="/*.me"/>
+			<mapping path="/*.parking"/>
+			
+			<exclude-mapping path="/enrollForm.me"/>
+			<exclude-mapping path="/login.me"/>
+			<exclude-mapping path="/insert.me"/>
+			<exclude-mapping path="/logout.me"/>
+			<exclude-mapping path="/update.me"/>
+			<exclude-mapping path="/searchList.parking"/>
+			<exclude-mapping path="/searchKeywordParking.parking"/>
+			<exclude-mapping path="/search.parking"/> 
+				
+			<beans:bean class="com.kh.parking.common.interceptor.LoginInterceptor"></beans:bean>
+		</interceptor>
+	</interceptors>
+	
+	
 	<context:component-scan base-package="com.kh.parking" />
 	
 	

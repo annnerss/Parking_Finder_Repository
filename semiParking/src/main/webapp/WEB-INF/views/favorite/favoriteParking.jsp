@@ -185,6 +185,8 @@
                                 removeTag.remove(); // div태그 삭제 
                                 alert("삭제했습니다.");
                             }
+                            
+                            
                         },
                         error : function() {
                             console.log("통신 실패!");
