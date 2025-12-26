@@ -48,5 +48,11 @@ public class FavoriteServiceImpl implements FavoriteService {
 		
 		return parkingList; 
 	}
+	
+	//찜 목록에서 삭제하기 메서드 
+	@Override
+	public int removeFavorite(HashMap<String,String> paramMap) {
+		return dao.removeFavorite(sqlSession, paramMap); 
+	}
 
 }

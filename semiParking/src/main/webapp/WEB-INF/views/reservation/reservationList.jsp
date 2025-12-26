@@ -52,26 +52,31 @@
 							<td>${r.endTime }</td>
 							<td>${r.parkingName }</td>
 							<td>${r.memberId }</td>
-							<td><button type="button" class="btn btn-danger" id="deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}">삭제하기</button></td>
+							<td><button type="button" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}">삭제하기</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 			<script>
 				$(function(){
-					$("#deleteBtn").click(function(){
-						let rNo = $(this).data("reservationno");
+					$(".deleteBtn").click(function(){
+						let rNo = $(this).data("reservationno"); 
 						$("#deleterNo").val(rNo);
 					});
 					
 					$("#deleteConfirm").click(function(){
-						let rNo = $("#deleterNo").val();
+						let rNo = parseInt($("#deleterNo").val(), 10); // 숫자로 변환
 						$.ajax({
 							url:"/parking/delete.re",
-							type: "POST",
 							data: {rNo : rNo},
-							success:function(){
-								location.reload();
+							type: "POST",
+							success:function(response){
+								if(response.status == "success"){
+									alert(response.message);
+									location.reload();
+								}else{
+									alert(response.message);
+								}
 							},
 							error:function(){
 								alert("예약 내역 삭제를 실패했습니다");

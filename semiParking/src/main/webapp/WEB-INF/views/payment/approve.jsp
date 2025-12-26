@@ -98,11 +98,16 @@
 	
 	    <div class="details">
 	        <div class="detail-row">
-	            <span class="detail-label">${pay.item_name }</span>
+	            <span class="detail-label">주차장</span>
+	            <span class="detail-value">${pay.item_name }</span>
 	        </div>
 	        <div class="detail-row">
 	            <span class="detail-label">결제 금액</span>
 	            <span class="detail-value"><fmt:formatNumber value="${pay.total_amount }" type="number" groupingUsed="true"/>원</span>
+	        </div>
+	        <div class="detail-row">
+	            <span class="detail-label">예약 시작 날짜</span>
+	            <span class="detail-value">${rStartDate }</span>
 	        </div>
 	    </div>
 	

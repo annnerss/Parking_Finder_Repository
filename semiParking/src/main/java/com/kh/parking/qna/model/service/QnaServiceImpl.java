@@ -1,6 +1,7 @@
 package com.kh.parking.qna.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -80,6 +81,30 @@ public class QnaServiceImpl implements QnaService{
 	@Override
 	public int deleteReply(Reply r) {
 		return dao.deleteReply(sqlSession,r);
+	}
+
+	//문의사항 게시글 수정
+	@Override
+	public int qnaUpdate(Qna q) {
+		return dao.qnaUpdate(sqlSession, q);
+	}
+		
+	//문의사항 게시글 삭제
+	@Override
+	public int qnaDelete(int qno) {
+		return dao.qnaDelete(sqlSession, qno);
+	}
+
+	//문의사항 게시글 검색
+	@Override
+	public ArrayList<Qna> searchList(HashMap<String, String> map, PageInfo pi) {
+		return dao.searchList(sqlSession, map, pi);
+	}
+		
+	//검색 게시글 수
+	@Override
+	public int searchListCount(HashMap<String, String> map) {
+		return dao.searchListCount(sqlSession, map);
 	}
 
 

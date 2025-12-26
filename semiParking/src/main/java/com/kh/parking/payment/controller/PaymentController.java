@@ -1,4 +1,6 @@
 package com.kh.parking.payment.controller;
+import java.sql.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +46,14 @@ public class PaymentController {
         
         PaymentApprove approve = kakaoPayService.payApprove(pgToken);
         
-        System.out.println("approve 정보 : "+approve);
-        
         //받아온 approve객체를 payment db에 데이터 추가
         int result = kakaoPayService.insertPayment(approve);
         
         if(result > 0) {
+        	Date rStartDate = kakaoPayService.rStartDate(Integer.parseInt(approve.getPartner_order_id()));
+        	System.out.println(rStartDate);
         	model.addAttribute("pay",approve);
+        	model.addAttribute("rStartDate",rStartDate);
         	session.setAttribute("alertMsg", "결제 성공");
         }else {
         	session.setAttribute("alertMsg", "결제 실패");
@@ -58,15 +61,4 @@ public class PaymentController {
         
         return approve;
     }
-    
-    @PostMapping("/fail")
-    public void payFail() {
-    	System.out.println("fail");
-    }
-    
-    @PostMapping("/cancel")
-    public void payCancel() {
-    	System.out.println("cancel");
-    }
-
 }

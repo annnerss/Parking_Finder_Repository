@@ -1,4 +1,5 @@
 package com.kh.parking.payment.model.service;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -40,7 +41,6 @@ public class PaymentServiceImpl implements PaymentService {
 	// 카카오페이 결제창 연결
     @Override
     public ReadyRes payReady(OrderRequest request) {
-    	System.out.println(request.getPartner_order_id());
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("cid", cid);                                    // 가맹점 코드(테스트용)
         parameters.put("partner_order_id", request.getPartner_order_id());   //예약 번호                    // 주문번호
@@ -118,9 +118,9 @@ public class PaymentServiceImpl implements PaymentService {
 		return dao.insertPayment(sqlSession,approve);
 	}
 
-	@Override
-	public int deletePayment(String tid) {
-		return 0;
+    @Override
+	public Date rStartDate(int rNo) {
+		return dao.rStartDate(sqlSession,rNo);
 	}
 	
 }

@@ -18,5 +18,8 @@ public interface parkingLotService {
 	int deleteReserve(int rNo);
 	int deletePayment(int rNo);
 	int listCount();
+	int getRno();
 	List<ParkingLot> searchParking(String keyword);
+	void currentUpdate();
+    ArrayList<Reservation> reservePage(String memId);
 }

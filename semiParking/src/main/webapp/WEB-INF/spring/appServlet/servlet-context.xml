@@ -21,11 +21,47 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	
+	<!-- 12/24 추가  -->
+	<!-- 인터셉터 등록 : 어떠한 요청에 어떠한 인터셉터를 동작시킬것인지 등록하기 -->
+	<interceptors>
+		<interceptor>
+		
+			<mapping path="/*.me"/>
+			<mapping path="/*.parking"/>
+			<mapping path="/*.get"/>
+			<mapping path="/*.pk"/>
+			<mapping path="/*.qn"/>
+			<mapping path="/*.re"/>
+			<mapping path="/reserve.port"/>
+			<mapping path="/payment/ready"/>
+			<mapping path="/payment/approve"/>
+			
+			<exclude-mapping path="/enrollForm.me"/>
+			<exclude-mapping path="/login.me"/>
+			<exclude-mapping path="/insert.me"/>
+			<exclude-mapping path="/logout.me"/>
+			<exclude-mapping path="/update.me"/>
+			<exclude-mapping path="/parkingList.get"/>
+			<exclude-mapping path="/idcheck.me"/>
+			<exclude-mapping path="/searchList.parking"/>
+			<exclude-mapping path="/searchKeywordParking.parking"/>
+			<exclude-mapping path="/replyList.re"/>
+			<exclude-mapping path="/parkingSearch.get"/>
+			<exclude-mapping path="/qnaListView.qn"/>
+			<exclude-mapping path="/detail.qn"/>
+			
+			<beans:bean class="com.kh.parking.common.interceptor.LoginInterceptor"/>
+				
+		</interceptor>
+	</interceptors>
+	
 	<context:component-scan base-package="com.kh.parking" >
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
 		<context:exclude-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
 	</context:component-scan>
+	
 	
 	
 	
