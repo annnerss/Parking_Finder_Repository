@@ -70,4 +70,9 @@ public class parkingLotDao {
     public ArrayList<ParkingLot> searchParkingList(SqlSessionTemplate sqlSession, String keyword) {
         return (ArrayList)sqlSession.selectList("parkingMapper.searchParkingList", keyword);
     }
+
+    public ArrayList<Reservation> reservePage(SqlSessionTemplate sqlSession, String memId) {
+
+        return (ArrayList)sqlSession.selectList("reserveMapper.reservationPage",memId);
+    }
 }

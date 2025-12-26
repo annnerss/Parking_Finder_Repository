@@ -20,4 +20,6 @@ public interface parkingLotService {
 	int listCount();
 
     ArrayList<ParkingLot> searchParkingList(String keyword);
+
+    ArrayList<Reservation> reservePage(String memId);
 }
