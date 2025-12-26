@@ -119,6 +119,7 @@
 						            	<!-- 일반 멤버용 메뉴 -->
 						                <li><a href="${contextRoot }/mypage.me">마이페이지</a></li>
 				               			<li>찜목록</li>
+                                        <li><a href="${contextRoot }/reservePage.get">마이페이지</a></li>
 				               			<li>쿠폰 등록</li>
 				               			<li><a href="${contextRoot }/logout.me">로그아웃</a></li>
 					            	</c:otherwise>

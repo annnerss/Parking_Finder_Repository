@@ -22,11 +22,11 @@ public class MemberController {
 	@RequestMapping("/login.me")
 	public String loginMember(Member member, HttpSession session) { 
 		// 매개변수에서 session은 jsp파일이나 웹브라우저에서 다 공유 가능하기도하고 로그인 정보는 홈페이지에 있는 내내 필요해서 매개변수로!
-		
+
 		// 여기서는 휴면 계정인지 파악을 해야한다. 그래서 컨트롤러에 휴면 계정인지 파악하는 로직 및 로그인 로직을 각각 구현 해야 한다.
 		// 일단 우선순위는 로그인 로직부터
 		Member loginMember = service.selectMember(member); // 아이디와 비밀번호로 데이터베이스에 접근 후, 조회, 휴면 처리까지 싹 다하기
-		
+
 		if(loginMember!=null && bcrypt.matches(member.getMemPwd(), loginMember.getMemPwd())) { // 평문과 암호화된 비밀번호가 일치하는지 검증
 			
 			if(loginMember.getStatus().equals("Y") || loginMember.getStatus()==null) { // STATUS가 Y면 로그인 바로 하게 하기 

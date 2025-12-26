@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.kh.parking.member.model.vo.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -107,11 +108,13 @@ public class parkingLotController {
     }
 
     @GetMapping("/reservation.get")
-    public String reservationForm(@RequestParam("parkingNo") String parkingNo, Model model) {
+    public String reservationForm(@RequestParam("parkingNo") String parkingNo, HttpSession session) {
         ParkingLot parkingLot = service.parkingDetail(parkingNo);
-        
-        model.addAttribute("parkingLot", parkingLot);
-        
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        session.setAttribute("parkingLot", parkingLot);
+        session.setAttribute("loginMember",loginMember);
+
         return "reservation/reservation";
     }
 
@@ -130,7 +133,22 @@ public class parkingLotController {
             return "common/errorPage";
         }
     }
-    
+
+    @RequestMapping("/reservePage.get")
+    public String reservePage(HttpSession session) {
+        Member m = (Member) session.getAttribute("loginMember");
+
+        ArrayList<Reservation> list = service.reservePage(m.getMemId());
+
+        if(list != null) {
+            session.setAttribute("list",list);
+        }else {
+            session.setAttribute("alertMsg", "예약 정보 불러오기 실패");
+        }
+
+        return "reservation/myReservation";
+    }
+
     @RequestMapping("/reserveList.get")
     public String paymentListPage(Model model,HttpSession session) {
     	ArrayList<Reservation> rList = service.reserveList();

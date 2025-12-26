@@ -59,6 +59,13 @@
 		WHERE STATUS = 'Y'
  	</select>
 
+    <select id="reservationPage" resultMap="ReservationMap">
+        SELECT *
+        FROM RESERVATION
+        WHERE STATUS = 'Y'
+        AND MEM_ID = #{memId}
+    </select>
+
 	<select id="reserveDetail" parameterType="_int" resultMap="ReservationMap">
 		SELECT RESERVATION_NO
 			  ,START_TIME
