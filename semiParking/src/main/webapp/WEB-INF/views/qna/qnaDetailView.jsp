@@ -6,6 +6,9 @@
 <meta charset="UTF-8">
 <title>게시글 상세보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+	#replyListArea img { margin: auto;}
+</style>
 </head>
 <body>
 
@@ -104,9 +107,14 @@
 							$("#replyListArea tbody").html(""); //리셋
 							for(let reply of list){
 								let tr = $("<tr>");
-								tr.append($("<td>").text(reply.replyWriter),
+								tr.append($("<td>").attr("data-reply-no",reply.replyNo).text(reply.replyWriter),
 										  $("<td>").text(reply.replyContent),
-										  $("<td>").text(reply.createDate));
+										  $("<td>").text(reply.createDate),
+										  $("<td>").append(
+										  $("<img>").attr("src","https://img.icons8.com/?size=100&id=bd7IoT6bIayo&format=png&color=000000")
+										  			.attr("alt","쓰레기통 이미지")
+										  			.attr("style","width:20px;")));
+								//삭제하기 버튼
 								$("#replyListArea tbody").append(tr);
 							}
 							$("#rcount").text(list.length);
@@ -140,13 +148,38 @@
 							}
 						});
 					});
+					
+					$(document).on("click","#replyListArea tbody tr img",function(){
+						var rNo = $(this).closest("tr").children().first().data("replyNo");
+						
+						$.ajax({
+							url:"deleteReply.re",
+							data:{
+								replyNo:rNo,
+								replyWriter:"${loginMember.memId}",
+								refQno:${q.QNo},
+							},
+							type:"POST",
+							success:function(res){
+								if(res.status == "success"){
+									alert(res.message);
+									location.reload();
+								}else{
+									alert(res.message);
+								}
+							},
+							error:function(){
+								console.log("오류 발생");
+							}
+						});
+					});
 				})
 			</script>	
 			
 			<table id="replyListArea" class="table" align="center">
                 <thead>
                     <tr>
-                        <th colspan="2">
+                        <th colspan="3">
                         	<c:choose>
                         		<c:when test="${empty loginMember }">
 		                            <textarea class="form-control" placeholder="로그인 후 이용가능합니다." id="content" cols="55" rows="2" style="resize:none; width:100%;" readonly></textarea>
@@ -159,7 +192,7 @@
                         <th style="vertical-align:middle"><button id="replyBtn" class="btn btn-secondary">댓글등록</button></th>
                     </tr>
                     <tr>
-                        <td colspan="3">댓글(<span id="rcount"></span>)</td>
+                        <td colspan="4">댓글(<span id="rcount"></span>)</td>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,15 +98,16 @@
 	
 	    <div class="details">
 	        <div class="detail-row">
-	            <span class="detail-label">하이파킹 AIA타워 주차장</span>
+	            <span class="detail-label">주차장</span>
+	            <span class="detail-value">${pay.item_name }</span>
 	        </div>
 	        <div class="detail-row">
-	            <span class="detail-label">예약 날짜</span>
-	            <span class="detail-value">2025-12-31</span>
+	            <span class="detail-label">결제 금액</span>
+	            <span class="detail-value"><fmt:formatNumber value="${pay.total_amount }" type="number" groupingUsed="true"/>원</span>
 	        </div>
 	        <div class="detail-row">
-	            <span class="detail-label">차량번호</span>
-	            <span class="detail-value">123가4567</span>
+	            <span class="detail-label">예약 시작 날짜</span>
+	            <span class="detail-value">${rStartDate }</span>
 	        </div>
 	    </div>
 	

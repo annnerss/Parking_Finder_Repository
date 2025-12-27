@@ -8,4 +8,5 @@ public interface MemberService {
 	Member selectMember(Member member); // 회원 조회, 마지막 로그인 날짜 갱신 및 휴면 계정 처리 메소드 
 	int updateMember(Member loginMember); // 정보 수정 
 	int deleteMember(Member loginMember);
+	int changeMemberPwd(Member loginMember);
 }

@@ -11,8 +11,8 @@ public class ReadyResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ReadyRes {
-	    String reservationNo;    // 가맹점 주문번호
-	    String memId;     // 가맹점 회원 id
+//	    String partner_order_id;    // 가맹점 주문번호
+//	    String partner_user_id;     // 가맹점 회원 id
         String tid;
         String next_redirect_pc_url;
     }

@@ -1,12 +1,12 @@
 package com.kh.parking.qna.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.kh.parking.common.model.vo.PageInfo;
-import com.kh.parking.member.model.vo.Member;
 import com.kh.parking.qna.model.vo.Qna;
 import com.kh.parking.qna.model.vo.Reply;
 
@@ -28,6 +28,18 @@ public interface QnaService {
 	//주차장 이름 관리번호로 변환
 	String selectPNoByPName(String pNo);
 	
+	//문의사항 글 수정
+	int qnaUpdate(Qna q);
+		
+	//문의사항 글 삭제
+	int qnaDelete(int qno);
+		
+	//게시글 검색
+	ArrayList<Qna> searchList(HashMap<String, String> map, PageInfo pi);
+	
+	//검색 게시글 수 
+	int searchListCount(HashMap<String, String> map);
+		
 	//게시글 조회 가능 확인
 	String checkMem(String memId);
 
@@ -39,4 +51,7 @@ public interface QnaService {
 	
 	//새로운 댓글 작성
 	int insertReply(Reply r);
+
+	//댓글 삭제 기능
+	int deleteReply(Reply r);
 }

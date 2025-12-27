@@ -1,6 +1,7 @@
 package com.kh.parking.qna.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -59,15 +60,46 @@ public class QnaDao {
 		return sqlSession.selectOne("qnaMapper.adminPwd");
 	}
 
+	//댓글 목록
 	public List<Reply> replyList(SqlSessionTemplate sqlSession, int qNo) {
 		return sqlSession.selectList("qnaMapper.replyList",qNo);
 	}
 
+	//댓글 추가
 	public int insertReply(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.insert("qnaMapper.insertReply",r);
 	}
 
+	//댓글 삭제
+	public int deleteReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.update("qnaMapper.deleteReply",r);
+	}
 
+	//문의사항 글 수정
+	public int qnaUpdate(SqlSessionTemplate sqlSession, Qna q) {
+		return sqlSession.update("qnaMapper.qnaUpdate", q);
+	}
+
+	//문의사항 글 삭제
+	public int qnaDelete(SqlSessionTemplate sqlSession, int qno) {
+		return sqlSession.delete("qnaMapper.qnaDelete", qno);
+	}
 	
+	//문의사항 게시글 검색
+	public ArrayList<Qna> searchList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi) {
+		int limit = pi.getBoardLimit();  //몇개씩 보여줄 것인지
+		int offset = (pi.getCurrentPage()-1)*limit;  //몇개를 건너뛸 것인지
+		
+		//RowBounds 객체 생성하기
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		//매개변수 자리 맞춰서 전달하기 (매퍼구문, 파라미터, rowbounds)
+		return (ArrayList)sqlSession.selectList("qnaMapper.searchList", map, rowBounds);
+	}
+	
+	//검색 게시글 수
+	public int searchListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("qnaMapper.searchListCount", map);
+	}
 
 }

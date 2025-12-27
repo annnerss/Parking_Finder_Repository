@@ -33,7 +33,7 @@
 			width: 80%;
         	border-radius: 8px;
 			z-index: 100;
-			background: white;
+			background: #f8f9fa;
 	        display: flex;
 	        gap: 10px;
 	    }
@@ -66,7 +66,7 @@
             top: 0; left: -320px; /* 처음에 숨김 */
             bottom: 0;
             width: 350px;
-            background: white;
+            background: #f8f9fa;
             z-index: 1000;
             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
             transition: left 0.3s ease; /* 부드러운 애니메이션 */
@@ -78,7 +78,7 @@
 			left:0;
 		}
 		#sidebar::after {
-			content: "▶"; /* 화살표 아이콘 */
+			content: "▶"; 
 			position: absolute;
 			top: 50%;
 			right: 10px; /* 닫혀있을 때 보이는 부분 */
@@ -86,7 +86,7 @@
 			font-size: 20px;
 			color: #007bff;
 			cursor: pointer;
-			/* hover 되면 화살표 숨김 (선택사항) */
+			/* hover 되면 화살표 숨김 */
 			opacity: 1;
 			transition: opacity 0.2s;
 		}
@@ -99,8 +99,7 @@
 		.sidebar-top{
 			position: relative;
 			flex: 0 0 auto;
-			border-bottom: 1px solid #ddd;
-			background-color: #F8F9FA;
+			background-color: #f8f9fa;
 			z-index: 102;
 		}
 
@@ -130,7 +129,6 @@
         .sidebar-header {
             padding: 20px;
             background: #f8f9fa;
-            border-bottom: 1px solid #ddd;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -162,7 +160,7 @@
 	        position: absolute;
 	        top: 110%;
 	        width: 100%;
-	        background-color: #fff;
+	        background-color: #f8f9fa;
 	        border-radius: 10px;
 	        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 	        padding: 12px;
@@ -312,7 +310,6 @@
 	
 	                for(let h of list){
 	                    if(h.searchContent){  // 만약에 검색 내용이 존재한다면 근데 이렇게 되면 조회는 계속 하니까 내용이 많아진다.
-							console.log(h);
 	                        ul.append(
 	                            $("<li>")
 	                                .append("<span>" + h.searchContent + "</span>")
@@ -603,4 +600,3 @@
 </script>
 </body>
 </html>
-
