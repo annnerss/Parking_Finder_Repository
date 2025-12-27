@@ -32,6 +32,14 @@
         )
     </insert>
     
+    <select id="getRno" resultType="_int">
+    	SELECT RESERVATION_NO
+		FROM (SELECT * 
+			  FROM RESERVATION 
+			  ORDER BY RESERVATION_NO DESC)
+		WHERE ROWNUM = 1
+    </select>
+    
  	<insert id="insertPayment" parameterType="PaymentApprove">
  		INSERT INTO PAYMENT
  		VALUES (#{aid},
@@ -46,8 +54,14 @@
  				#{created_at},
  				#{approved_at},
  				#{payload},
- 				#{price})
+ 				#{total_amount})
  	</insert>
+ 	
+ 	<select id="rStartDate" parameterType="_int" resultType="java.sql.Date">
+ 		SELECT START_TIME
+ 		FROM RESERVATION
+ 		WHERE RESERVATION_NO = #{rNo}
+ 	</select>
  	
  	<select id="reserveList" resultMap="ReservationMap">
  		SELECT RESERVATION_NO
@@ -57,15 +71,16 @@
 			  ,MEM_ID
 		FROM RESERVATION
 		WHERE STATUS = 'Y'
+		ORDER BY RESERVATION_NO DESC
  	</select>
-
-    <select id="reservationPage" resultMap="ReservationMap">
+ 	
+ 	<select id="reservationPage" resultMap="ReservationMap">
         SELECT *
         FROM RESERVATION
         WHERE STATUS = 'Y'
         AND MEM_ID = #{memId}
     </select>
-
+    
 	<select id="reserveDetail" parameterType="_int" resultMap="ReservationMap">
 		SELECT RESERVATION_NO
 			  ,START_TIME

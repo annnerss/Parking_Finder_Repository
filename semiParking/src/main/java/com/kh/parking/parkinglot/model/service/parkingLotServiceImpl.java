@@ -21,26 +21,17 @@ public class parkingLotServiceImpl implements parkingLotService{
 
     @Override
     public List<ParkingLot> ParkingList() {
-
         return dao.ParkingList(sqlSession);
     }
     
     @Override
     public List<ParkingLot> ParkingList(PageInfo pi) {
-
-        return dao.ParkingList(sqlSession,pi);
+    	return dao.ParkingList(sqlSession,pi);
     }
     
     @Override
     public int listCount() {
-
-        return dao.listCount(sqlSession);
-    }
-
-    @Override
-    public ArrayList<ParkingLot> searchParkingList(String keyword) {
-
-        return dao.searchParkingList(sqlSession, keyword);
+    	return dao.listCount(sqlSession);
     }
 
     @Override
@@ -86,6 +77,21 @@ public class parkingLotServiceImpl implements parkingLotService{
 	@Override
 	public int deletePayment(int rNo) {
 		return dao.deletePayment(sqlSession,rNo);
+	}
+
+	@Override
+	public List<ParkingLot> searchParking(String keyword) {
+		return dao.searchParking(sqlSession,keyword);
+	}
+
+	@Override
+	public int getRno() {
+		return dao.getRno(sqlSession);
+	}
+
+	@Override
+	public void currentUpdate() {
+		dao.currentUpdate(sqlSession);
 	}
 
 }

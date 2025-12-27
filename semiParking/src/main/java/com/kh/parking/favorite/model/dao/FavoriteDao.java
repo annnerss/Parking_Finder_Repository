@@ -35,5 +35,10 @@ public class FavoriteDao {
 			return false; // 1개 미만이면 0개니까 찜 목록에 같은 데이터가 없다는 것이다. 
 		}
 	}
+	
+	//찜 목록에서 삭제하는 메서드 
+	public int removeFavorite(SqlSessionTemplate sqlSession, HashMap<String,String> paramMap) {
+		return sqlSession.delete("favoriteMapper.removeFavorite", paramMap);
+	}
 
 }

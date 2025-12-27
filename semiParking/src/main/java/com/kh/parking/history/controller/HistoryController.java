@@ -1,3 +1,4 @@
+
 package com.kh.parking.history.controller;
 
 import java.net.URLEncoder;
@@ -47,52 +48,6 @@ public class HistoryController {
 	   return selectHistory; 
 	}
 	
-	/*
-	//검색 내용 집어 넣기 
-	@GetMapping("/search.parking") // form 태그에서 get 방식을 이용했으니 GetMapping 
-	public String insertContent(HttpSession session, String keyword) { // form 태그에서 갖고온 keyword 바인딩
-		
-		Member loginMember =(Member) session.getAttribute("loginMember");
-			
-		if(loginMember == null) { // 비회원으로 검색을 했을때 
-				
-			return "redirect:/"; 
-				
-			//return "redirect:/searchList?keyword="+keyword; (검색 내용에 맞는 곳으로 이동)
-				
-			//따로 둔 이유가 만약에 이 조건을 안 걸어두면 에러가 발생한다. 
-				
-			//에러가 발생할뿐만 아니라 비회원은 검색할 기회 조차 없다. 
-				
-		}
-			
-		String memId = loginMember.getMemId(); // 회원 아이디를 토대로 DB에 검색 내용을 넣어야 한다. (WHERE 절에 memId 넣을거기 때문)
-			
-		HashMap<String, String> paramMap = new HashMap<>(); 
-			
-		//HashMap을 사용한 이유 dao에서 DML 구문을 작성할때 객체를 한개만 넣을 수 있기 때문. (SqlTemplateSession제외)
-			
-		paramMap.put("memId", memId);
-		paramMap.put("keyword", keyword);
-			
-		int result = service.insertContent(paramMap); // 검색을 하면 검색 목록에 담기 
-
-		if(result > 0) {
-			System.out.println("검색 내용 DB에 넣기 완료."); // 확인용 	
-		} else {		
-			System.out.println("검색 내용 DB에 넣기 실패."); // 확인용 
-		}
-			
-		return "redirect:/"; // 일던 시험용으로 메인 페이지로 이동. (왜냐면 지금 주차장 목록 페이지가 없기 때문) 
-			
-		//이제 검색 내용에 맞게 이동을 해야 하니까
-			
-		//return "redirect:/searchList?keyword="+keyword+"&searchBno="+bno; (검색 내용에 맞는 곳으로 이동) 
-			
-	}
-	*/
-	
-	
 	// 검색 하기 전에 검색 내용란에 키워드를 넣으면 주차장 목록이 나오게끔 설계 
 	@ResponseBody
 	@RequestMapping(value="/searchKeywordParking.parking", produces = "application/json;charset=UTF-8")
@@ -139,9 +94,4 @@ public class HistoryController {
 
 	    return list; // 검색 기록을 넣고 나서 페이징 바 처리한 곳으로 이동
 	}
-	
-	
-	
-	
-	
 }

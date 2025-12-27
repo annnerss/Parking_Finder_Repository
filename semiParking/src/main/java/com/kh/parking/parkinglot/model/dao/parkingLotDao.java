@@ -29,31 +29,35 @@ public class parkingLotDao {
 		
 		return (List)sqlSession.selectList("parkingMapper.parkingListView",null,rowBounds);
 	}
-
+	
 	public int listCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("parkingMapper.listCount");
 	}
-
-    public ParkingLot ParkingDetail(SqlSessionTemplate sqlSession, String parkingNo) {
-        return sqlSession.selectOne("parkingMapper.parkingDetail",parkingNo);
-    }
-    
-    public int updateParking(SqlSessionTemplate sqlSession, ParkingLot p) {
-    	return sqlSession.update("parkingMapper.updateParking",p);
-    }
-    
-    public int deleteParking(SqlSessionTemplate sqlSession, String pNo) {
-    	return sqlSession.update("parkingMapper.deleteParking",pNo);
-    }
-    
-    public int insertPayment(SqlSessionTemplate sqlSession,PaymentApprove approve) {
-    	return sqlSession.insert("reserveMapper.insertPayment",approve);
-    }
-
+	
+	public ParkingLot ParkingDetail(SqlSessionTemplate sqlSession, String parkingNo) {
+		return sqlSession.selectOne("parkingMapper.parkingDetail",parkingNo);
+	}
+	
+	public int updateParking(SqlSessionTemplate sqlSession, ParkingLot p) {
+		return sqlSession.update("parkingMapper.updateParking",p);
+	}
+	
+	public int deleteParking(SqlSessionTemplate sqlSession, String pNo) {
+		return sqlSession.update("parkingMapper.deleteParking",pNo);
+	}
+	
+	public int insertPayment(SqlSessionTemplate sqlSession,PaymentApprove approve) {
+		return sqlSession.insert("reserveMapper.insertPayment",approve);
+	}
+	
+	public List<ParkingLot> searchParking(SqlSessionTemplate sqlSession, String keyword) {
+		return sqlSession.selectList("parkingMapper.searchParking",keyword);
+	}
+	
 	public Reservation reserveDetail(SqlSessionTemplate sqlSession, int rNo) {
 		return sqlSession.selectOne("reserveMapper.reserveDetail", rNo);
 	}
-
+	
 	public ArrayList<Reservation> reserveList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("reserveMapper.reserveList");
 	}
@@ -65,14 +69,18 @@ public class parkingLotDao {
 	public int deletePayment(SqlSessionTemplate sqlSession, int rNo) {
 		return sqlSession.update("reserveMapper.deletePayment",rNo);
 	}
-
-
-    public ArrayList<ParkingLot> searchParkingList(SqlSessionTemplate sqlSession, String keyword) {
-        return (ArrayList)sqlSession.selectList("parkingMapper.searchParkingList", keyword);
-    }
-
-    public ArrayList<Reservation> reservePage(SqlSessionTemplate sqlSession, String memId) {
-
+	
+	public ArrayList<Reservation> reservePage(SqlSessionTemplate sqlSession, String memId) {
         return (ArrayList)sqlSession.selectList("reserveMapper.reservationPage",memId);
     }
+
+	public int getRno(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("reserveMapper.getRno");
+	}
+
+	public void currentUpdate(SqlSessionTemplate sqlSession) {
+		sqlSession.update("parkingMapper.currentUpdate");			
+	}
+
+    
 }

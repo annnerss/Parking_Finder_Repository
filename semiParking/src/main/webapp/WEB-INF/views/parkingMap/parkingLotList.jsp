@@ -20,13 +20,62 @@
         background-color:white;
     }
     
-    #ParkingList {
-		width:100%;
+    .search-box{
+    	max-width:400px;
+    	margin: 16px auto;
+    	position:relative;
+    }
+    
+    #search{
+    	width:80%;
+    	padding: 5px;
+    	border: 1px solid #d0d7de;
+	    border-radius: 8px;
+	    background: #fff;
+    }
+    
+    #search:focus {
+	   border-color: #0969da;
+	   box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
 	}
 	
-	#ParkingList tbody tr:hover {
-		background-color:#d4d4d4;
+	#searchBtn{
+		position:absolute;
+		color: #fff;
+		cursor:pointer;
+		width:20%;
+		border-radius: 8px;
+		padding: 5px;
 	}
+	
+	#searchBtn:hover{ background: lightgray; }
+	
+	#searchListDiv{
+		position:absolute;
+		width:80%;
+		max-length: 220px;
+		border-radius: 8px;
+		background: #ededed;
+		display: none;
+		padding-top:10px;
+	}
+	
+	#searchList{ list-style: none; padding-left:15px;}
+    
+    #searchList li{
+    	cursor: pointer;
+    	width:90%;
+    	justify-content: space-between;
+    	padding:0px;
+    	margin:0px;
+	    display: flex;
+    }
+    
+    #searchList li:hover{ background:lightgray; }
+    
+    #ParkingList { width:100%; }
+	
+	#ParkingList tbody tr:hover { background-color:#d4d4d4; }
 	
 	#pagingArea{ width:fit-content; margin:auto;}
 </style>
@@ -38,7 +87,46 @@
 	<div class="content">
 		<br><br>
 		<div class="innerOuter">
-			<input type="text" id="search" name="search">	
+			<div class="search-box">
+				<input type="text" id="search" placeholder=" 주차장명으로 검색" onkeyup="searchFunc(this);">	
+				<button id="searchBtn">검색</button>
+				<div id="searchListDiv">
+					<ul id="searchList"></ul> <!-- 검색 제시어 들어갈 위치 -->
+					<input type="hidden" name="parkingNo" value="122-1-000001">
+				</div>
+			</div>
+			
+			<!-- 비동기 검색 제시어 기능 script -->
+			<script>
+				function searchFunc(keyword){
+					var word = keyword.value;
+					
+					$.ajax({
+						url:"searchParking.pk",
+						data:{
+							keyword:word
+						},
+						success:function(list){
+							$("#searchList").empty();
+							var keyword = $("#search").val();
+							
+							if(keyword.length > 1 && list.length > 0){
+								for(let p of list){
+									$("#searchList").append("<li data-parkingNo='"+
+															p.parkingNo+"'>"+
+															p.parkingName +
+															"</li>");
+								}
+								$("#searchListDiv").slideDown();
+							}
+						},
+						error:function(){
+							console.log("검색중 오류 발생");
+						}
+					});
+				}
+			</script>
+			
 			<table id="ParkingList">
 				<thead>
 					<tr>
@@ -60,6 +148,11 @@
 							$(function(){
 								$("#ParkingList tbody tr").click(function(){
 									let pNo = $(this).children().first().text();
+									location.href="${contextRoot}/parkingDetail.get?pNo="+pNo;
+								});
+								
+								$(document).on("click","#searchList li",function(){
+									let pNo = $(this).data("parkingno");
 									location.href="${contextRoot}/parkingDetail.get?pNo="+pNo;
 								});
 							});

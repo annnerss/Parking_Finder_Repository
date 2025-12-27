@@ -26,14 +26,6 @@
 	    ORDER BY Q.CREATE_DATE DESC
 	</select>
 	
-	<!-- 조회수 증가 -->
-	<update id="increaseCount" parameterType="_int">
-		UPDATE QNA
-		SET COUNT = COUNT + 1
-		WHERE Q_NO = #{qno}
-		AND STATUS = 'Y'
-	</update>
-	
 	<!-- 문의사항 글 상세보기 -->
 	<select id="qnaDetail" resultType="Qna" parameterType="_int">
 		SELECT Q.Q_NO
@@ -43,6 +35,7 @@
 			  ,Q.P_NO
 			  ,Q.CREATE_DATE
 			  ,Q.Q_TYPE
+			  ,Q.STATUS
 	    FROM QNA Q
 	    JOIN MEMBER M ON Q.MEM_ID = M.MEM_ID
 	    JOIN PARKINGLOT P ON Q.P_NO = P.P_NO
@@ -78,6 +71,69 @@
 		    #{pNo}
 		)
 	</insert>
+	
+	<!-- 문의사항 게시글 수정 -->
+	<update id="qnaUpdate" parameterType="Qna">
+		UPDATE QNA
+		SET
+		Q_TYPE = #{qType}
+		,P_NO = #{pNo}
+		,Q_TITLE = #{qTitle}
+		,CONTENT = #{content} 
+		WHERE Q_NO = #{qNo}
+		AND STATUS = 'Y'
+	</update>
+	
+	<!-- 문의사항 게시글 삭제 -->
+	<delete id="qnaDelete" parameterType="_int">
+		DELETE FROM QNA
+		WHERE Q_NO = #{qNo}
+	</delete>
+	
+	<!-- 문의사항 게시글 검색 -->
+	<select id="searchList" resultType="Qna"
+		parameterType="hashmap">
+		SELECT Q.Q_NO
+			  ,Q.Q_TITLE
+			  ,Q.MEM_ID
+			  ,Q.P_NO
+			  ,Q.CREATE_DATE
+			  ,Q.Q_TYPE
+		FROM QNA Q
+		JOIN MEMBER M ON Q.MEM_ID = M.MEM_ID
+	    JOIN PARKINGLOT P ON Q.P_NO = P.P_NO
+		<choose>
+			<when test="condition == 'title'">
+				WHERE Q_TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="condition == 'writer'">
+				WHERE Q.MEM_ID = #{keyword}
+			</when>
+			<otherwise>
+				WHERE Q.CONTENT LIKE '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+		AND Q.STATUS = 'Y'
+		ORDER BY Q.CREATE_DATE DESC
+	</select>
+		
+	<!-- 검색 게시글 수 -->
+	<select id="searchListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM QNA
+		<choose>
+			<when test="condition == 'title'">
+				WHERE Q_TITLE LIKE '%'||#{keyword}||'%'
+			</when>
+			<when test="condition == 'writer'">
+				WHERE MEM_ID = #{keyword}
+			</when>
+			<otherwise>
+				WHERE CONTENT LIKE '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+		AND STATUS = 'Y'
+	</select>	
 	
 	<select id="checkMem" parameterType="string" resultType="string">
 		SELECT MEM_PWD
@@ -115,7 +171,11 @@
 				#{refQno})
 	</insert>
 	
-	
-	
+	<update id="deleteReply" parameterType="Reply">
+		UPDATE REPLY
+		SET STATUS = 'N'
+		WHERE REPLY_NO = #{replyNo}
+		AND REPLY_WRITER = #{replyWriter}
+	</update>
 	
 </mapper>
