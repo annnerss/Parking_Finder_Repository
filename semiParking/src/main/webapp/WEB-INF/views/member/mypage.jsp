@@ -8,6 +8,125 @@
     <title>Document</title>
     
     <style>
+		
+		/*비밀번호 변경이랑 관련된 모달 css*/  
+		 
+		/* 12월 27일 추가 */     	
+		#changePwdModal .modal-content {
+		    background-color: #f2f2f2;   /* 연한 회색 */
+		    border: 2px solid #000;      /* 검은 테두리 */
+		    border-radius: 12px;
+		}
+		
+		/* 헤더 / 푸터 기본 선 제거 */
+		#changePwdModal .modal-header,
+		#changePwdModal .modal-footer {
+		    border: none;                /*파란 화살표 선 제거 */
+		}
+		
+		/* 버튼 가운데 정렬 */
+		#changePwdModal .modal-footer {
+		    display: flex;
+		    justify-content: center;
+		    gap: 12px;
+		}
+		
+		/* 변경하기 버튼 (파랑 연하게) */
+		#changePwdModal .btn-primary {
+		    background-color: rgba(13, 110, 253, 0.75);
+		    border-color: rgba(13, 110, 253, 0.75);
+		}
+		
+		/* 취소 버튼 (회색 연하게) */
+		#changePwdModal .btn-secondary {
+		    background-color: rgba(108, 117, 125, 0.75);
+		    border-color: rgba(108, 117, 125, 0.75);
+		}
+		
+		/* hover 시 살짝 진하게 */
+		#changePwdModal .btn-primary:hover {
+		    background-color: rgba(13, 110, 253, 0.9);
+		}
+		
+		#changePwdModal .btn-secondary:hover {
+		    background-color: rgba(108, 117, 125, 0.9);
+		}
+		
+		/* input 스타일 살짝 정리 (선택) */
+		#changePwdModal input.form-control {
+		    border-radius: 8px;
+		    border: 1px solid #ccc;
+		}
+		
+		/* 탈퇴랑 관련된 모달 css */
+		
+		/* 모달 전체 스타일 */
+		#deleteForm .modal-content {
+		    background-color: #fdf1f2;   /* 연한 경고 핑크 */
+		    border: 2px solid #000;      /* 검은 테두리 */
+		    border-radius: 12px;
+		}
+		
+		/* header / footer 선 제거 */
+		#deleteForm .modal-header,
+		#deleteForm .modal-footer {
+		    border: none;                /*가로선 제거*/
+		}
+		
+		/* footer 버튼 가운데 정렬 */
+		#deleteForm .modal-footer {
+		    display: flex;
+		    justify-content: center;
+		}
+		
+		/* 탈퇴하기 버튼 연하게 */
+		#deleteForm .btn-danger {
+		    background-color: rgba(220, 53, 69, 0.75);
+		    border-color: rgba(220, 53, 69, 0.75);
+		    padding: 8px 22px;
+		}
+		
+		/* hover 시 살짝 진해지게 */
+		#deleteForm .btn-danger:hover {
+		    background-color: rgba(220, 53, 69, 0.9);
+		}
+		
+		/* input 스타일 통일 (선택) */
+		#deleteForm input.form-control {
+		    border-radius: 8px;
+		    border: 1px solid #ccc;
+		}
+		
+		
+		/*content 위에는 추가한 부분 */ 
+		
+		.content-wrapper {
+		    width: 80%;
+		    max-width: 1000px;
+		    margin: 80px auto;
+		    background-color: white;
+		    padding: 40px;
+		    border-radius: 12px;
+		    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+		}
+    	
+    	/*
+    	.content {
+		    background-color: transparent;
+		    width: 100%;
+		    margin: 0;
+		}
+		
+		.innerOuter {
+		    border: none;
+		    width: 100%;
+		    margin: 0;
+		    padding: 0;
+		    background-color: transparent;
+		}
+		*/
+    
+        /*
         .content {
             background-color:rgb(247, 245, 245);
             width:80%;
@@ -20,6 +139,7 @@
             padding:5% 10%;
             background-color:white;
         }
+        */
         
         .activate {
 		    padding: 10px 18px;
@@ -56,9 +176,9 @@
 	
     <%@ include file="/WEB-INF/views/common/menubar.jsp" %>
    
-    <div class="content">
-        <br><br>
-        <div class="innerOuter">
+    <div class="content-wrapper">
+        <!--  <br><br> -->
+      
             <h2>마이페이지</h2>
             <br>
 			<!-- 
@@ -116,7 +236,8 @@
                     </c:if>
                 </div>
             </form>
-        </div>
+        
+        
         <br><br>
     </div>
     
@@ -142,7 +263,7 @@
                         	<!-- 식별용 데이터 전달 방법 1) hidden으로 전달 -->
                         	<input type="hidden" name="userId" value="${loginMember.memId}">
                             <label for="userPwd" class="mr-sm-2">Password : </label>
-                            <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="inputPwd" name="memPwd"> <br>
+                            <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="inputPwd" name="memPwd" required> <br>
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer" align="center">
