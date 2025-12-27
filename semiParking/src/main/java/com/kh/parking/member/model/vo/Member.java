@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Member {
-		private String memId;				//	MEM_ID VARCHAR2(20) CONSTRAINT MEM_ID_PK PRIMARY KEY, 
-		private String memName;				//    MEM_NAME VARCHAR2(20) NOT NULL, 
-		private String memPwd;				//    MEM_PWD  VARCHAR2(100) NOT NULL,  
+		private String memId; 			//	MEM_ID VARCHAR2(20) CONSTRAINT MEM_ID_PK PRIMARY KEY, 
+		private String memName; 				//    MEM_NAME VARCHAR2(20) NOT NULL, 
+		private String memPwd; 	 		//    MEM_PWD  VARCHAR2(100) NOT NULL,  
 		private String vehicleId;				//    VEHICLE_ID VARCHAR2(20) NOT NULL,
 		private String email;				//    EMAIL VARCHAR2(50), 
 		private String phoneNum;				//    PHONENUM VARCHAR2(13), 

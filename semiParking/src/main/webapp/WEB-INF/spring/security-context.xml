@@ -5,11 +5,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.8.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
 	<!-- spring Bean configuration file로 생성하여 namespace에서 beans와 security체크 
 		비밀번호 암호화 처리를 해줄 수 있는 BcryptPasswordEncoder를 등록하여 사용할것
 	-->
-	<bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="bcrypt"></bean>
+	<bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="bcrypt"/>
 	
 	
 	
