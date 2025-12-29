@@ -59,10 +59,10 @@ public class parkingLotServiceImpl implements parkingLotService{
     	return dao.reserve(sqlSession, reservation);
     }
 
-	@Override
-	public Reservation reserveDetail(int rNo) {
-		return dao.reserveDetail(sqlSession,rNo);
-	}
+//	@Override
+//	public Reservation reserveDetail(int rNo) {
+//		return dao.reserveDetail(sqlSession,rNo);
+//	}
 
 	@Override
 	public ArrayList<Reservation> reserveList() {

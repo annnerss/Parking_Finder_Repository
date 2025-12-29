@@ -8,6 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<style>
+		.content-wrapper form { text-align:left; }
+	</style>
 </head>
 <body>
     
@@ -47,7 +50,7 @@
                 </div> 
                 <br>
                 <div class="btns" align="center">
-                    <button type="submit" class="btn btn-primary disabled" onclick="return validate();">회원가입</button>
+                    <button type="submit" class="btn disabled" onclick="return validate();">회원가입</button>
                     <!-- 중복 체크 하기전까진 비활성화 -->
                     <button type="reset" class="btn btn-delete">초기화</button>
                 </div>

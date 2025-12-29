@@ -227,27 +227,26 @@
 	
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
 	
+	
+	<div id="splash-screen">
+	    <img src="${contextRoot }/resources/Logo.jpg" alt="Logo" id="splash-logo">
+	</div>
+	
 	<script>
 		window.onload = function() {
 		    setTimeout(function() {
 		        const splash = document.getElementById('splash-screen');
-		        const mainContent = document.getElementById('main-content');
 	
 		        //사라지기
 		        splash.style.opacity = '0';
 	
 		        setTimeout(() => {
 		            splash.style.display = 'none';
-		            mainContent.style.display = 'block';
 		        }, 500);
 		        
 		    }, 1000);
 		};
 	</script>
-	
-	<div id="splash-screen">
-	    <img src="${contextRoot }/resources/Logo.jpg" alt="Logo" id="splash-logo">
-	</div>
 	
 	<div id="sidebar">
 		<div class="sidebar-top">
@@ -406,10 +405,6 @@
 	    			url : "searchKeywordParking.parking",
 	    			data : { value : value },
 	    			success : function(list) {
-	    				// 이제 목록을 어떻게 넣는가? 이게 문제.
-	    				console.log("통신 성공!");
-	    			    console.log(list);
-	    						
 	    				$("#searchHistory").empty();// 매번 DB에서 회원의 검색 기록을 조회 해오기 때문에 검색 기록이 누적 되는 상황이 발생한다.
 	    				
 		                // 따라서 비워주는 역할을 해두는게 좋다.
@@ -551,9 +546,6 @@
 						<p style="text-align:center; color:gray; font-size:13px;">리뷰를 불러오는 중...</p>
 					</div>
 				</div>
-				
-				
-				
 				<div id="sidebar-route-result-\${p.parkingNo}" style="margin-top:10px; font-size:13px; color:#333;"></div>
 			</div>
 		`;
@@ -562,7 +554,7 @@
 		$("#view-list").hide();
 		$("#view-detail").fadeIn(200);
 
-		// loadReviews(p.parkingNo);
+		loadReviews(p.parkingNo);
 	}
 
 	function addFavorite(parkingNo){
@@ -591,9 +583,8 @@
 
 	function loadReviews(parkingNo) {
 		$.ajax({
-			url: "reviewList.get",
-			type: "GET",
-			data: { parkingNo: parkingNo },
+			url: "reviewListView.rv",
+			data: { pNo: parkingNo },
 			dataType: "json",
 			success: function(list) {
 				const reviewArea = $("#review-area");
@@ -603,23 +594,42 @@
 					reviewArea.html('<div style="text-align:center; padding:20px; color:#999; background:#f9f9f9; border-radius:5px;">작성된 리뷰가 없습니다.</div>');
 					return;
 				}
-
+				
 				let html = "";
+
 				list.forEach(r => {
-					const stars = "⭐".repeat(r.rating);
+					const stars = "⭐".repeat(r.point);
 					
+					let imgHtml = "";
+				    if (r.attachmentList && r.attachmentList.length > 0) {
+				        imgHtml = `<div class="review-images" style="margin-top:10px; display: flex; gap: 5px; flex-wrap: wrap;">`;
+				    	
+				        r.attachmentList.forEach(img =>{
+				        	if (img && img.changeName) {
+				                const imgSrc = img.changeName;
+				                
+				                imgHtml += `
+				                    <img src="${contextRoot}\${img.changeName}" 
+				                         style="width:100px; height:100px; object-fit:cover; border-radius:5px; cursor:pointer; border:1px solid #eee;"
+				                         onclick="window.open(this.src)"
+				                         alt="리뷰 이미지"
+				                         onerror="this.style.display='none'">`;
+				        	}  
+				        });
+						imgHtml += `</div>`;
+				    }
+				    
 					html += `
 						<div class="review-item" style="border-bottom:1px solid #eee; padding: 10px 0;">
 							<div style="display:flex; justify-content:space-between; font-size:12px; color:#888; margin-bottom:5px;">
-								<span>\${r.reviewWriter}</span>
-								<span>\${r.createDate}</span>
+								<span>\${r.memId}</span>
 							</div>
 							<div style="color:#f39c12; font-size:13px; margin-bottom:3px;">\${stars}</div>
-							<div style="font-size:14px; color:#333; white-space:pre-wrap;">\${r.reviewContent}</div>
-						</div>
+							<div style="font-size:14px; color:#333; white-space:pre-wrap;">\${r.content}</div>
+							\${imgHtml}
+							</div>
 					`;
 				});
-
 				reviewArea.html(html);
 			},
 			error: function() {

@@ -71,14 +71,14 @@
 			  ,P_NAME
 			  ,MEM_ID
 		FROM RESERVATION
-		WHERE STATUS = 'Y'
+		WHERE STATUS IN ('Y','X')
 		ORDER BY RESERVATION_NO DESC
  	</select>
  	
  	<select id="reservationPage" resultMap="ReservationMap">
         SELECT *
         FROM RESERVATION
-        WHERE STATUS = 'Y'
+        WHERE STATUS IN ('Y','X')
         AND MEM_ID = #{memId}
     </select>
     
