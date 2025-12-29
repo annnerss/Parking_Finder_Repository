@@ -94,4 +94,9 @@ public class parkingLotServiceImpl implements parkingLotService{
 		dao.currentUpdate(sqlSession);
 	}
 
+	@Override
+	public int deletePost(int rNo) {
+		return dao.deletePost(sqlSession,rNo);
+	}
+
 }

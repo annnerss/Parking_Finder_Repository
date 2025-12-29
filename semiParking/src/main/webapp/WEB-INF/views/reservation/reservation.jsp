@@ -10,6 +10,7 @@
 	    #reserve-container div{ 
 		    text-align:left;
 	    }
+	    
 	</style>
 </head>
 <body>

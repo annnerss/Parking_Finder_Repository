@@ -67,6 +67,7 @@
  		SELECT RESERVATION_NO
 			  ,START_TIME
 			  ,END_TIME
+			  ,STATUS
 			  ,P_NAME
 			  ,MEM_ID
 		FROM RESERVATION
@@ -103,5 +104,11 @@
 		DELETE FROM PAYMENT
 		WHERE RESERVATION_NO = #{rNo}
 	</delete>
- 
+	
+	<update id="deletePost" parameterType="_int">
+		UPDATE RESERVATION
+		SET STATUS = 'X'
+		WHERE RESERVATION_NO = #{rNo}
+	</update>
+	
  </mapper>

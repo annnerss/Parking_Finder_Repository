@@ -256,7 +256,7 @@
 			</div>
 
 			<div class="search-box">
-				<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
+				<input type="text" name="keyword" id="keyword" placeholder="주차장 이름을 검색하세요">
 				<button type="button" class="btn" id="searchBtn">검색</button>
 			</div>
 
@@ -267,7 +267,6 @@
 		<div id="sidebar-content">
 			<div id="view-list">
 				<ul id="result-list">
-					<li style="padding: 20px; text-align: center; color:gray">주차장 이름을 검색하세요.</li>
 				</ul>
 			</div>
 
@@ -381,7 +380,7 @@
 		                        ul.append(
 		                            $("<li>")
 		                                .append("<span>" + h.searchContent + "</span>")
-		                                .append("<span class='history-date'>" + h.hDate + "</span>") //검색 내용 및 날짜를 띄우게 하기
+		                                .append("<span class='history-date'>" + h.hdate + "</span>") //검색 내용 및 날짜를 띄우게 하기
 		                        );
 		                    }
 		                }
@@ -471,7 +470,7 @@
             }
         });
 
-	    $("#searchHistory").on("mousedown", "li", function () {
+	    $("#searchHistory").on("mouseup", "li", function () {
 	        let selectedText = $(this).find("span").first().text();
 	        // 입력창 값 세팅
 	        $("#keyword").val(selectedText);
@@ -535,10 +534,9 @@
 				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px">
 					<h4 style="font-weight:bold; font-size:20px;">\${p.parkingName}</h4>
 					
-					<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
-	                    <input type="hidden" name="parkingNo" value="\${p.parkingNo}">
-	                    <button type="submit" class="btn btn-sm btn-outline-danger" style="font-size: 13px; padding: 5px 10px";>찜하기</button>
-	                </form>
+					<button type=button class="btn btn-delete" 
+					style="font-size: 13px; padding: 5px 10px"; 
+					onclick="addFavorite('\${p.parkingNo}')">찜하기</button>
 					
 				</div>
 				<div class="price-box" style="padding:15px; padding-bottom:0px; border-radius:8px;">

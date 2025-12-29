@@ -19,6 +19,15 @@
         text-align: center;
         color: #999;
     }
+    
+	#deleteModal .modal-content {
+	    background-color: #fdf1f2;   /* 연한 경고 핑크 */
+	    border: 2px solid #1A237E;
+	    border-radius: 15px;
+	}
+	
+	#deleteModal .modal-header,
+	#deleteModal .modal-footer { border: none; }
 </style>
 </head>
 <body>
@@ -27,7 +36,7 @@
 
     <div class="content-wrapper">
         <h2>예약 정보 목록</h2>
-        <table class="table table-hover">
+        <table class="table">
             <thead>
                 <tr>
                     <th width="10%">번호</th>
@@ -93,8 +102,8 @@
                 </div>
                 
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                    <button type="button" class="btn btn-danger" id="realDeleteBtn">삭제하기</button>
+                    <button type="button" class="btn" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-delete" id="realDeleteBtn">삭제하기</button>
                 </div>
                 
             </div>

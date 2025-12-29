@@ -22,4 +22,5 @@ public interface parkingLotService {
 	List<ParkingLot> searchParking(String keyword);
 	void currentUpdate();
     ArrayList<Reservation> reservePage(String memId);
+	int deletePost(int rNo);
 }
