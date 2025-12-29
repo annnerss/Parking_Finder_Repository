@@ -4,9 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>검색 결과</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<meta charset="UTF-8">
+	<title>검색 결과</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 
@@ -31,8 +31,6 @@
 
                 <div class="p-title">${p.parkingName}</div>
                 
-				
-	
                 <div class="p-info">
                     <span>기본 요금 : ${p.price}</span>
                     <span>시간당 추가요금 : ${p.priceTime}</span>

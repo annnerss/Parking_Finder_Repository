@@ -18,8 +18,8 @@
         }
         .container {
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(26, 35, 126,0.2); 
             width: 90%;
             max-width: 400px;
             padding: 20px;
@@ -69,25 +69,7 @@
             display: flex;
             gap: 10px;
         }
-        .primary-btn {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            flex-grow: 1;
-        }
-        .secondary-btn {
-            background-color: #f0f0f0;
-            color: #007bff;
-            border: 1px solid #007bff;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+        .primary-btn { flex-grow: 1; }
     </style>
 </head>
 <body>
@@ -112,7 +94,7 @@
 	    </div>
 	
 	    <div class="button-group">
-	        <button class="primary-btn" onclick="location.href='${pageContext.request.contextPath}'">🏠홈으로 돌아가기</button>
+	        <button class="btn primary-btn" onclick="location.href='${pageContext.request.contextPath}'">🏠홈으로 돌아가기</button>
 	    </div>
 </div>
 </body>

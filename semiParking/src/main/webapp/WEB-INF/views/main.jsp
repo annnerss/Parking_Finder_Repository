@@ -8,6 +8,26 @@
 <title>Parking Finder</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<style>
+		#splash-screen {
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100vh;
+		    background-color: white;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    z-index: 9999;
+		    transition: opacity 0.5s ease;
+		}
+		
+		/* 로고 */
+		#splash-logo {
+		    width: 300px;
+		    height: auto;
+		}
+		
 	    body {
 	        font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 	        background-color: #F5F6F8;
@@ -31,9 +51,9 @@
 	
 	    .search-box {
 			width: 80%;
-        	border-radius: 8px;
+        	border-radius: 15px;
 			z-index: 100;
-			background: #f8f9fa;
+			padding-left:10px;
 	        display: flex;
 	        gap: 10px;
 	    }
@@ -46,30 +66,16 @@
 	        border: 1px solid #ccc;
 	    }
 	
-	    .search-box button {
-	        padding: 12px 18px;
-	        border-radius: 8px;
-	        border: none;
-	        background-color: #3B82F6;
-	        color: white;
-	        font-weight: 600;
-	        cursor: pointer;
-	    }
-	
-	    .search-box button:hover {
-	        background-color: #2563EB;
-	    }
-
-		/*사이드 바 테스트 용*/
 		#sidebar {
             position: fixed;
             top: 0; left: -320px; /* 처음에 숨김 */
             bottom: 0;
             width: 350px;
-            background: #f8f9fa;
             z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            transition: left 0.3s ease; /* 부드러운 애니메이션 */
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(26, 35, 126,0.2);
+            border-radius: 15px;
+            transition: left 0.3s ease;
             display: flex;
             flex-direction: column;
         }
@@ -78,13 +84,13 @@
 			left:0;
 		}
 		#sidebar::after {
-			content: "▶"; /* 화살표 아이콘 */
+			content: "▶";
 			position: absolute;
 			top: 50%;
 			right: 10px; /* 닫혀있을 때 보이는 부분 */
 			transform: translateY(-50%);
 			font-size: 20px;
-			color: #007bff;
+			color: #1A237E;
 			cursor: pointer;
 			/* hover 되면 화살표 숨김 (선택사항) */
 			opacity: 1;
@@ -99,7 +105,7 @@
 		.sidebar-top{
 			position: relative;
 			flex: 0 0 auto;
-			background-color: #f8f9fa;
+			background-color: white;
 			z-index: 102;
 		}
 
@@ -116,7 +122,6 @@
 
 		.detail-sub-header{
 			padding: 10px 15px;
-			background-color: #2563EB;
 			border-bottom: 1px solid #fff;
 			position: sticky;
 			top: 0;
@@ -128,7 +133,7 @@
 
         .sidebar-header {
             padding: 20px;
-            background: #f8f9fa;
+            background: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -140,7 +145,8 @@
         #result-list {
             flex: 1;
             overflow-y: auto;
-            padding: 0;
+            padding-top: 10px;
+            padding-left:0px;
             margin: 0;
             list-style: none;
         }
@@ -150,7 +156,7 @@
             border-bottom: 1px solid #f1f1f1;
             cursor: pointer;
         }
-        .result-item:hover { background-color: #f0f7ff; }
+        .result-item:hover { background-color: #eff6ff; }
         .result-item h4 { margin: 0 0 5px 0; font-size: 16px; font-weight: bold; }
         .result-item p { margin: 0; color: #666; font-size: 13px; }
 
@@ -158,12 +164,12 @@
 	    /* :작은_아래쪽_화살표: 검색 기록 드롭다운 */
 	    #searchHistory {
 	        position: absolute;
-	        top: 110%;
-	        width: 100%;
-	        background-color: #f8f9fa;
-	        border-radius: 10px;
-	        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-	        padding: 12px;
+	        top: 100%;
+	        width: 75%;
+	        border-radius: 15px;
+	        box-shadow: 0 4px 20px rgba(26, 35, 126,0.2); 
+	        background: white;
+	        margin-left: 10px;
 	        display: none;
 	        max-height: 220px;
 	        overflow-y: auto;
@@ -220,16 +226,38 @@
 <body>
 	
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
-
+	
+	<script>
+		window.onload = function() {
+		    setTimeout(function() {
+		        const splash = document.getElementById('splash-screen');
+		        const mainContent = document.getElementById('main-content');
+	
+		        //사라지기
+		        splash.style.opacity = '0';
+	
+		        setTimeout(() => {
+		            splash.style.display = 'none';
+		            mainContent.style.display = 'block';
+		        }, 500);
+		        
+		    }, 1000);
+		};
+	</script>
+	
+	<div id="splash-screen">
+	    <img src="${contextRoot }/resources/Logo.jpg" alt="Logo" id="splash-logo">
+	</div>
+	
 	<div id="sidebar">
 		<div class="sidebar-top">
 			<div class="sidebar-header">
-				<span class="close-btn" onclick="$('#sidebar').removeClass('active')"><<</span>
+				<span class="close-btn" style="color:#1A237E; font-size:14px;" onclick="$('#sidebar').removeClass('active')"><<</span>
 			</div>
 
 			<div class="search-box">
 				<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
-				<button type="button" id="searchBtn">검색</button>
+				<button type="button" class="btn" id="searchBtn">검색</button>
 			</div>
 
 			<div id="searchHistory"></div>
@@ -245,7 +273,7 @@
 
 			<div id="view-detail" style="display: none;">
 				<div class="detail-sub-header">
-					<button type="button" class="back-btn" onclick="goBackToList()">
+					<button type="button" class="btn" onclick="goBackToList()">
 						&lt; 목록으로 돌아가기
 					</button>
 				</div>
@@ -253,12 +281,7 @@
 				<div id="detail-info-area"></div>
 			</div>
 		</div>	
-		<!-- <ul id="result-list">
-			<li style="padding: 20px; text-align: center; color:gray">검색어를 입력하세요</li>
-		</ul> -->
 	</div>
-
-	<!-- <button type="button" id="openSide">임시 버튼</button> -->
 	
 	
 	<!-- 지도 불러오기 -->
@@ -414,7 +437,7 @@
 		                        );
 		                    }
 		                }
-		                $("#searchHistory").append(ul).slideDown();  // 슬라이드 형식으로 나오게 하기 		
+		                $("#searchHistory").append(ul).slideDown();  // 슬라이드 형식으로 나오게 하기 	
 	    			},
 	    			
 	    			error : function(){
@@ -511,10 +534,14 @@
 			<div style="padding:20px;">
 				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px">
 					<h4 style="font-weight:bold; font-size:20px;">\${p.parkingName}</h4>
-				
-					<button type=button class="btn btn-sm btn-outline-danger" style="font-size: 13px; padding: 5px 10px"; onclick="addFavorite('\${p.parkingNo}')">찜하기</button>
+					
+					<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
+	                    <input type="hidden" name="parkingNo" value="\${p.parkingNo}">
+	                    <button type="submit" class="btn btn-sm btn-outline-danger" style="font-size: 13px; padding: 5px 10px";>찜하기</button>
+	                </form>
+					
 				</div>
-				<div class="price-box" style="background:#f8f9fa; padding:15px; border-radius:8px;">
+				<div class="price-box" style="padding:15px; padding-bottom:0px; border-radius:8px;">
 					<p> 기본: <strong>\${p.price}원</strong></p>
 					<p> 추가: <strong>\${p.priceTime}원</strong></p>
 				</div>
@@ -546,10 +573,20 @@
 			type: "POST",
 			data:{parkingNo: parkingNo},
 			success: function(result){
-				alert("찜하기 성공");
+				console.log("통신 성공!");
+				
+				if(result >= 1){
+					alert("찜 목록에 추가했습니다.");
+				}else if(result==0){
+					alert("이미 찜 목록에 있습니다.");
+				}
 			},
-			error: function(){
-				alert("찜하기 실패");
+			error: function(xhr){
+				if(xhr.status === 403){
+					alert(xhr.responseText);
+				}else{
+					alert("오류가 발생했습니다.");
+				}
 			}
 		})
 	}

@@ -8,21 +8,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
 	#replyListArea img { margin: auto;}
+	#replyListArea thead th{ background-color:white; padding:20px;}
+	#contentArea tbody tr{text-align:left;}
+	#contentArea tbody tr th{width:120px;padding-left:20px;}
+	#replyListArea textarea { border-radius:15px; }
+	#replyListArea textarea:hover { cursor:pointer; }
 </style>
 </head>
 <body>
 
 	<%@ include file = "/WEB-INF/views/common/menubar.jsp" %>
-	<div class="content">
-		<br><br>
-		<div class="innerOuter">
-			<h2>게시글 상세보기</h2>
-			<br>
-			
+	<div class="content-wrapper">
+		<h2>게시글 상세보기</h2>
 			<a class="btn btn-secondary" style="float:right;" href="${header.referer}">목록으로</a>
 			<br><br>
-			
-			<table id="contentArea" align="center" class="table">
+			<table id="contentArea" class="table">
 				<tr>
 					<th width="100">제목</th>
 					<td colspan="3">${q.QTitle}</td>
@@ -34,7 +34,7 @@
 					<td>${q.createDate}</td>
 				</tr>
 				<tr>
-					<th>주차장명</th>
+					<th>주차장 번호</th>
 					<td colspan="3">${q.PNo}</td>
 				</tr>
 				<tr>
@@ -42,7 +42,7 @@
 					<td colspan="3"></td>
 				</tr>
 				<tr>
-					<td colspan="4"><p style="height:150px;">${q.content}</p></td>
+					<td colspan="4" style="padding:20px;"><p style="height:150px;">${q.content}</p></td>
 				</tr>
 			</table>
 			<br>
@@ -52,7 +52,8 @@
 			<div align="center">
 				<c:if test="${loginMember.memId eq q.memId }">
 					<button type="button" id="updateBtn" class="btn btn-primary">수정하기</button>
-					<button type="button" id="deleteBtn" class="btn btn-danger">삭제하기</button>
+					<button type="button" id="deleteBtn" class="btn btn-delete">삭제하기</button>
+					<br><br>
 				</c:if>
 			</div>		
 		
@@ -113,7 +114,7 @@
 										  $("<td>").append(
 										  $("<img>").attr("src","https://img.icons8.com/?size=100&id=bd7IoT6bIayo&format=png&color=000000")
 										  			.attr("alt","쓰레기통 이미지")
-										  			.attr("style","width:20px;")));
+										  			.attr("style","width:20px; cursor:pointer;")));
 								//삭제하기 버튼
 								$("#replyListArea tbody").append(tr);
 							}
@@ -176,7 +177,7 @@
 				})
 			</script>	
 			
-			<table id="replyListArea" class="table" align="center">
+			<table id="replyListArea" class="table">
                 <thead>
                     <tr>
                         <th colspan="3">
@@ -192,15 +193,14 @@
                         <th style="vertical-align:middle"><button id="replyBtn" class="btn btn-secondary">댓글등록</button></th>
                     </tr>
                     <tr>
-                        <td colspan="4">댓글(<span id="rcount"></span>)</td>
+                        <td colspan="4" style="padding-left:20px; text-align:left;">댓글(<span id="rcount"></span>)</td>
                     </tr>
                 </thead>
                 <tbody>
                 	<!-- 댓글 들어가는 자리 -->
                 </tbody>
             </table>
-		</div><br>
-	</div>
+		</div>
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>

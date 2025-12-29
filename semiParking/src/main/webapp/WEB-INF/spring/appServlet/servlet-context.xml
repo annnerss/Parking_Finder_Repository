@@ -38,6 +38,7 @@
 			<mapping path="/payment/approve"/>
 			
 			<exclude-mapping path="/enrollForm.me"/>
+			<exclude-mapping path="/service.pk"/>
 			<exclude-mapping path="/login.me"/>
 			<exclude-mapping path="/insert.me"/>
 			<exclude-mapping path="/logout.me"/>

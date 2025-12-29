@@ -37,6 +37,11 @@ public class parkingLotController {
     private static final String CLIENT_ID = "sdqbu1mss0";
     private static final String CLIENT_SECRET = "gB3zDQBDw94fmjDFgrjuqIkU54nIumIqBnozlHPQ";
 
+    @RequestMapping("/service.pk")
+    public String servicePage() {
+    	return "/parkingMap/service";
+    }
+    
     //관리자용 주차장 디테일
     @GetMapping("/parkingDetail.get")
     public String parkingLotDetail(@RequestParam("pNo") String pNo,

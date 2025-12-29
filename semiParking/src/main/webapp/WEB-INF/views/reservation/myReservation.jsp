@@ -1,109 +1,136 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>예약 정보 목록</title>
+<title>내 예약 내역</title>
+<!-- jQuery & Bootstrap 4 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <style>
-	.content {
-        background-color:rgb(247, 245, 245);
-        width:80%;
-        margin:auto;
+    /* 데이터 없을 때 */
+    .empty-area {
+        padding: 60px 0;
+        text-align: center;
+        color: #999;
     }
-    .innerOuter {
-        border:1px solid lightgray;
-        width:80%;
-        margin:auto;
-        padding:5% 10%;
-        background-color:white;
-    }
-	#reserveList { background-color: #f4f4f4;}
-	#reserveList tbody t:hover {
-		background-color:#d4d4d4;
-		display: flex;
-        justify-content: center;
-        align-items: center;
-	}
 </style>
 </head>
 <body>
-	<%@include file="/WEB-INF/views/common/menubar.jsp" %>
-	<h2 style="text-align:center;">예약 리스트</h2>
-	<div class="content">
-		<br><br>
-		<div class="innerOuter">
-			<table id="reserveList">
-				<thead>
-					<tr>
-						<th>예약 번호</th>
-			            <th>예약 시작시간</th>
-			            <th>예약 종료시간</th>
-			            <th>주차장</th>
-			            <th>멤버 아이디</th>
-			            <th></th>
-		            </tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${list}" var="r">
-						<tr>
-							<td>${r.reservationNo }</td>
-							<td>${r.startTime }</td>
-							<td>${r.endTime }</td>
-							<td>${r.parkingName }</td>
-							<td>${r.memberId }</td>
-							<td><button type="button" class="btn btn-danger" id="deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}">삭제하기</button></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<script>
-				$(function(){
-					$("#deleteBtn").click(function(){
-						let rNo = $(this).data("reservationno");
-						$("#deleterNo").val(rNo);
-					});
-					
-					$("#deleteConfirm").click(function(){
-						let rNo = $("#deleterNo").val();
-						$.ajax({
-							url:"/parking/delete.re",
-							type: "POST",
-							data: {rNo : rNo},
-							success:function(){
-								location.reload();
-							},
-							error:function(){
-								alert("예약 내역 삭제를 실패했습니다");
-							}
-						});
-					});
-				});
-			</script>
-			
-			<div class="modal fade" id="deleteReserve">
-		        <div class="modal-dialog modal-sm">
-		            <div class="modal-content">
-		                <div class="modal-header">
-		                    <h4 class="modal-title">예약 삭제</h4>
-		                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-		                </div>
-		                <div class="modal-body">
-		                    <div align="center">
-		                        삭제 후 복구가 불가능합니다. <br>
-		                        정말로 삭제 하시겠습니까? <br>
-		                    </div>
-		                </div>
-		                <input type="hidden" id="deleterNo" name="deleterNo">
-		                <div class="modal-footer" align="center">
-		                   <button type="submit" class="btn btn-danger" id="deleteConfirm">삭제하기</button>
-		                </div>
-		            </div>
-		        </div>
-	    	</div>
-		</div>
-	</div>
-	
-	 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+    <%@ include file="/WEB-INF/views/common/menubar.jsp" %>
+
+    <div class="content-wrapper">
+        <h2>예약 정보 목록</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th width="10%">번호</th>
+                    <th width="20%">주차장</th>
+                    <th width="20%">시작 시간</th>
+                    <th width="20%">종료 시간</th>
+                    <th width="15%">아이디</th>
+                    <th width="15%">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:choose>
+                    <c:when test="${empty list}">
+                        <tr>
+                            <td colspan="6" class="empty-area">
+                                <h4>예약된 내역이 없습니다.</h4>
+                            </td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${list}" var="r">
+                            <tr>
+                                <td>${r.reservationNo}</td>
+                                <td>${r.parkingName}</td>
+                                <td>
+									<fmt:formatDate value="${r.startTime}" pattern="yyyy-MM-dd HH:mm"/>
+								</td>
+								<td>
+									<fmt:formatDate value="${r.endTime}" pattern="yyyy-MM-dd HH:mm"/>
+								</td>
+                                <td>${r.memberId}</td>
+                                <td>
+                                    <button type="button" 
+                                            class="btn btn-delete deleteBtn" 
+                                            data-toggle="modal" 
+                                            data-target="#deleteModal" 
+                                            data-reservationno="${r.reservationNo}">
+                                        예약 취소하기
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="deleteModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold">예약 취소</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body text-center p-4">
+                    <p style="font-size: 1.1rem; margin-bottom: 5px;">정말로 예약을 삭제하시겠습니까?</p>
+                    <p style="color: red; font-size: 0.9rem;">(삭제 후에는 복구가 불가능합니다.)</p>
+                
+                    <input type="hidden" id="modalReserveNo">
+                </div>
+                
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-danger" id="realDeleteBtn">삭제하기</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
+    <script>
+        $(function(){
+            
+            $(document).on("click", ".deleteBtn", function(){
+                let rNo = $(this).data("reservationno");
+                
+                $("#modalReserveNo").val(rNo);
+            });
+            
+            $("#realDeleteBtn").click(function(){
+                let rNo = $("#modalReserveNo").val();
+                
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/delete.re",
+                    type: "POST",
+                    data: { rNo : rNo },
+                    success: function(result){
+                        alert("예약이 정상적으로 취소되었습니다.");
+                        location.reload();
+                    },
+                    error: function(){
+                        alert("예약 취소에 실패했습니다. 관리자에게 문의하세요.");
+                    }
+                });
+            });
+            
+        });
+    </script>
+
 </body>
 </html>

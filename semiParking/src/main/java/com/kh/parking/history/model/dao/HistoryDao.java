@@ -68,4 +68,7 @@ public class HistoryDao {
 		
 	}
 	
+	public int updatehDate(SqlSessionTemplate sqlSession, HashMap<String, String> paramMap) {
+	    return sqlSession.update("historyMapper.updatehDate",paramMap); 
+	}
 }

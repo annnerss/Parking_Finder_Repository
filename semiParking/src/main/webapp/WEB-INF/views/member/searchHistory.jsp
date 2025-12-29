@@ -26,11 +26,11 @@
 
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
 
-	<h3>검색</h3>
+	<h2>검색</h2>
 	
 	<form action="${contextRoot}/search.parking" method="get">
   		<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요.">
-  		<button type="submit">검색</button>
+  		<button class="btn" type="submit">검색</button>
 	</form>
 	
 	<div id="searchHistory" class="search-form">

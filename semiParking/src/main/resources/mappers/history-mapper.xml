@@ -73,6 +73,13 @@
   	
   	</select>
   	
+  	<update id="updatehDate">
+      UPDATE HISTORY
+      SET H_DATE = SYSDATE
+      WHERE SEARCH_CONTENT = #{keyword}
+      AND REF_MID = #{memId}         
+    </update>
+  	
   	<resultMap id="parkingResultSet" type="ParkingLot">
 
 	    <!-- 1. PK (기본키) : 맨 위에 작성 -->

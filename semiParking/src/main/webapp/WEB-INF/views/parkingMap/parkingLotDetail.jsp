@@ -5,59 +5,45 @@
 <head>
 	<meta charset="UTF-8">
 	<title>주차장 상세 페이지</title>
-   <style>
-        .content {
-            background-color:rgb(247, 245, 245);
-            width:80%;
-            margin:auto;
-        }
-        .innerOuter {
-            border:1px solid lightgray;
-            width:80%;
-            margin:auto;
-            padding:5% 10%;
-            background-color:white;
-        }
-    </style>
+	<style>
+		.form-group label{ display: block; text-align: left; }
+		
+	</style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
    
-    <div class="content">
-        <br><br>
-        <div class="innerOuter">
-            <h2>주차장 상세 페이지</h2>
-            <br>
+    <div class="content-wrapper">
+        <h2>주차장 상세 페이지</h2>
             <form action="${contextRoot}/parkingUpdate.pk" method="post">
                 <div class="form-group">
-                    <label for="inputId">* 주차장 번호 : </label>
+                    <label for="parkingNo">* 주차장 번호 : </label>
                     <input type="text" class="form-control" id="parkingNo" name="parkingNo" value="${p.parkingNo}" readOnly> <br>
                     
-                    <label for="userName">* 주차장 이름 : </label>
+                    <label for="parkingName">* 주차장 이름 : </label>
                     <input type="text" class="form-control" id="parkingName" name="parkingName" value="${p.parkingName}" required> <br>
                     
-					<label for="vehicleId">* 주차장 여는 시간 : </label>
+					<label for="openTime">* 주차장 여는 시간 : </label>
 					<input type="text" class="form-control" id="openTime" name="openTime" value="${p.openTime}" required> <br>
 					
-					<label for="vehicleId">* 주차장 닫는 시간 : </label>
+					<label for="closeTime">* 주차장 닫는 시간 : </label>
 					<input type="text" class="form-control" id="closeTime" name="closeTime" value="${p.closeTime}" required> <br>                     
 
-					<label for="vehicleId">* 기본 요금 : </label>
+					<label for="price">* 기본 요금 : </label>
 					<input type="text" class="form-control" id="price" name="price" value="${p.price}" required> <br>
 					
-					<label for="vehicleId">* 시간당 요금 : </label>
+					<label for="priceTime">* 시간당 요금 : </label>
 					<input type="text" class="form-control" id="priceTime" name="priceTime" value="${p.priceTime}" required> <br>
 					
-                    <label for="email"> &nbsp;* 주인 연락처 : </label>
+                    <label for="phone"> &nbsp;* 주인 연락처 : </label>
                     <input type="text" class="form-control" id="phone" name="phone" value="${p.phone}"> <br>
 
-                    <label for="phoneNum"> &nbsp;* 운영 상태 : </label>
+                    <label for="status"> &nbsp;* 운영 상태 : </label>
                     <input type="tel" class="form-control" id="status" name="status" value="${p.status}"> <br>
                 </div> 
-                <br>
                 <div class="btns" align="center">
                     <button type="submit" class="btn btn-primary">수정하기</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteParking">삭제하기</button>
+                    <button type="button" class="btn btn-delete" data-toggle="modal" data-target="#deleteParking">삭제하기</button>
                 </div>
             </form>
         </div>
@@ -85,9 +71,6 @@
 	        </div>
     	</div>
 
-        <br><br>
-    </div>
-    
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

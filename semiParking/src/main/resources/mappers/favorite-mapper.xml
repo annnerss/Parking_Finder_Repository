@@ -39,4 +39,10 @@
 		<!-- 만약에 parkingNo로만 조건을 걸면 어떤 회원이던지간에 주차장번호가 100번을 찜 한 고객들을 조회 아이디는 하나만 필요하다.-->
 	</select>
 	
+	<delete id="removeFavorite" parameterType="map">
+        DELETE FROM FAVORITE
+        WHERE REF_MID = #{memId}
+        AND P_NO = #{parkingNo}
+    </delete>
+	
 </mapper>  
