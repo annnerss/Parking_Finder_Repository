@@ -65,7 +65,7 @@
                                             data-toggle="modal" 
                                             data-target="#deleteModal" 
                                             data-reservationno="${r.reservationNo}">
-                                        예약 취소하기
+                                        예약 취소
                                     </button>
                                 </td>
                             </tr>
