@@ -56,19 +56,36 @@
         WHERE STATUS = 'Y'
     </select>
     
+    <select id="searchParking" resultMap="parkingResultSet" parameterType="string">
+    	SELECT P_NO,P_NAME
+    	FROM PARKINGLOT
+    	WHERE STATUS='Y'
+    	AND P_NAME LIKE '%' || #{keyword} || '%'
+    </select>
+    
     <select id="parkingDetail" resultMap="parkingResultSet">
-        SELECT (P_NO,
+        SELECT P_NO,
         		P_NAME,
 				OPENTIME,
 				CLOSETIME,
 				PRICE,
 				PRICE_TIME,
 				PHONE,
-				STATUS)
+				STATUS
         FROM PARKINGLOT
         WHERE STATUS='Y'
         AND P_NO = #{parkingNo}
     </select>
+    
+    <update id="currentUpdate">
+        UPDATE PARKINGLOT P
+        SET P_CURRENT = P_TOTAL - (SELECT COUNT(*)
+						            FROM RESERVATION R
+						            WHERE R.P_NO = P.P_NO
+						            AND R.STATUS = 'Y'
+						            AND SYSDATE BETWEEN R.START_TIME AND R.END_TIME
+			        				)
+    </update>
     
     <update id="updateParking" parameterType="ParkingLot">
     	UPDATE PARKINGLOT

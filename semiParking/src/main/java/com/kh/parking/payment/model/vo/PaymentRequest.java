@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 
 public class PaymentRequest {
 	
-	@Getter
+	@Data
     @Builder
     @AllArgsConstructor(access = AccessLevel.PROTECTED)
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OrderRequest {
-		int reservationNo;
-		String memberId;
+		String partner_order_id;
+		String partner_user_id;
         String parkingName;
         String parkingNo;
-        int totalPrice;
+        int total_amount;
     }
 }

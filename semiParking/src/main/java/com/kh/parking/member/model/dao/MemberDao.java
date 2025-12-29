@@ -39,5 +39,11 @@ public class MemberDao {
 	public int deleteMember(SqlSessionTemplate sqlSession, Member loginMember) {
 		return sqlSession.delete("memberMapper.deleteMember", loginMember); 
 	}
+	
+	//회원 비밀번호 변경 
+	public int changeMemberPwd(SqlSessionTemplate sqlSession, Member loginMember) {
+		return sqlSession.update("memberMapper.changeMemberPwd", loginMember); 
+	}
+
 
 }

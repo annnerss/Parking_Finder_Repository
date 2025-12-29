@@ -17,7 +17,6 @@ public class Attachment {
 	private String changeName;
 	private String filePath;
 	private Date uploadDate;
-	private int fileLevel;
 	private String status;
 	
 }

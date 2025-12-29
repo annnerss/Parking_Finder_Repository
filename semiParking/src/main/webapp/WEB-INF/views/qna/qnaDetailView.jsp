@@ -16,7 +16,7 @@
 			<h2>게시글 상세보기</h2>
 			<br>
 			
-			<a class="btn btn-secondary" style="float:right;" href="${header.referer}">목록으로</a>
+			<a class="btn btn-secondary" style="float:right;" href="${contextRoot}/qnaListView.qn">목록으로</a>
 			<br><br>
 			<input type="hidden" id="qNo" value="${q.QNo }">
 			
@@ -83,23 +83,30 @@
 				        $("body").append(form);
 				        form.submit();
 				    });
-				});
+				
 						
-				//삭제하기 버튼 이벤트 동작 처리
-				$("#deleteBtn").click(function() { 
-					let flag = confirm("정말 삭제하시겠습니까?");
-					
-					if(flag) {
-						let form = $("<form>").attr("action","delete.qn").attr("method","post"); 
-	    				let qnoInput = $("<input>").attr("type","hidden")
-												   .attr("name","qno")
-												   .attr("value","${q.QNo}");
-	
-		    			//form에 input 요소 추가하고 body에 추가하여 submit() 요청하기
-						form.append(qnoInput);
-						$("body").append(form);
-						form.submit();
-					}
+					//삭제하기 버튼 이벤트 동작 처리
+					$("#deleteBtn").click(function() { 
+						let flag = confirm("정말 삭제하시겠습니까?");
+						if(loginMemId !== writerId) {
+							alert("작성자 본인만 수정할 수 있습니다.");
+							return;
+						}else {
+							let form = $("<form>").attr("action","delete.qn").attr("method","post"); 
+		    				let qnoInput = $("<input>").attr("type","hidden")
+													   .attr("name","qno")
+													   .attr("value","${q.QNo}");
+		    				
+		    				let replyList = $("<input>").attr("type","hidden")
+													     .attr("name","")
+													     .attr("value","");
+		
+			    			//form에 input 요소 추가하고 body에 추가하여 submit() 요청하기
+							form.append(qnoInput, replyList);
+							$("body").append(form);
+							form.submit();
+						}
+					});
 				});
 				
 				function replyList(){

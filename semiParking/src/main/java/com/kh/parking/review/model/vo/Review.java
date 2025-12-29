@@ -13,7 +13,10 @@ public class Review {
 	private int rNo;
 	private String memId;
 	private int point;
+	private String pNo;
 	private String content;
+	private String originName;
+	private String changeName;
 	private Date createDate;
 	private String status;
 }

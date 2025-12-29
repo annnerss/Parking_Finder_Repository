@@ -59,7 +59,7 @@
   	</select>
   	
   	<select id="searchKeywordParking" parameterType="string" resultMap="parkingResultSet">
-  		SELECT P_NAME
+  		SELECT *
   		FROM PARKINGLOT
   		WHERE P_NAME LIKE '%' || #{keyword} || '%'
   		ORDER BY P_NO ASC
@@ -72,6 +72,13 @@
   		AND REF_MID = #{memId} 
   	
   	</select>
+  	
+  	<update id="updatehDate">
+      UPDATE HISTORY
+      SET H_DATE = SYSDATE
+      WHERE SEARCH_CONTENT = #{keyword}
+      AND REF_MID = #{memId}         
+    </update>
   	
   	<resultMap id="parkingResultSet" type="ParkingLot">
 

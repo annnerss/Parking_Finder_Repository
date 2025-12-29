@@ -62,8 +62,6 @@ public class QnaController {
 		
 		Qna q = service.qnaDetail(qno);
 		
-		System.out.println(q);
-			
 		model.addAttribute("q", q);
 			
 		return "qna/qnaDetailView";
@@ -101,8 +99,6 @@ public class QnaController {
 		
 		Qna q = service.qnaDetail(qno);  //문의사항 글 상세조회
 		
-		System.out.println(q);
-		
 		//문의사항 글 수정하기 위해서 글 정보 조회하여 모델에 담기
 		model.addAttribute("q", q);
 		return "qna/qnaUpdateForm";
@@ -113,8 +109,6 @@ public class QnaController {
 	public String qnaUpdate(Qna q, HttpSession session) {
 		
 		int result = service.qnaUpdate(q);
-		
-		System.out.println(q);
 		
 		if(result > 0 ) { //정보수정 성공
 			session.setAttribute("alertMsg", "정보 수정 성공");

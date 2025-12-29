@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +18,8 @@
         }
         .container {
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(26, 35, 126,0.2); 
             width: 90%;
             max-width: 400px;
             padding: 20px;
@@ -68,25 +69,7 @@
             display: flex;
             gap: 10px;
         }
-        .primary-btn {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            flex-grow: 1;
-        }
-        .secondary-btn {
-            background-color: #f0f0f0;
-            color: #007bff;
-            border: 1px solid #007bff;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+        .primary-btn { flex-grow: 1; }
     </style>
 </head>
 <body>
@@ -97,20 +80,21 @@
 	
 	    <div class="details">
 	        <div class="detail-row">
-	            <span class="detail-label">하이파킹 AIA타워 주차장</span>
+	            <span class="detail-label">주차장</span>
+	            <span class="detail-value">${pay.item_name }</span>
 	        </div>
 	        <div class="detail-row">
-	            <span class="detail-label">예약 날짜</span>
-	            <span class="detail-value">2025-12-31</span>
+	            <span class="detail-label">결제 금액</span>
+	            <span class="detail-value"><fmt:formatNumber value="${pay.total_amount }" type="number" groupingUsed="true"/>원</span>
 	        </div>
 	        <div class="detail-row">
-	            <span class="detail-label">차량번호</span>
-	            <span class="detail-value">123가4567</span>
+	            <span class="detail-label">예약 시작 날짜</span>
+	            <span class="detail-value">${rStartDate }</span>
 	        </div>
 	    </div>
 	
 	    <div class="button-group">
-	        <button class="primary-btn" onclick="location.href='${pageContext.request.contextPath}'">🏠홈으로 돌아가기</button>
+	        <button class="btn primary-btn" onclick="location.href='${pageContext.request.contextPath}'">🏠홈으로 돌아가기</button>
 	    </div>
 </div>
 </body>

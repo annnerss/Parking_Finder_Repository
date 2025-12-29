@@ -34,7 +34,7 @@
 					</tr>
 					<tr>
 						<th><label for="qnaWriter">작성자</label></th>
-                        <td colspan="4"><input type="text" id="qnaWriter" name="memId" class="form-control" value="${loginMember.memId }" readonly></td>
+						<td colspan="4"><input type="text" id="qnaWriter" name="memId" class="form-control" value="${loginMember.memId }" readonly></td>
 					</tr>
 					<tr>
 						<th><label for="qnaTitle">제목</label></th>
