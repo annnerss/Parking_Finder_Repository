@@ -11,7 +11,7 @@ import com.kh.parking.review.model.vo.Review;
 public interface ReviewService {
 	
 	//리뷰 목록 조회
-	ArrayList<Review> reviewList(String parkingNo);
+	ArrayList<Review> reviewList(String pNo);
 
 	//리뷰 작성 
 //	int reviewInsert(Review r);

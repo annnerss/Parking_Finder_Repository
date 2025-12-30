@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +31,7 @@ public class ReviewController {
 	//리뷰 목록 조회
 	@ResponseBody
 	@RequestMapping("/reviewListView.rv")
-	public ArrayList<Review> reviewList(String pNo) {
+	public ArrayList<Review> reviewList(@RequestParam("pNo") String pNo) {
 		ArrayList<Review> list = service.reviewList(pNo);
 		if(list != null) {
 			System.out.println(list);
@@ -51,14 +52,11 @@ public class ReviewController {
 	//사진 포함 리뷰 작성 요청
 	@PostMapping("/photoInsert.rv")
 	public String photoInsert(Review r
-							  , ArrayList<MultipartFile> uploadFiles
+							  , @RequestParam("pNo") String pNo
+	                          , ArrayList<MultipartFile> uploadFiles
 							  , HttpSession session) {
 		
-		//임시 처리
-		String pNo = "122-1-000001";
 		r.setPNo(pNo);
-		
-		System.out.println(r);
 		
 		ArrayList<Attachment> atList = new ArrayList<>();
 		
@@ -86,7 +84,7 @@ public class ReviewController {
 		}
 		
 		
-		return "redirect:/reviewListView.rv";
+		return "redirect:/";
 	}
 	
 
@@ -106,8 +104,6 @@ public class ReviewController {
 //			
 //		}
 //		
-//		//임시 처리
-//		r.setPNo("122-1-000001");
 //		
 //		//리뷰 등록 처리
 //		int result = service.reviewInsert(r);

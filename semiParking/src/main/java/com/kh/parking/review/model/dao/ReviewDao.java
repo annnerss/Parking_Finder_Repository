@@ -18,8 +18,8 @@ public class ReviewDao {
 //	}
 
 	//리뷰 목록 조회
-	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, String parkingNo) {
-		ArrayList<Review> rList = (ArrayList)sqlSession.selectList("reviewMapper.reviewList", parkingNo);
+	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, String pNo) {
+		ArrayList<Review> rList = (ArrayList)sqlSession.selectList("reviewMapper.reviewList", pNo);
 		return (ArrayList)rList;
 	}
 

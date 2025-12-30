@@ -132,10 +132,6 @@
 			            }
 
 			            list.forEach(mc => {
-// 			            	const discount = (mc.DISCOUNT * 100) + "%";
-// 			                const issueDate = formatDate(mc.ISSUE_DATE);
-// 			                const expireDate = formatDate(mc.EXPIRE_DATE);
-// 			                const status = mc.STATUS === "Y" ? "사용 가능" : "사용 불가";
 			            	
 			                tbody.append(`
 			                    <tr>

@@ -1,237 +1,261 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Parking Finder</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<style>
-		#splash-screen {
-		    position: fixed;
-		    top: 0;
-		    left: 0;
-		    width: 100%;
-		    height: 100vh;
-		    background-color: white;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-		    z-index: 9999;
-		    transition: opacity 0.5s ease;
-		}
-		
-		/* 로고 */
-		#splash-logo {
-		    width: 300px;
-		    height: auto;
-		}
-		
-	    body {
-	        font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-	        background-color: #F5F6F8;
-			overflow-x: hidden;
-	    }
-	
-	    .search-wrap {
-	        width: 500px;
-	        margin: 20px auto;
-	        /* position: absolute; */
-			/* top : 20%;
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+#splash-screen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	transition: opacity 0.5s ease;
+}
+
+/* 로고 */
+#splash-logo {
+	width: 300px;
+	height: auto;
+}
+
+body {
+	font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+	background-color: #F5F6F8;
+	overflow-x: hidden;
+}
+
+.search-wrap {
+	width: 500px;
+	margin: 20px auto;
+	/* position: absolute; */
+	/* top : 20%;
 			left : 10%; */
-			z-index: 10;
-	    }
-	
-	    .search-title {
-	        font-size: 20px;
-	        font-weight: 700;
-	        margin-bottom: 15px;
-	    }
-	
-	    .search-box {
-			width: 80%;
-        	border-radius: 15px;
-			z-index: 100;
-			padding-left:10px;
-	        display: flex;
-	        gap: 10px;
-	    }
-	
-	    #keyword {
-	        flex: 1;
-	        padding: 12px 14px;
-	        font-size: 15px;
-	        border-radius: 8px;
-	        border: 1px solid #ccc;
-	    }
-	
-		#sidebar {
-            position: fixed;
-            top: 0; left: -320px; /* 처음에 숨김 */
-            bottom: 0;
-            width: 350px;
-            z-index: 1000;
-            background-color: white;
-            box-shadow: 0 4px 20px rgba(26, 35, 126,0.2);
-            border-radius: 15px;
-            transition: left 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
+	z-index: 10;
+}
 
-		#sidebar:hover{
-			left:0;
-		}
-		#sidebar::after {
-			content: "▶";
-			position: absolute;
-			top: 50%;
-			right: 10px; /* 닫혀있을 때 보이는 부분 */
-			transform: translateY(-50%);
-			font-size: 20px;
-			color: #1A237E;
-			cursor: pointer;
-			/* hover 되면 화살표 숨김 (선택사항) */
-			opacity: 1;
-			transition: opacity 0.2s;
-		}
+.search-title {
+	font-size: 20px;
+	font-weight: 700;
+	margin-bottom: 15px;
+}
 
-		/* 사이드바가 열리면 화살표 숨기기 */
-		#sidebar:hover::after {
-			opacity: 0;
-		}
+.search-box {
+	width: 80%;
+	border-radius: 15px;
+	z-index: 100;
+	padding-left: 10px;
+	display: flex;
+	gap: 10px;
+}
 
-		.sidebar-top{
-			position: relative;
-			flex: 0 0 auto;
-			background-color: white;
-			z-index: 102;
-		}
+#keyword {
+	flex: 1;
+	padding: 12px 14px;
+	font-size: 15px;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+}
 
-		#sidebar-content{
-			flex: 1;
-			overflow-y: auto;
-			position: relative;
-		}
+#sidebar {
+	position: fixed;
+	top: 0;
+	left: -320px; /* 처음에 숨김 */
+	bottom: 0;
+	width: 350px;
+	z-index: 1000;
+	background-color: white;
+	box-shadow: 0 4px 20px rgba(26, 35, 126, 0.2);
+	border-radius: 15px;
+	transition: left 0.3s ease;
+	display: flex;
+	flex-direction: column;
+}
 
-		#view-list, #view-detail{
-			width: 100%;
-			height: 100%;
-		}
+#sidebar:hover {
+	left: 0;
+}
 
-		.detail-sub-header{
-			padding: 10px 15px;
-			border-bottom: 1px solid #fff;
-			position: sticky;
-			top: 0;
-		}
+#sidebar::after {
+	content: "▶";
+	position: absolute;
+	top: 50%;
+	right: 10px; /* 닫혀있을 때 보이는 부분 */
+	transform: translateY(-50%);
+	font-size: 20px;
+	color: #1A237E;
+	cursor: pointer;
+	/* hover 되면 화살표 숨김 (선택사항) */
+	opacity: 1;
+	transition: opacity 0.2s;
+}
 
-        #sidebar.active {
-            left: 0; /* 활성화 시 보임 */
-        }
+/* 사이드바가 열리면 화살표 숨기기 */
+#sidebar:hover::after {
+	opacity: 0;
+}
 
-        .sidebar-header {
-            padding: 20px;
-            background: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.sidebar-top {
+	position: relative;
+	flex: 0 0 auto;
+	background-color: white;
+	z-index: 102;
+}
 
-        .sidebar-header h3 { margin: 0; font-size: 18px; }
-        .close-btn { font-size: 24px; cursor: pointer; color: #666; }
+#sidebar-content {
+	flex: 1;
+	overflow-y: auto;
+	position: relative;
+}
 
-        #result-list {
-            flex: 1;
-            overflow-y: auto;
-            padding-top: 10px;
-            padding-left:0px;
-            margin: 0;
-            list-style: none;
-        }
+#view-list, #view-detail {
+	width: 100%;
+	height: 100%;
+}
 
-        .result-item {
-            padding: 15px;
-            border-bottom: 1px solid #f1f1f1;
-            cursor: pointer;
-        }
-        .result-item:hover { background-color: #eff6ff; }
-        .result-item h4 { margin: 0 0 5px 0; font-size: 16px; font-weight: bold; }
-        .result-item p { margin: 0; color: #666; font-size: 13px; }
+.detail-sub-header {
+	padding: 10px 15px;
+	border-bottom: 1px solid #fff;
+	position: sticky;
+	top: 0;
+}
 
-	
-	    /* :작은_아래쪽_화살표: 검색 기록 드롭다운 */
-	    #searchHistory {
-	        position: absolute;
-	        top: 100%;
-	        width: 75%;
-	        border-radius: 15px;
-	        box-shadow: 0 4px 20px rgba(26, 35, 126,0.2); 
-	        background: white;
-	        margin-left: 10px;
-	        display: none;
-	        max-height: 220px;
-	        overflow-y: auto;
-	        z-index: 9999;
-	    }
-	
-	    #searchHistory ul {
-	        list-style: none;
-	        padding: 0;
-	        margin: 0;
-	    }
-	
-	    #searchHistory li {
-	        padding: 10px 12px;
-	        font-size: 14px;
-	        border-radius: 6px;
-	        cursor: pointer;
-	        display: flex;
-	        justify-content: space-between;
-	        color: #333;
-	    }
-	
-	    #searchHistory li:hover {
-	        background-color: #F1F5F9;
-	    }
-	
-	    .history-date {
-	        font-size: 12px;
-	        color: #999;
-	        margin-left: 10px;
-	        white-space: nowrap;
-	    }
-	
-	    .empty-history {
-	        text-align: center;
-	        font-size: 14px;
-	        color: #888;
-	        padding: 20px 0;
-	    }
-	
-	    .favorite-link {
-	        display: block;
-	        text-align: right;
-	        margin-top: 20px;
-	    }
-	
-	    .favorite-link a {
-	        text-decoration: none;
-	        color: #EF4444;
-	        font-weight: 600;
-	    }
-	</style>
+#sidebar.active {
+	left: 0; /* 활성화 시 보임 */
+}
+
+.sidebar-header {
+	padding: 20px;
+	background: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.sidebar-header h3 {
+	margin: 0;
+	font-size: 18px;
+}
+
+.close-btn {
+	font-size: 24px;
+	cursor: pointer;
+	color: #666;
+}
+
+#result-list {
+	flex: 1;
+	overflow-y: auto;
+	padding-top: 10px;
+	padding-left: 0px;
+	margin: 0;
+	list-style: none;
+}
+
+.result-item {
+	padding: 15px;
+	border-bottom: 1px solid #f1f1f1;
+	cursor: pointer;
+}
+
+.result-item:hover {
+	background-color: #eff6ff;
+}
+
+.result-item h4 {
+	margin: 0 0 5px 0;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.result-item p {
+	margin: 0;
+	color: #666;
+	font-size: 13px;
+}
+
+/* :작은_아래쪽_화살표: 검색 기록 드롭다운 */
+#searchHistory {
+	position: absolute;
+	top: 100%;
+	width: 75%;
+	border-radius: 15px;
+	box-shadow: 0 4px 20px rgba(26, 35, 126, 0.2);
+	background: white;
+	margin-left: 10px;
+	display: none;
+	max-height: 220px;
+	overflow-y: auto;
+	z-index: 9999;
+}
+
+#searchHistory ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#searchHistory li {
+	padding: 10px 12px;
+	font-size: 14px;
+	border-radius: 6px;
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	color: #333;
+}
+
+#searchHistory li:hover {
+	background-color: #F1F5F9;
+}
+
+.history-date {
+	font-size: 12px;
+	color: #999;
+	margin-left: 10px;
+	white-space: nowrap;
+}
+
+.empty-history {
+	text-align: center;
+	font-size: 14px;
+	color: #888;
+	padding: 20px 0;
+}
+
+.favorite-link {
+	display: block;
+	text-align: right;
+	margin-top: 20px;
+}
+
+.favorite-link a {
+	text-decoration: none;
+	color: #EF4444;
+	font-weight: 600;
+}
+</style>
 </head>
 <body>
-	
-	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
-	
-	
+
+	<%@ include file="/WEB-INF/views/common/menubar.jsp"%>
+
+
 	<div id="splash-screen">
-	    <img src="${contextRoot }/resources/Logo.jpg" alt="Logo" id="splash-logo">
+		<img src="${contextRoot }/resources/Logo.jpg" alt="Logo"
+			id="splash-logo">
 	</div>
-	
+
 	<script>
 		window.onload = function() {
 		    setTimeout(function() {
@@ -247,15 +271,17 @@
 		    }, 1000);
 		};
 	</script>
-	
+
 	<div id="sidebar">
 		<div class="sidebar-top">
 			<div class="sidebar-header">
-				<span class="close-btn" style="color:#1A237E; font-size:14px;" onclick="$('#sidebar').removeClass('active')"><<</span>
+				<span class="close-btn" style="color: #1A237E; font-size: 14px;"
+					onclick="$('#sidebar').removeClass('active')"><<</span>
 			</div>
 
 			<div class="search-box">
-				<input type="text" name="keyword" id="keyword" placeholder="주차장 이름을 검색하세요">
+				<input type="text" name="keyword" id="keyword"
+					placeholder="주차장 이름을 검색하세요">
 				<button type="button" class="btn" id="searchBtn">검색</button>
 			</div>
 
@@ -272,22 +298,21 @@
 			<div id="view-detail" style="display: none;">
 				<div class="detail-sub-header">
 					<button type="button" class="btn" onclick="goBackToList()">
-						&lt; 목록으로 돌아가기
-					</button>
+						&lt; 목록으로 돌아가기</button>
 				</div>
 
 				<div id="detail-info-area"></div>
 			</div>
-		</div>	
+		</div>
 	</div>
-	
-	
+
+
 	<!-- 지도 불러오기 -->
-	<%@ include file="/WEB-INF/views/parkingMap/parkingMap.jsp" %>
-	
-	
-	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
-	
+	<%@ include file="/WEB-INF/views/parkingMap/parkingMap.jsp"%>
+
+
+	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
 	<script>
 	$(function(){
 	
@@ -538,10 +563,15 @@
 					<p> 기본: <strong>\${p.price}원</strong></p>
 					<p> 추가: <strong>\${p.priceTime}원</strong></p>
 				</div>
+				
 
-				<div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 15px;">
-					<h5 style="font-weight:bold;">리뷰</h5>
-					
+
+				<div style="display: flex justify-content; align-items: center; margin-bottom:15px;">
+				<h4 style="font-weight:bold; font-size:20px;">리뷰</h4>
+					<button type=button class="btn btn-secondary"
+						style="font-size: 13px; padding: 5px 10px";
+						onclick="goReviewWrite('\${p.parkingNo}')">리뷰 작성</button>
+
 					<div id="review-area" style="margin-top:10px;">
 						<p style="text-align:center; color:gray; font-size:13px;">리뷰를 불러오는 중...</p>
 					</div>
@@ -556,7 +586,7 @@
 
 		loadReviews(p.parkingNo);
 	}
-
+	
 	function addFavorite(parkingNo){
 		$.ajax({
 			url: "${pageContext.request.contextPath}/favorites.parking",
@@ -579,6 +609,10 @@
 				}
 			}
 		})
+	}
+	
+	function goReviewWrite(parkingNo){
+		location.href = "${pageContext.request.contextPath}/reviewInsert.rv?pNo=" + parkingNo;
 	}
 
 	function loadReviews(parkingNo) {

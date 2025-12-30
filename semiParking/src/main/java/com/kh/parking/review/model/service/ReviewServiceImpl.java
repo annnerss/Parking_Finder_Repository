@@ -21,8 +21,10 @@ public class ReviewServiceImpl implements ReviewService{
 
 	//리뷰 목록 조회
 	@Override
-	public ArrayList<Review> reviewList(String parkingNo) {
-		return dao.reviewList(sqlSession, parkingNo);
+	public ArrayList<Review> reviewList(String pNo) {
+		
+		System.out.println(pNo);
+		return dao.reviewList(sqlSession, pNo);
 	}
 
 	//리뷰 작성
