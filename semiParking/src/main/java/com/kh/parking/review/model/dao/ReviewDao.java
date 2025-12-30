@@ -18,26 +18,18 @@ public class ReviewDao {
 //	}
 
 	//리뷰 목록 조회
-	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, String parkingNo) {
-		ArrayList<Review> rList = (ArrayList)sqlSession.selectList("reviewMapper.reviewList", parkingNo);
+	public ArrayList<Review> reviewList(SqlSessionTemplate sqlSession, String pNo) {
+		ArrayList<Review> rList = (ArrayList)sqlSession.selectList("reviewMapper.reviewList", pNo);
 		return (ArrayList)rList;
 	}
 
-	//리뷰 작성
-//	public int reviewInsert(SqlSessionTemplate sqlSession, Review r) {
-//
-//		return sqlSession.insert("reviewMapper.reviewInsert", r);
-//	}
-	
 	//사진 리뷰 작성
-	public int photoInsert(SqlSessionTemplate sqlSession, Review r) {
-
-		return sqlSession.insert("reviewMapper.photoInsert", r);
+	public int insertReview(SqlSessionTemplate sqlSession, Review r) {
+		return sqlSession.insert("reviewMapper.insertReview", r);
 	}
 
 	//첨부파일 추가
 	public int insertAttachement(SqlSessionTemplate sqlSession, ArrayList<Attachment> atList) {
-
 		return sqlSession.insert("reviewMapper.insertAttachment", atList);
 	}
 

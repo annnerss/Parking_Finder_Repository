@@ -24,4 +24,5 @@ public interface parkingLotService {
     ArrayList<Reservation> reservePage(String memId);
 	int deletePost(int rNo);
 	void expireUpdate();
+	void couponExpire();
 }

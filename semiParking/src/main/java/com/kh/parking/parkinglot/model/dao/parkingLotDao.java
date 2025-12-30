@@ -89,4 +89,8 @@ public class parkingLotDao {
 	public void expireUpdate(SqlSessionTemplate sqlSession) {
         sqlSession.update("reserveMapper.expireUpdate");
     }
+
+	public void couponExpire(SqlSessionTemplate sqlSession) {
+		sqlSession.update("couponMapper.couponExpire");
+	}
 }

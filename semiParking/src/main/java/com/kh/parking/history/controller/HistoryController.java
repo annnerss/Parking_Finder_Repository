@@ -39,12 +39,6 @@ public class HistoryController {
 	   
 	   ArrayList<History> selectHistory = service.selectHistory(memId); // 검색 내용 및 날짜를 담아둔 리스트
 
-        System.out.println(selectHistory);
-	   
-	   //만약에 selectHistory가 아예 없으면 -> 검색한 내용이 없습니다를 jsp페이지에 띄우면 된다.
-	   
-	   //근데 매번 검색 목록을 조회해오면 계속 목록이 늘어난다.
-	   
 	   return selectHistory; 
 	}
 	

@@ -53,5 +53,11 @@
 		AND MC.STATUS = 'Y'
 		ORDER BY MC.EXPIRE_DATE
 	</select>
+	
+	<update id="couponExpire">
+		UPDATE MEM_COUPON
+		SET STATUS = 'N'
+		WHERE EXPIRE_DATE &lt; SYSDATE
+	</update>
 
 </mapper>

@@ -542,6 +542,10 @@
 				<div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 15px;">
 					<h5 style="font-weight:bold;">리뷰</h5>
 					
+					<button type=button class="btn btn-secondary"
+						style="font-size: 13px; padding: 5px 10px";
+						onclick="goReviewWrite('\${p.parkingNo}')">리뷰 작성</button>
+					
 					<div id="review-area" style="margin-top:10px;">
 						<p style="text-align:center; color:gray; font-size:13px;">리뷰를 불러오는 중...</p>
 					</div>
@@ -580,12 +584,17 @@
 			}
 		})
 	}
+	
+	function goReviewWrite(parkingNo){
+		location.href = "${pageContext.request.contextPath}/reviewInsert.rv?pNo=" + parkingNo;
+	}
 
 	function loadReviews(parkingNo) {
 		$.ajax({
 			url: "reviewListView.rv",
 			data: { pNo: parkingNo },
 			dataType: "json",
+			cache: false,
 			success: function(list) {
 				const reviewArea = $("#review-area");
 				reviewArea.empty();

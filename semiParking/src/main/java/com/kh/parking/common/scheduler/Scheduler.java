@@ -16,5 +16,6 @@ public class Scheduler {
     public void currentUpdate(){
         service.currentUpdate();
         service.expireUpdate();
+        service.couponExpire();
     }
 }

@@ -122,6 +122,8 @@ public class QnaController {
 		@PostMapping("/delete.qn")  
 		public String qnaDelete(int qno, HttpSession session) {
 			//게시글 삭제 요청
+			
+			
 			int result = service.qnaDelete(qno);
 			
 			if(result > 0) {  //데이터베이스에서 삭제처리 성공

@@ -56,6 +56,11 @@
 	 	<property name="dataSource" ref="dataSource"></property>
 	 </bean>
 	 
+	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <property name="maxUploadSize" value="10485760" /> <!-- 최대 10MB -->
+	    <property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	 
 	<!-- servlet-context가 아닌 root-context에서 읽어야하는 component들 분리하기 -->
 	<!-- 
 		root-context에서 필요한 component들을 활성화 시키기 위해서 

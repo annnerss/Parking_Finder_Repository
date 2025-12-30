@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.parking.review.model.dao.ReviewDao;
 import com.kh.parking.review.model.vo.Attachment;
@@ -21,43 +22,28 @@ public class ReviewServiceImpl implements ReviewService{
 
 	//리뷰 목록 조회
 	@Override
-	public ArrayList<Review> reviewList(String parkingNo) {
-		return dao.reviewList(sqlSession, parkingNo);
+	public ArrayList<Review> reviewList(String pNo) {
+		return dao.reviewList(sqlSession, pNo);
 	}
 
-	//리뷰 작성
-//	@Override
-//	public int reviewInsert(Review r) {
-//
-//		return dao.reviewInsert(sqlSession, r);
-//	}
-	
 	//사진 리뷰 작성
 	@Override
+	@Transactional
 	public int photoInsert(Review r, ArrayList<Attachment> atList) {
 		
 		//게시글 정보 추가
-		int result = dao.photoInsert(sqlSession, r);
+		int result = dao.insertReview(sqlSession, r);
+		int result2 = 1;
 		
-		if(result > 0) {
-			if(atList != null && !atList.isEmpty()) {
-				for(Attachment a:atList) {
-					a.setRefRno(r.getRNo());
-				}	
-				
-				System.out.println(atList);
-				
-				System.out.println(r);
+		if(result > 0 && !atList.isEmpty()) {
+			for(Attachment a:atList) {
+				a.setRefRno(r.getRNo());
+				System.out.println(a);
+			}	
 			
-			
-				int result2 = dao.insertAttachement(sqlSession, atList);
-				
-				return result*result2;
-			}
-			return result;
+			result2 = dao.insertAttachement(sqlSession, atList);
 		}
-		return 0;
+		return (result > 0 && result2 > 0)?1:0;
 	}
-	
 
 }
