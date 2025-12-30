@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace ="couponMapper">
+	
+	<!-- 쿠폰 코드 확인 -->
+	<select id="selectCouponByCId" resultType="Coupon" parameterType="String">
+		SELECT *
+		FROM COUPON
+		WHERE C_ID = #{cId}
+		AND STATUS = 'Y'
+	</select>
+	
+	<!-- 중복 발급 쿠폰 확인 -->
+	<select id="countMemberCoupon" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEM_COUPON
+		WHERE MEM_ID = #{memId}
+		AND REF_CID = #{couponCode}
+		AND STATUS = 'Y'
+	</select>
+
+	<!-- 쿠폰 등록 -->
+	<insert id="couponInsert" parameterType="MemberCoupon">
+		INSERT INTO MEM_COUPON(
+			MEM_ID
+		   ,REF_CID
+		   ,ISSUE_DATE
+		   ,EXPIRE_DATE
+		   ,STATUS
+		)
+		VALUES(
+			#{memId}
+		   ,#{refCid}
+		   ,SYSDATE
+		   ,(SYSDATE + 6)
+		   ,'Y'
+		)
+	</insert>
+	
+	
+	<select id="couponList" resultType="map">
+		SELECT MC.REF_CID
+			  ,C.DISCOUNT
+			  ,MC.ISSUE_DATE
+			  ,MC.EXPIRE_DATE
+			  ,MC.STATUS
+		FROM MEM_COUPON MC
+		JOIN COUPON C ON MC.REF_CID = C.C_ID
+		WHERE MC.MEM_ID = #{memId}
+		AND MC.STATUS = 'Y'
+		ORDER BY MC.EXPIRE_DATE
+	</select>
+
+</mapper>

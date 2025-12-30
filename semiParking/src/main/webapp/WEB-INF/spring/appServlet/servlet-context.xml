@@ -36,7 +36,7 @@
 			<mapping path="/reserve.port"/>
 			<mapping path="/payment/ready"/>
 			<mapping path="/payment/approve"/>
-			<!-- <mapping path="/*.rv"/> -->
+			<mapping path="/*.rv"/>
 			
 			<exclude-mapping path="/enrollForm.me"/>
 			<exclude-mapping path="/service.pk"/>

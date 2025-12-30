@@ -246,7 +246,7 @@
 					            	<c:otherwise>
 						            	<!-- 일반 멤버용 메뉴 -->
 				               			<li><a href="${contextRoot }/reservePage.get">예약내역</a></li>
-				               			<li><a href="${contextRoot}">쿠폰등록</a></li>
+				               			<li><a href="${contextRoot}/couponPage.get">쿠폰등록</a></li>
 					            	</c:otherwise>
 				                </c:choose>
 			            	</c:otherwise>

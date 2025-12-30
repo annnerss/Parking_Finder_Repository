@@ -67,6 +67,7 @@
                                             class="btn btn-delete deleteBtn" 
                                             data-toggle="modal" 
                                             data-target="#deleteModal" 
+                                            style="white-space: nowrap;"
                                             data-reservationno="${r.reservationNo}" disabled>
                                         승인 대기중...
                                     	</button>
