@@ -227,27 +227,26 @@
 	
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
 	
+	
+	<div id="splash-screen">
+	    <img src="${contextRoot }/resources/Logo.jpg" alt="Logo" id="splash-logo">
+	</div>
+	
 	<script>
 		window.onload = function() {
 		    setTimeout(function() {
 		        const splash = document.getElementById('splash-screen');
-		        const mainContent = document.getElementById('main-content');
 	
 		        //사라지기
 		        splash.style.opacity = '0';
 	
 		        setTimeout(() => {
 		            splash.style.display = 'none';
-		            mainContent.style.display = 'block';
 		        }, 500);
 		        
 		    }, 1000);
 		};
 	</script>
-	
-	<div id="splash-screen">
-	    <img src="${contextRoot }/resources/Logo.jpg" alt="Logo" id="splash-logo">
-	</div>
 	
 	<div id="sidebar">
 		<div class="sidebar-top">
@@ -256,7 +255,7 @@
 			</div>
 
 			<div class="search-box">
-				<input type="text" name="keyword" id="keyword" placeholder="검색어를 입력하세요">
+				<input type="text" name="keyword" id="keyword" placeholder="주차장 이름을 검색하세요">
 				<button type="button" class="btn" id="searchBtn">검색</button>
 			</div>
 
@@ -267,7 +266,6 @@
 		<div id="sidebar-content">
 			<div id="view-list">
 				<ul id="result-list">
-					<li style="padding: 20px; text-align: center; color:gray">주차장 이름을 검색하세요.</li>
 				</ul>
 			</div>
 
@@ -381,7 +379,7 @@
 		                        ul.append(
 		                            $("<li>")
 		                                .append("<span>" + h.searchContent + "</span>")
-		                                .append("<span class='history-date'>" + h.hDate + "</span>") //검색 내용 및 날짜를 띄우게 하기
+		                                .append("<span class='history-date'>" + h.hdate + "</span>") //검색 내용 및 날짜를 띄우게 하기
 		                        );
 		                    }
 		                }
@@ -407,10 +405,6 @@
 	    			url : "searchKeywordParking.parking",
 	    			data : { value : value },
 	    			success : function(list) {
-	    				// 이제 목록을 어떻게 넣는가? 이게 문제.
-	    				console.log("통신 성공!");
-	    			    console.log(list);
-	    						
 	    				$("#searchHistory").empty();// 매번 DB에서 회원의 검색 기록을 조회 해오기 때문에 검색 기록이 누적 되는 상황이 발생한다.
 	    				
 		                // 따라서 비워주는 역할을 해두는게 좋다.
@@ -471,7 +465,7 @@
             }
         });
 
-	    $("#searchHistory").on("mousedown", "li", function () {
+	    $("#searchHistory").on("mouseup", "li", function () {
 	        let selectedText = $(this).find("span").first().text();
 	        // 입력창 값 세팅
 	        $("#keyword").val(selectedText);
@@ -535,10 +529,9 @@
 				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px">
 					<h4 style="font-weight:bold; font-size:20px;">\${p.parkingName}</h4>
 					
-					<form action="${contextRoot}/favorites.parking" method="post" style="display:inline;">
-	                    <input type="hidden" name="parkingNo" value="\${p.parkingNo}">
-	                    <button type="submit" class="btn btn-sm btn-outline-danger" style="font-size: 13px; padding: 5px 10px";>찜하기</button>
-	                </form>
+					<button type=button class="btn btn-delete" 
+					style="font-size: 13px; padding: 5px 10px"; 
+					onclick="addFavorite('\${p.parkingNo}')">찜하기</button>
 					
 				</div>
 				<div class="price-box" style="padding:15px; padding-bottom:0px; border-radius:8px;">
@@ -553,9 +546,6 @@
 						<p style="text-align:center; color:gray; font-size:13px;">리뷰를 불러오는 중...</p>
 					</div>
 				</div>
-				
-				
-				
 				<div id="sidebar-route-result-\${p.parkingNo}" style="margin-top:10px; font-size:13px; color:#333;"></div>
 			</div>
 		`;
@@ -591,12 +581,10 @@
 		})
 	}
 
-	//리뷰 페이지 보이는 부분
 	function loadReviews(parkingNo) {
 		$.ajax({
-			url: "/parking/reviewListView.rv",
-			type: "GET",
-			data: { parkingNo: parkingNo },
+			url: "reviewListView.rv",
+			data: { pNo: parkingNo },
 			dataType: "json",
 			success: function(list) {
 				const reviewArea = $("#review-area");
@@ -606,30 +594,42 @@
 					reviewArea.html('<div style="text-align:center; padding:20px; color:#999; background:#f9f9f9; border-radius:5px;">작성된 리뷰가 없습니다.</div>');
 					return;
 				}
-
+				
 				let html = "";
+
 				list.forEach(r => {
 					const stars = "⭐".repeat(r.point);
 					
+					let imgHtml = "";
+				    if (r.attachmentList && r.attachmentList.length > 0) {
+				        imgHtml = `<div class="review-images" style="margin-top:10px; display: flex; gap: 5px; flex-wrap: wrap;">`;
+				    	
+				        r.attachmentList.forEach(img =>{
+				        	if (img && img.changeName) {
+				                const imgSrc = img.changeName;
+				                
+				                imgHtml += `
+				                    <img src="${contextRoot}\${img.changeName}" 
+				                         style="width:100px; height:100px; object-fit:cover; border-radius:5px; cursor:pointer; border:1px solid #eee;"
+				                         onclick="window.open(this.src)"
+				                         alt="리뷰 이미지"
+				                         onerror="this.style.display='none'">`;
+				        	}  
+				        });
+						imgHtml += `</div>`;
+				    }
+				    
 					html += `
 						<div class="review-item" style="border-bottom:1px solid #eee; padding: 10px 0;">
 							<div style="display:flex; justify-content:space-between; font-size:12px; color:#888; margin-bottom:5px;">
 								<span>\${r.memId}</span>
-								<span>\${r.createDate}</span>
 							</div>
 							<div style="color:#f39c12; font-size:13px; margin-bottom:3px;">\${stars}</div>
 							<div style="font-size:14px; color:#333; white-space:pre-wrap;">\${r.content}</div>
-						</div>
+							\${imgHtml}
+							</div>
 					`;
-					
-					let changeName = "${r.changeName}";
-					
-					if (!changeName === "") {
-						<img src="${pageContext.request.contextPath}/resources/uploadFiles/${r.changeName}"
-								style="width:120px"; height:auto;">
-					}
 				});
-
 				reviewArea.html(html);
 			},
 			error: function() {

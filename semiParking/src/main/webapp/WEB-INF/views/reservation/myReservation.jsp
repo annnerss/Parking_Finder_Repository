@@ -13,12 +13,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
-    /* 데이터 없을 때 */
-    .empty-area {
-        padding: 60px 0;
-        text-align: center;
-        color: #999;
-    }
+	#deleteModal .modal-content {
+	    background-color: #fdf1f2;   /* 연한 경고 핑크 */
+	    border: 2px solid #1A237E;
+	    border-radius: 15px;
+	}
+	
+	#deleteModal .modal-header,
+	#deleteModal .modal-footer { border: none; }
 </style>
 </head>
 <body>
@@ -27,7 +29,7 @@
 
     <div class="content-wrapper">
         <h2>예약 정보 목록</h2>
-        <table class="table table-hover">
+        <table class="table">
             <thead>
                 <tr>
                     <th width="10%">번호</th>
@@ -42,8 +44,8 @@
                 <c:choose>
                     <c:when test="${empty list}">
                         <tr>
-                            <td colspan="6" class="empty-area">
-                                <h4>예약된 내역이 없습니다.</h4>
+                            <td colspan="6">
+                                <p>예약된 내역이 없습니다.</p>
                             </td>
                         </tr>
                     </c:when>
@@ -60,13 +62,24 @@
 								</td>
                                 <td>${r.memberId}</td>
                                 <td>
-                                    <button type="button" 
+                                    <c:if test="${r.status eq 'X' }">
+										<button type="button" 
+                                            class="btn btn-delete deleteBtn" 
+                                            data-toggle="modal" 
+                                            data-target="#deleteModal" 
+                                            data-reservationno="${r.reservationNo}" disabled>
+                                        승인 대기중...
+                                    	</button>
+									</c:if>
+									<c:if test="${r.status eq 'Y' }">
+										<button type="button" 
                                             class="btn btn-delete deleteBtn" 
                                             data-toggle="modal" 
                                             data-target="#deleteModal" 
                                             data-reservationno="${r.reservationNo}">
                                         예약 취소
-                                    </button>
+                                    	</button>	
+									</c:if>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -93,8 +106,8 @@
                 </div>
                 
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                    <button type="button" class="btn btn-danger" id="realDeleteBtn">삭제하기</button>
+                    <button type="button" class="btn" data-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-delete" id="realDeleteBtn">삭제하기</button>
                 </div>
                 
             </div>

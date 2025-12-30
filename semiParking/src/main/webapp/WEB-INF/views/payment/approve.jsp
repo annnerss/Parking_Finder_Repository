@@ -1,19 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>예약권 결제 완료</title>
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic&display=swap" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>예약권 결제 완료</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            font-family:'Nanum Gothic';
             margin: 0;
         }
         .container {
@@ -69,7 +68,25 @@
             display: flex;
             gap: 10px;
         }
-        .primary-btn { flex-grow: 1; }
+        
+        .btn{
+        	flex:1;
+	    	background-color: white;
+	    	border: 2px solid #1A237E;
+	    	border-radius:15px;
+	    	color:#1A237E;
+	    	cursor:pointer;
+	    	font-weight: 600;
+	    	font-size: 17px;
+	    	width:50%;
+	    	transition: 0.2s;
+	    }
+	    
+	    .btn:hover{
+	    	background-color: #1A237E;
+	    	border: 2px solid white;
+	    	color: white;
+	    }
     </style>
 </head>
 <body>
@@ -94,7 +111,7 @@
 	    </div>
 	
 	    <div class="button-group">
-	        <button class="btn primary-btn" onclick="location.href='${pageContext.request.contextPath}'">🏠홈으로 돌아가기</button>
+	        <button class="btn" onclick="location.href='${pageContext.request.contextPath}'">홈으로 돌아가기</button>
 	    </div>
 </div>
 </body>

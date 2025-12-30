@@ -27,13 +27,14 @@
 	
 	#searchBtn{
 		position:absolute;
-		width:20%;
+		width:15%;
 		padding: 5px;
 	}
 	
 	#searchListDiv{
 		position:absolute;
 		width:80%;
+		margin-left:37px;
 		max-length: 220px;
 		border-radius: 8px;
 		border: 2px solid black;

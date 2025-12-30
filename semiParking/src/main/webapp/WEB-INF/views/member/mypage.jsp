@@ -28,7 +28,7 @@
 		/* 모달 전체 스타일 */
 		#deleteForm .modal-content {
 		    background-color: #fdf1f2;   /* 연한 경고 핑크 */
-		    border: 2px solid #1A237E;      /* 검은 테두리 */
+		    border: 2px solid #1A237E;
 		    border-radius: 15px;
 		}
 		

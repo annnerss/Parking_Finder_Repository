@@ -5,29 +5,26 @@
 <head>
 <meta charset="UTF-8">
 <title>서비스 소개 - Parking Finder</title>
-
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<!-- FontAwesome (아이콘) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<!-- AOS Animation Library (스크롤 시 부드러운 애니메이션) -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Gothic&display=swap" rel="stylesheet">
+	<!-- jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!-- Bootstrap 4 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<!-- FontAwesome (아이콘) -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<!-- AOS Animation Library (스크롤 시 부드러운 애니메이션) -->
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <style>
-    /* 폰트 설정 */
     body {
-        font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-        color: #333;
+        font-family:'Nanum Gothic';
+        color: white;
         overflow-x: hidden;
     }
 
-    /* 1. 히어로 섹션 (메인 배너) */
     .hero-section {
-        /* 세련된 블루-퍼플 그라디언트 배경 */
-        background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        background: #1A237E;
         color: white;
         height: 500px;
         display: flex;
@@ -37,7 +34,6 @@
         overflow: hidden;
     }
 
-    /* 배경에 은은한 패턴 추가 (선택사항) */
     .hero-bg-pattern {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
@@ -61,7 +57,7 @@
 
     .btn-hero {
         background-color: white;
-        color: #2563EB;
+        color: #1A237E;
         font-weight: 700;
         padding: 15px 40px;
         border-radius: 50px;
@@ -79,7 +75,6 @@
         color: #2563EB;
     }
 
-    /* 2. 특징 섹션 (카드 UI) */
     .features-section {
         padding: 100px 0;
         background-color: #F8F9FA;
@@ -111,7 +106,7 @@
     .icon-box {
         width: 80px; height: 80px;
         background-color: #EFF6FF;
-        color: #3B82F6;
+        color: #1A237E;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -123,16 +118,14 @@
     .feature-card h3 { font-weight: 700; margin-bottom: 15px; font-size: 1.4rem; }
     .feature-card p { color: #666; line-height: 1.6; }
 
-    /* 3. 통계 섹션 (아이콘 + 숫자) */
     .stats-section {
         padding: 80px 0;
         background-color: white;
     }
     .stat-item { text-align: center; margin-bottom: 30px; }
-    .stat-number { font-size: 3rem; font-weight: 800; color: #3B82F6; }
-    .stat-label { font-size: 1.1rem; font-weight: 600; color: #4B5563; }
+    .stat-number { font-size: 3rem; font-weight: 800; color: #1A237E; }
+    .stat-label { font-size: 1.1rem; font-weight: 600; color: black; }
 
-    /* 4. 하단 CTA (Call To Action) */
     .cta-section {
         background: #111827;
         color: white;

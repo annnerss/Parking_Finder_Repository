@@ -1,5 +1,7 @@
 package com.kh.parking.review.model.vo;
 import java.sql.Date;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,4 +21,6 @@ public class Review {
 	private String changeName;
 	private Date createDate;
 	private String status;
+	
+	private List<Attachment> attachmentList; 
 }

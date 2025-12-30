@@ -14,13 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.parking.review.model.service.ReviewService;
 import com.kh.parking.review.model.vo.Attachment;
 import com.kh.parking.review.model.vo.Review;
-
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 public class ReviewController {
@@ -29,20 +28,17 @@ public class ReviewController {
 	private ReviewService service;
 	
 	//리뷰 목록 조회
+	@ResponseBody
 	@RequestMapping("/reviewListView.rv")
-	public String reviewList(Review r, Model model) {
-		
-		//임시 처리
-		String pNo = "122-1-000001";
-		r.setPNo(pNo);
-		
+	public ArrayList<Review> reviewList(String pNo) {
 		ArrayList<Review> list = service.reviewList(pNo);
+		if(list != null) {
+			System.out.println(list);
+		}else {
+			System.out.println("리스트 비어있음");
+		}
 		
-		model.addAttribute("list", list);
-		
-		System.out.println(list);
-		
-		return "review/reviewListView";
+		return list;
 	}
 	
 	//리뷰 작성 페이지 이동

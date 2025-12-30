@@ -41,38 +41,23 @@ public class FavoriteController {
     	return "member/favoriteParking"; 
     }
     
-    //예를 들어서, 어떤 주차장에 찜하기 버튼이 있다고 가정 
-    //버튼을 눌렀을 때 주차장 이름에 대한 데이터를 갖고오기(이때 갖고 올때 form태그를 작성 후, 갖고 오는 바인딩 변수를 주차장 고유번호(P_NO로)
-    //주차장 고유 식별 번호는 hidden 태그로 처리 해서 갖고 오면 될듯하다. 
+  // 12/27 추가
+    @ResponseBody
     @PostMapping("/favorites.parking")
-    public String insertFavorite(HttpSession session,String parkingNo) {
-       
-       Member loginMember = (Member) session.getAttribute("loginMember");
-       
-       String memId = loginMember.getMemId(); // 세션에서 멤버 아이디 갖고 오기 
-       
-        System.out.println(parkingNo);
-       
-       // memId와 pno를 둘 다 전달 받아야한다. 
-       
-       HashMap<String, String> paramMap = new HashMap<>(); // dao에서 데이터를 넣을 때는 -> 파라미터 변수에 객체 하나만 넣을 수 있음.
-       
-       paramMap.put("memId", memId); // 아이디 맵에 넣기
-       paramMap.put("parkingNo", parkingNo); // 주차장 관리 번호 맵에 넣기 
-       int result = service.insertFavorite(paramMap);
-       
-       if(result > 0) {
-          session.setAttribute("alertMsg","찜 목록에 추가하였습니다."); 
-       } else {
-          session.setAttribute("alertMsg","이미 찜 목록에 있습니다."); 
-       }
-       
-       return "redirect:/"; // 일단은 주차장 목록에 키워드 검색에 대한 정보가 없어서 임시방편으로 처리 
-       
-       //return "redirect:/searchList?keyword="+keyword+"&searchBno="+bno; (현재 페이지로 이동) 
-       
-       //찜 목록을 넣는걸 성공하든 실패하든 현재 페이지 그대로 냅둬야한다.
-    
+      public int insertFavorite(HttpSession session,@RequestParam("parkingNo") String parkingNo) {
+      	
+      	Member loginMember = (Member) session.getAttribute("loginMember");
+      	
+      	String memId = loginMember.getMemId(); // 세션에서 멤버 아이디 갖고 오기
+      	
+      	HashMap<String, String> paramMap = new HashMap<>(); // dao에서 데이터를 넣을 때는 -> 파라미터 변수에 객체 하나만 넣을 수 있음.
+      	
+      	paramMap.put("memId", memId); // 아이디 맵에 넣기
+      	paramMap.put("parkingNo", parkingNo); // 주차장 관리 번호 맵에 넣기
+      	int result = service.insertFavorite(paramMap); // 중복됐으면 result -> 0 안됐으면 result는 1이상.
+      		
+      	return result; //1이상이면 찜 목록에 추가 아니면 추가 X
+      	
     }
     
     //찜 목록에서 삭제하기 버튼을 눌렀으면 비동기 통신을 이용하여 DB에서 삭제 및 jsp파일에서도 삭제 

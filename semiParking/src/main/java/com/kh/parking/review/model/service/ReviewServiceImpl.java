@@ -19,17 +19,9 @@ public class ReviewServiceImpl implements ReviewService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	//리뷰 총 개수
-//	@Override
-//	public int listCount() {
-//		
-//		return dao.listCount(sqlSession);
-//	}
-
 	//리뷰 목록 조회
 	@Override
 	public ArrayList<Review> reviewList(String parkingNo) {
-		
 		return dao.reviewList(sqlSession, parkingNo);
 	}
 

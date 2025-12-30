@@ -10,15 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주차권 결제 정보</title>
     <style>
-		.container {
-		    width: 100%;
-		    max-width: 450px;
-		    margin: 0 auto;
-		    background-color: #fff;
-		    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-		    padding-bottom: 80px;
-		}
-		
+    	.content-wrapper{ padding: 10px 100px;}
 		.main-info-section {
 		    background-color: #1A237E;
 		    border-radius: 15px;

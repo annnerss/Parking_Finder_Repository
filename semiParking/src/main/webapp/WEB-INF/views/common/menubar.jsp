@@ -204,13 +204,6 @@
             	<li class="logo"><img src="https://img.icons8.com/?size=100&id=15263&format=png&color=000000" style="width:30px" onclick="toggleMenu1()"></li>
             </ul>
             
-            <!-- 위치 변경 해야함!!! -->
-            <ul>
-            	<!-- 리뷰 페이지 임시 저장용 -->
-                <li><a href="${contextRoot }/reviewListView.rv">리뷰</a></li>
-            </ul>
-            
-            
             <div id="menu1">
             	<ul>
 		               	<c:choose>
@@ -254,7 +247,7 @@
 					            	<c:otherwise>
 						            	<!-- 일반 멤버용 메뉴 -->
 				               			<li><a href="${contextRoot }/reservePage.get">예약내역</a></li>
-				               			<li><a href="${contextRoot}">쿠폰등록</a></li>
+				               			<li><a href="${contextRoot}/couponPage.get">쿠폰등록</a></li>
 					            	</c:otherwise>
 				                </c:choose>
 			            	</c:otherwise>
