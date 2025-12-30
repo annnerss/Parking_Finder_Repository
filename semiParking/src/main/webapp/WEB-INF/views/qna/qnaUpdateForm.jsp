@@ -10,16 +10,13 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
 	
-	<div class="content"> 
-		<br>
-		<div class="innerOuter">
+	<div class="content-wrapper"> 
 			<h2>문의사항 글 수정하기</h2>
 			<br>
-			
 			<form id="updateForm" method="post" action="qnaUpdate.qn" >
 				<!-- 어떤 게시글을 수정할 것인지 식별자가 필요하기 때문에 게시글 번호 전달하기 -->
 				<input type="hidden" name="qNo" value="${q.QNo }">
-				<table align="center">
+				<table class="table table-hover">
 					<tr>
 						<th id="qnaRange">공개 범위 설정</th>
 						<td><input type="radio" id="all" class="form-control" name="qType" value="0" checked></td>
@@ -52,13 +49,6 @@
 				</div>
 			</form>
 		</div>
-	</div>
-	
-	
-	
-	
-	
-	
 	
 	
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />

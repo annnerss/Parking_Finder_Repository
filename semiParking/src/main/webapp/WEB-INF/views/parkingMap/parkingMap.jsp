@@ -5,101 +5,62 @@
 <meta charset="UTF-8">
 <title>주차장 예약 (네이버 지도)</title>
 <style>
-    /* [1] 지도를 화면에 꽉 채우기 위한 필수 설정 
-    body, html { 
-        margin: 0; 
-        padding: 0; 
-        height: 100%; 
-        overflow: hidden; /* 스크롤 방지
-    }*/
-    
     #map {
-    	margin-left: 100px;
-    	margin-right: 100px;
+    	margin-top:60px;
+    	margin-left: 80px;
+    	margin-right: 80px;
         height: 100vh; /* 화면 전체 높이 */
         z-index: 1;
     }
     
-    /* [2] 검색창 스타일 (지도 위에 둥둥 떠있어야 함) */
-    #search-box {
-        position: absolute;
-        top: 20px; 
-        left: 20px; 
-        z-index: 100; /* 지도보다 위에 오도록 설정 */
-        background: white; 
-        padding: 15px; 
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        display: flex; 
-        gap: 10px;
+    div:has(.iw_inner){
+    	min-width: 280px;
+        border-radius:15px;
+        height:220px;
     }
     
-    #search-box input { 
-        padding: 8px; 
-        width: 200px; 
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-    
-    #search-box button { 
-        padding: 8px 15px; 
-        cursor: pointer; 
-        background: #007bff; 
-        color: white; 
-        border: none; 
-        border-radius: 4px;
-        font-weight: bold;
-    }
-    
-    /* [3] 인포윈도우(정보창) 디자인 */
     .iw_inner { 
         padding: 5px; 
-        min-width: 280px; /* 창 넓이 확보 */
+        min-width: 280px;
+        height:220px;
+        border-radius:15px;
+        border:2px solid #1A237E;
     }
     
     .iw_inner h4 { 
-        margin: 0 0 10px 0; 
-        font-size: 18px; 
+        margin: 10px; 
         font-weight: bold; 
         border-bottom: 1px solid #eee;
         padding-bottom: 5px;
     }
     
-    .iw_inner p { 
-        margin: 5px 0; 
-        font-size: 14px; 
-        color: #555; 
-    }
+    .iw_inner p { margin: 10px; }
 
-    /* [4] 버튼 그룹 스타일 */
-    .btn-group { 
-        display: flex; 
-        gap: 5px; 
+    .btns { 
         margin-top: 15px; 
+        margin-bottom: 10px;
+        justify-content: space-between;
+        display: flex;
     }
     
-    .btn-reserve, .btn-route {
-        flex: 1; /* 반반 채우기 */
-        padding: 8px 0;
-        border: none;
-        border-radius: 4px;
-        color: white;
+    .btns .btn {
+        margin: 0 5px;
+        flex: 1;
+        text-align: center; 
+        border-radius: 15px;
+        color: #1A237E;
         cursor: pointer;
-        font-size: 13px;
         font-weight: bold;
     }
-
-    .btn-reserve { background-color: #28a745; } /* 초록색 */
-    .btn-reserve:hover { background-color: #218838; }
-
-    .btn-route { background-color: #007bff; }   /* 파란색 */
-    .btn-route:hover { background-color: #0069d9; }
     
+    .btns .btn:hover { background:#1A237E; color:white; }
+
     .time-highlight { 
         color: #d63384; 
         font-weight: bold; 
         font-size: 15px; 
     }
+    
 </style>
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -141,7 +102,7 @@
                     map: map,
                     title: "내 위치",
                     icon: {
-                        content: '<div style="width:20px;height:20px;background:blue;border-radius:50%;border:2px solid white;box-shadow:0 0 5px black;"></div>',
+                        content: '<div style="border-spacing: 0;overflow: hidden;min-width: 280px;border-radius:15px;"></div>',
                         anchor: new naver.maps.Point(10, 10)
                     }
                 });
@@ -189,22 +150,22 @@
                 <p>총 주차면: \${parking.total}면</p>
                 <p> 현재 주차 가능 주차면: \${parking.current}면</p>
 
-                <div class="btn-group">
+                <div class="btns">
 	                <c:choose>
 	                	<c:when test="\${empty loginMember}">
-		                	<button class="btn-reserve" style="background-color:lightgray"
+		                	<button class="btn" style="background-color:lightgray"
 		                        onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${parking.parkingNo}'" disabled>
 		                        예약
 		                    </button>
 	                	</c:when>
 	                	<c:otherwise>
-		                	<button class="btn-reserve"
+		                	<button class="btn"
 		                        onclick="location.href='${pageContext.request.contextPath}/reservation.get?parkingNo=\${parking.parkingNo}'">
 		                        예약
 		                    </button>
 	                	</c:otherwise>
 	                </c:choose>
-                    <button class="btn-route" 
+                    <button id="route" class="btn" 
                         onclick="findRoute(\${lat}, \${lng}, '\${parking.parkingName}', this)">
                         길찾기
                     </button>
@@ -297,7 +258,7 @@
                     if(btnElement) {
                         // 버튼 글씨를 "15분 (3km)" 형태로 변경하고 클릭 방지
                         btnElement.innerHTML = `<b>\${durationStr}</b> <small>(\${distanceStr})</small>`;
-                        btnElement.style.backgroundColor = "#555"; // 색상 변경
+                        //btnElement.style.backgroundColor = "#1A237E"; // 색상 변경
                         btnElement.disabled = true; // 중복 클릭 방지
                     } else {
                         alert(`소요시간: \${durationStr}, 거리: \${distanceStr}`);

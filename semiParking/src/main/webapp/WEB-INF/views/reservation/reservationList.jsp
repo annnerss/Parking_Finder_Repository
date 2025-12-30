@@ -5,43 +5,20 @@
 <head>
 <meta charset="UTF-8">
 <title>예약 정보 목록</title>
-<style>
-	.content {
-        background-color:rgb(247, 245, 245);
-        width:80%;
-        margin:auto;
-    }
-    .innerOuter {
-        border:1px solid lightgray;
-        width:80%;
-        margin:auto;
-        padding:5% 10%;
-        background-color:white;
-    }
-	#reserveList { background-color: #f4f4f4;}
-	#reserveList tbody t:hover {
-		background-color:#d4d4d4;
-		display: flex;
-        justify-content: center;
-        align-items: center;
-	}
-</style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/menubar.jsp" %>
-	<h2 style="text-align:center;">예약 리스트</h2>
-	<div class="content">
-		<br><br>
-		<div class="innerOuter">
-			<table id="reserveList">
+	<div class="content-wrapper">
+		<h2>예약 리스트</h2>
+			<table class="table table-hover" id="reserveList">
 				<thead>
 					<tr>
-						<th>예약 번호</th>
-			            <th>예약 시작시간</th>
-			            <th>예약 종료시간</th>
-			            <th>주차장</th>
-			            <th>멤버 아이디</th>
-			            <th></th>
+			            <th width="10%">예약 번호</th>
+	                    <th width="25%">예약 시작시간</th>
+	                    <th width="25%">예약 종료시간</th>
+	                    <th width="20%">주차장</th>
+	                    <th width="10%">멤버 아이디</th>
+	                    <th width="10%">관리</th>
 		            </tr>
 				</thead>
 				<tbody>
@@ -52,7 +29,14 @@
 							<td>${r.endTime }</td>
 							<td>${r.parkingName }</td>
 							<td>${r.memberId }</td>
-							<td><button type="button" class="btn btn-danger deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}">삭제하기</button></td>
+							<td>
+								<c:if test="${r.status eq 'X' }">
+									<button type="button" class="btn btn-delete deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}">삭제</button>
+								</c:if>
+								<c:if test="${r.status eq 'Y' }">
+									<button type="button" class="btn btn-delete deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}" disabled>삭제</button>
+								</c:if>
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -107,7 +91,6 @@
 		        </div>
 	    	</div>
 		</div>
-	</div>
 	
 	 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

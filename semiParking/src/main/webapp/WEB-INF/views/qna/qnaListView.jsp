@@ -7,25 +7,10 @@
 <meta charset="UTF-8">
 <title>게시글 목록 조회</title>
 <style>
-	.content {
-        background-color:rgb(247, 245, 245);
-        width:80%;
-        margin:auto;
-    }
-    
-    .innerOuter {
-        border:1px solid lightgray;
-        width:80%;
-        margin:auto;
-        padding:5% 10%;
-        background-color:white;
-    }
-    
 	#qnaList>tbody>tr:hover {cursor:pointer;}
 	.select, .text{display: inline-block;}
 	#pagingArea{ width:fit-content; margin:auto; }
-	#qnaList{width:100%;}
-	
+	.text .input{ border-radius: 15px; }
 </style>
 
 </head>
@@ -33,18 +18,18 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
 
-	<div class="content">
-		<br><br>
-		<div class="innerOuter">
-			<h2 class="text-center">문의사항 게시판</h2>
+	<div class="content-wrapper">
+			<h2>문의사항 게시판</h2>
 			<br>
 			
 			<!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
 			<c:if test="${not empty loginMember }">
 	            <a class="btn btn-secondary" style="float:right;" href="${contextRoot}/qnaInsert.qn">글쓰기</a>
+            	<br>
+            	<br>
             </c:if>
 			
-			<table id="qnaList" align="center" border="1">
+			<table class="table table-hover" id="qnaList" align="center">
 				<thead>
 					<tr>
 						<th>글 번호</th>
@@ -145,7 +130,7 @@
 	    	</div>
 		
 			<!-- 요청 경로 시작 : list.qn 또는 search.qn -->
-			<c:url var="url" value="${empty map?'list.qn':'search.qn' }">
+			<c:url var="url" value="${empty map?'qnaListView.qn':'search.qn' }">
 				
 				<c:if test="${not empty map }">
 					<c:param name="condition">${map.condition }</c:param>
@@ -155,7 +140,7 @@
 				<!-- currentPage 값은 페이징바 만드는 반복문에서 각 페이지 숫자 넣어줄 것 -->
 				<c:param name="page"></c:param>
 			</c:url>
-	
+			<br>
 			<div id="pagingArea">
 				<ul class="pagination">
 					<c:choose>
@@ -206,13 +191,12 @@
 				</div>
 			
 				<div class="text">
-					<input type="text" class="form-control" name="keyword" value="${map.keyword }">
+					<input type="text" class="input form-control" name="keyword" value="${map.keyword }">
 				</div>
-				<button type="submit">검색</button>	
+				<button class="btn" type="submit">검색</button>	
 			</form>
 			<br><br>
 		</div>
-	</div>
 		
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>

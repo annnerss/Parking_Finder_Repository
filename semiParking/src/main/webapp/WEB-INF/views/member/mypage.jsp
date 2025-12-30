@@ -8,25 +8,47 @@
     <title>Document</title>
     
     <style>
-        .content {
-            background-color:rgb(247, 245, 245);
-            width:80%;
-            margin:auto;
-        }
-        .innerOuter {
-            border:1px solid lightgray;
-            width:80%;
-            margin:auto;
-            padding:5% 10%;
-            background-color:white;
-        }
-        
+    	.form-group{ text-align:left; }
+    	
+		/* 헤더 / 푸터 기본 선 제거 */
+		#changePwdModal .modal-header,
+		#changePwdModal .modal-footer {
+		    border: none;                /*파란 화살표 선 제거 */
+		}
+		
+		/* 버튼 가운데 정렬 */
+		#changePwdModal .modal-footer {
+		    display: flex;
+		    justify-content: center;
+		    gap: 12px;
+		}
+		
+		/* 탈퇴랑 관련된 모달 css */
+		
+		/* 모달 전체 스타일 */
+		#deleteForm .modal-content {
+		    background-color: #fdf1f2;   /* 연한 경고 핑크 */
+		    border: 2px solid #1A237E;
+		    border-radius: 15px;
+		}
+		
+		/* header / footer 선 제거 */
+		#deleteForm .modal-header,
+		#deleteForm .modal-footer {
+		    border: none;                /*가로선 제거*/
+		}
+		
+		/* footer 버튼 가운데 정렬 */
+		#deleteForm .modal-footer {
+		    display: flex;
+		    justify-content: center;
+		}
         .activate {
 		    padding: 10px 18px;
-		    border-radius: 12px;           
-		    border: none;
-		    background-color: #2ecc71;      /* 초록색 */
-		    color: #fff;
+		    border-radius: 15px;           
+		    border: 2px solid #2ecc71;;
+		    background-color: white;      /* 초록색 */
+		    color: #2ecc71;;
 		    font-size: 14px;
 		    font-weight: 600;
 		    cursor: pointer;
@@ -34,21 +56,24 @@
 		}
 
 		/* hover */
-		.activate:hover {
+		.activate:hover, .activate:active {
 		    background-color: #27ae60;
-		    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.35);
+		    color:white;
+		    border: 2px solid white;
 		}
 		
-		/* 클릭 시 */
-		.activate:active {
-		    background-color: #1e8449;
-		    box-shadow: 0 2px 6px rgba(46, 204, 113, 0.3);
+		#changeBtn:disabled{ 
+			background-color: #cccccc; 
+			border: 2px solid gray;
+		    color: #666666;
+		    cursor: not-allowed;
+		    opacity: 0.7; 
 		}
 		
-		/* 포커스 (접근성) */
-		.activate:focus {
-		    outline: none;
-		    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.35);
+		.btn-secondary:focus{
+			background-color: #1A237E;
+	    	border: 2px solid white;
+	    	color: white;
 		}
     </style>
 </head>
@@ -56,18 +81,9 @@
 	
     <%@ include file="/WEB-INF/views/common/menubar.jsp" %>
    
-    <div class="content">
-        <br><br>
-        <div class="innerOuter">
-            <h2>마이페이지</h2>
+    <div class="content-wrapper">
+        <h2>마이페이지</h2>
             <br>
-			<!-- 
-				수정하기 : updateMember()  / update.me
-				성공시 로그인정보 갱신,정보수정 성공 메시지 / 마이페이지로 이동
-				실패시 정보수정 실패 메시지 alert / 마이페이지로 이동  
-				 		
-			
-			 -->
             <form action="${contextRoot}/update.me" method="post">
                 <div class="form-group">
                     <label for="inputId">* 아이디 : </label>
@@ -76,17 +92,6 @@
                     <label for="userName">* 이름 : </label>
                     <input type="text" class="form-control" id="myPageName" placeholder="이름을 입력하세요." name="memName" value="${loginMember.memName}" required> <br>
                     
-					<!--  
-                    <label for="inputPwd">* 비밀번호 : </label>
-                    <input type="password" class="form-control" id="myPagePwd" placeholder="비밀번호를 입력하세요.(영문,숫자,특수문자 포함 8~16자)" name="memPwd" required> <br>
-                    <div id="resultPwd" style="font-size:0.8em; display:none"></div>
-                    
-                    <label for="checkPwd">* Password Check : </label>
-                    <input type="password" class="form-control" id="checkPwd" placeholder="확인 비밀번호를 입력하세요." required> <br>
-                    <div id="resultCheckPwd" style="font-size:0.8em; display:none"></div>
-                    -->
-                    
-
 					<label for="vehicleId">* 주차차량 : </label>
 					<input type="text" class="form-control" id="vehicleId" name="vehicleId" value="${loginMember.vehicleId}" required> <br>                     
 
@@ -100,25 +105,21 @@
                 </div> 
                 <br>
                 <div class="btns" align="center">
-                	
                 	<!-- 추가 (12/23) 만약에 휴면 계정일때 휴면 해제 버튼 보이게끔 설정 -->
                 	<c:if test="${loginMember.status eq 'H'}">
                 		<button type="submit" class="activate">휴면 해제</button>
                 	</c:if>
                 
                 	<c:if test="${loginMember.status eq 'Y'}">
-	                    <button type="submit" class="btn btn-primary">수정하기</button>
-	                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#changePwdModal">
+	                    <button type="submit" class="btn">수정하기</button>
+	                    <button type="button" class="btn" data-toggle="modal" data-target="#changePwdModal">
 						        비밀번호 변경
 						</button>
-	                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">회원탈퇴</button>
-	                    
+	                    <button type="button" class="btn btn-delete" data-toggle="modal" data-target="#deleteForm">회원탈퇴</button>
                     </c:if>
                 </div>
             </form>
         </div>
-        <br><br>
-    </div>
     
     <!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
     <div class="modal fade" id="deleteForm">
@@ -146,7 +147,7 @@
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
+                        <button type="submit" class="btn btn-delete">탈퇴하기</button>
                     </div>
                 </form>
             </div>
@@ -189,9 +190,8 @@
 		
 		                <!-- Modal footer -->
 		                <div class="modal-footer" align="center">
-		                    <button type="submit" id="changeBtn" class="btn btn-primary" disabled>변경하기</button>
-		                    <button type="button" class="btn btn-secondary"
-		                            data-dismiss="modal">취소</button>
+		                    <button type="submit" id="changeBtn" class="btn" disabled>변경하기</button>
+		                    <button type="button" class="btn btn-delete" data-dismiss="modal">취소</button>
 		                </div>
 		            </form>
 		

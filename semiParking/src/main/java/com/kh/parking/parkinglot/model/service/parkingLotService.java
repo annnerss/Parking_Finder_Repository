@@ -13,7 +13,7 @@ public interface parkingLotService {
     int updateParking(ParkingLot p);
     int deleteParking(String pNo);
     int reserve(Reservation reservation);
-	Reservation reserveDetail(int rNo);
+	//Reservation reserveDetail(int rNo);
 	ArrayList<Reservation> reserveList();
 	int deleteReserve(int rNo);
 	int deletePayment(int rNo);
@@ -22,4 +22,5 @@ public interface parkingLotService {
 	List<ParkingLot> searchParking(String keyword);
 	void currentUpdate();
     ArrayList<Reservation> reservePage(String memId);
+	int deletePost(int rNo);
 }

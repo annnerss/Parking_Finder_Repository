@@ -18,6 +18,8 @@
         <typeAlias type="com.kh.parking.member.model.vo.Favorite" alias="Favorite"/>
         <typeAlias type="com.kh.parking.qna.model.vo.Qna" alias="Qna"/>
         <typeAlias type="com.kh.parking.qna.model.vo.Reply" alias="Reply"/>
+        <typeAlias type="com.kh.parking.review.model.vo.Review" alias="Review"/>
+        <typeAlias type="com.kh.parking.review.model.vo.Attachment" alias="Attachment"/>
   	</typeAliases>
   
   </configuration>

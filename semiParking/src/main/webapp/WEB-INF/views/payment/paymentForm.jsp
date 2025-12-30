@@ -10,27 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주차권 결제 정보</title>
     <style>
-		body {
-		    font-family: Arial, sans-serif;
-		    margin: 0;
-		    padding: 0;
-		    background-color: #f4f4f4; /* Light gray background for contrast */
-		    color: #333;
-		}
-		
-		.container {
-		    width: 100%;
-		    max-width: 450px; /* Max width typical for mobile view */
-		    margin: 0 auto;
-		    background-color: #fff; /* White background for main content */
-		    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-		    padding-bottom: 80px; /* Space for the fixed bottom button */
-		}
-		
-		/* --- Main Info Section (Blue Header) --- */
+    	.content-wrapper{ padding: 10px 100px;}
 		.main-info-section {
-		    background-color: #007bff; /* Bright blue color */
-		    color: #fff;
+		    background-color: #1A237E;
+		    border-radius: 15px;
+		    color: white;
 		    padding: 20px 15px;
 		    text-align: center;
 		}
@@ -47,43 +31,30 @@
 		    margin: 0 0 10px 0;
 		}
 		
-		.duration {
-		    font-size: 14px;
-		    margin: 0;
-		}
+		.duration { font-size: 14px; margin: 0; }
 		
 		.note-box {
-		    background-color: #eaf4ff; /* Lighter blue for the note box */
-		    border: 1px solid #b3d7ff;
+		    background-color: #eff6ff;
+		    border: 2px solid #1A237E;
 		    padding: 10px;
-		    border-radius: 5px;
+		    border-radius: 15px;
 		    flex: 1;
 		    margin: 15px;
 		    text-align:center;
 		}
 		
-		.note-box p {
-		    margin: 0 0 5px 0;
-		    font-size: 13px;
-		}
+		.note-box p { margin: 0 0 5px 0; font-size: 13px; }
 		
-		.note-box p:last-child {
-		    margin-bottom: 0;
-		}
+		.note-box p:last-child { margin-bottom: 0; }
 		
-		.note-box .warning {
-		    color: #dc3545;
-		    font-weight: bold;
-		}
+		.note-box .warning { color: #dc3545; font-weight: bold; }
 		
-		.guidelines-section {
-		    padding: 15px;
-		}
+		.guidelines-section { padding: 15px; }
 		
 		.guidelines-section h2 {
-		    color: #007bff;
+		    color: #1A237E;
 		    font-size: 18px;
-		    border-bottom: 1px solid #eee;
+		    border-bottom: 1px solid #1A237E;
 		    padding-bottom: 5px;
 		}
 		
@@ -98,39 +69,49 @@
 		    font-size: 14px;
 		}
 		
-		/* --- Fixed Bottom Button --- */
 		.bottom-bar {
 		    background-color: #fff;
 		    padding: 10px 15px;
-		    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+		    box-shadow: 0 4px 20px rgba(26, 35, 126, 0.2); 
 		    text-align: center;
+		    border-radius: 15px;
 		}
 		
 		#btn-pay-ready {
-		    width: 100%;
+		    width: 90%;
+		    color: #1A237E;
+		    border-radius: 15px;
 		    padding: 15px;
-		    background-color: #ffc107; /* Yellow color for the button */
-		    border: none;
-		    border-radius: 5px;
 		    font-size: 16px;
-		    font-weight: bold;
+		    font-weight: 600;
+		    background-color: white;
+	    	border: 2px solid #1A237E;
 		    cursor: pointer;
 		}
 		
-		#btn-pay-ready:hover {
-		    background-color: #e0a800;
+		#btn-pay-ready:hover { 
+			background-color: #1A237E;
+	    	border: 2px solid white;
+	    	color: white; 
+	    }
+	    
+	    #btn-pay-ready:disabled {
+		  background-color: #cccccc; 
+		  border: 2px solid gray;
+		  color: #666666;             
+		  cursor: not-allowed;
+		  opacity: 0.7;
 		}
 		
-		.guidelines-section #terms {
-			color:gray;
-			font-size:1%;
-		}
+		#terms li {	color:gray;	font-size: 12px; }
+		
+		#terms { margin-top:0; }
     	
     </style>
 
 </head>
 <body>
-    <div class="container">
+    <div class="content-wrapper">
         <div class="main-info-section">
             <p class="ticket-type">당일 예약권</p>
             <p class="price">
@@ -176,7 +157,7 @@
 	    </div>
     </div>
 	
-	<script type="text/javascript">
+	<script>
 	    // 카카오페이 결제 팝업창 연결
 	    $(function() {
 	    	$("#agree").change(function(){

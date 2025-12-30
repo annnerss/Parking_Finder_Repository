@@ -77,6 +77,7 @@ public class QnaController {
 	@PostMapping("/qnaInsert.qn")
 	public String qnaInsert(Qna q
 						  , HttpSession session) {
+		System.out.println(q.getPNo());
 		String pNo = service.selectPNoByPName(q.getPNo()); //검색한 주차장 이름에서 주차장 관리 번호로 변환
 		q.setPNo(pNo);
 		

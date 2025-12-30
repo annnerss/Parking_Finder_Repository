@@ -6,20 +6,6 @@
 <meta charset="UTF-8">
 <title>주차장 목록</title>
 <style>
-	.content {
-        background-color:rgb(247, 245, 245);
-        width:80%;
-        margin:auto;
-    }
-    
-    .innerOuter {
-        border:1px solid lightgray;
-        width:80%;
-        margin:auto;
-        padding:5% 10%;
-        background-color:white;
-    }
-    
     .search-box{
     	max-width:400px;
     	margin: 16px auto;
@@ -41,21 +27,18 @@
 	
 	#searchBtn{
 		position:absolute;
-		color: #fff;
-		cursor:pointer;
-		width:20%;
-		border-radius: 8px;
+		width:15%;
 		padding: 5px;
 	}
-	
-	#searchBtn:hover{ background: lightgray; }
 	
 	#searchListDiv{
 		position:absolute;
 		width:80%;
+		margin-left:37px;
 		max-length: 220px;
 		border-radius: 8px;
-		background: #ededed;
+		border: 2px solid black;
+		background: white;
 		display: none;
 		padding-top:10px;
 	}
@@ -71,30 +54,23 @@
 	    display: flex;
     }
     
-    #searchList li:hover{ background:lightgray; }
-    
-    #ParkingList { width:100%; }
-	
-	#ParkingList tbody tr:hover { background-color:#d4d4d4; }
-	
 	#pagingArea{ width:fit-content; margin:auto;}
 </style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/menubar.jsp" %>
-	<h2 style="text-align:center;">주차장 리스트</h2>
 	<br>
-	<div class="content">
-		<br><br>
-		<div class="innerOuter">
+	<div class="content-wrapper">
+		<h2>주차장 리스트</h2>
 			<div class="search-box">
-				<input type="text" id="search" placeholder=" 주차장명으로 검색" onkeyup="searchFunc(this);">	
-				<button id="searchBtn">검색</button>
+				<input type="text" id="search" placeholder="주차장명으로 검색" onkeyup="searchFunc(this);">&nbsp
+				<button class="btn" id="searchBtn">검색</button>
 				<div id="searchListDiv">
 					<ul id="searchList"></ul> <!-- 검색 제시어 들어갈 위치 -->
 					<input type="hidden" name="parkingNo" value="122-1-000001">
 				</div>
 			</div>
+			<br>
 			
 			<!-- 비동기 검색 제시어 기능 script -->
 			<script>
@@ -127,12 +103,12 @@
 				}
 			</script>
 			
-			<table id="ParkingList">
+			<table class="table table-hover" id="ParkingList">
 				<thead>
 					<tr>
 						<th>주차장 번호</th>
 			            <th>주차장 이름</th>
-			            <th style="text-align:right;">주차장 운영 상태</th>
+			            <th>주차장 운영 상태</th>
 		            </tr>
 				</thead>
 				<tbody>
@@ -140,7 +116,7 @@
 						<tr>
 							<td>${p.parkingNo}</td>
 							<td>${p.parkingName}</td>
-							<td style="text-align:right;">${p.status }</td>
+							<td style="text-align:center;">${p.status }</td>
 						</tr>
 					</c:forEach>
 					<c:if test="${not empty pList }">
@@ -170,7 +146,7 @@
             	<c:param name="page"></c:param>
             </c:url>
             
-			<br><br>
+			<br>
 			<div id="pagingArea">
                 <ul class="pagination">
 	                <c:choose>
@@ -197,7 +173,6 @@
                 </ul>
             </div>
 		</div>
-	</div>
 	
 	 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

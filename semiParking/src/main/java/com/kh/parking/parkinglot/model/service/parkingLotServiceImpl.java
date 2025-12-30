@@ -59,10 +59,10 @@ public class parkingLotServiceImpl implements parkingLotService{
     	return dao.reserve(sqlSession, reservation);
     }
 
-	@Override
-	public Reservation reserveDetail(int rNo) {
-		return dao.reserveDetail(sqlSession,rNo);
-	}
+//	@Override
+//	public Reservation reserveDetail(int rNo) {
+//		return dao.reserveDetail(sqlSession,rNo);
+//	}
 
 	@Override
 	public ArrayList<Reservation> reserveList() {
@@ -92,6 +92,11 @@ public class parkingLotServiceImpl implements parkingLotService{
 	@Override
 	public void currentUpdate() {
 		dao.currentUpdate(sqlSession);
+	}
+
+	@Override
+	public int deletePost(int rNo) {
+		return dao.deletePost(sqlSession,rNo);
 	}
 
 }

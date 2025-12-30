@@ -37,6 +37,11 @@ public class parkingLotController {
     private static final String CLIENT_ID = "sdqbu1mss0";
     private static final String CLIENT_SECRET = "gB3zDQBDw94fmjDFgrjuqIkU54nIumIqBnozlHPQ";
 
+    @RequestMapping("/service.pk")
+    public String servicePage() {
+    	return "/parkingMap/service";
+    }
+    
     //관리자용 주차장 디테일
     @GetMapping("/parkingDetail.get")
     public String parkingLotDetail(@RequestParam("pNo") String pNo,
@@ -171,11 +176,27 @@ public class parkingLotController {
     	return "reservation/reservationList";
     }
     
-  //관리자용 예약 목록 삭제
+    //관리자용 예약 목록 삭제
     @PostMapping("/delete.re")
     @ResponseBody
     public Map<String,String> deleteReserve(int rNo,HttpSession session) {
     	Map<String,String> res = new HashMap<>();
+    	Member user = (Member)session.getAttribute("loginMember");
+    	
+    	if(user.getMemId() != "admin") {
+    		int result = service.deletePost(rNo);
+    		
+    		if(result > 0) {
+    			res.put("status", "success");
+        		res.put("message", "예약 취소가 요청 되었습니다");
+    		}else {
+    			res.put("status", "fail");
+        		res.put("message", "예약 취소 요청을 실패했습니다");
+    		}
+    		
+    		return res;
+    	}
+    	
     	int result = service.deleteReserve(rNo);
     	int result2 = service.deletePayment(rNo);
     	
@@ -236,11 +257,5 @@ public class parkingLotController {
     public List<ParkingLot> searchParking(String keyword){
     	List<ParkingLot> pList = service.searchParking(keyword);
     	return pList;
-    }
-
-    @RequestMapping("service.pk")
-    public String introduce(){
-
-        return "service";
     }
 }

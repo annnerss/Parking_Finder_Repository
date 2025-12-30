@@ -8,33 +8,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    <style>
-        .content {
-            background-color:rgb(247, 245, 245);
-            width:80%;
-            margin:auto;
-        }
-        .innerOuter {
-            border:1px solid lightgray;
-            width:80%;
-            margin:auto;
-            padding:5% 10%;
-            background-color:white;
-        }
-    </style>
+	<style>
+		.content-wrapper form { text-align:left; }
+	</style>
 </head>
 <body>
     
     <!-- 메뉴바 -->
     <%@ include file="/WEB-INF/views/common/menubar.jsp" %>
 
-    <div class="content">
-        <br><br>
-        <div class="innerOuter">
-            <h2>회원가입</h2>
+    <div class="content-wrapper">
+        <h2>회원가입</h2>
             <br>
-
             <form action="${contextRoot }/insert.me" method="post">
                 <div class="form-group">
                     <label for="inputId">* 아이디 : </label>
@@ -62,18 +47,15 @@
                     <label for="phoneNum"> &nbsp; 연락처 : </label>
                     <input type="tel" class="form-control" id="phone" placeholder="Please Enter Phone" name="phoneNum"> <br>
                     
-                    
                 </div> 
                 <br>
                 <div class="btns" align="center">
-                    <button type="submit" class="btn btn-primary disabled" onclick="return validate();">회원가입</button>
+                    <button type="submit" class="btn disabled" onclick="return validate();">회원가입</button>
                     <!-- 중복 체크 하기전까진 비활성화 -->
-                    <button type="reset" class="btn btn-danger">초기화</button>
+                    <button type="reset" class="btn btn-delete">초기화</button>
                 </div>
             </form>
         </div>
-        <br><br>
-    </div>
 	
 	<script>
 	    

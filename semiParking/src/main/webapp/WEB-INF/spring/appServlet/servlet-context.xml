@@ -36,8 +36,10 @@
 			<mapping path="/reserve.port"/>
 			<mapping path="/payment/ready"/>
 			<mapping path="/payment/approve"/>
+			<!-- <mapping path="/*.rv"/> -->
 			
 			<exclude-mapping path="/enrollForm.me"/>
+			<exclude-mapping path="/service.pk"/>
 			<exclude-mapping path="/login.me"/>
 			<exclude-mapping path="/insert.me"/>
 			<exclude-mapping path="/logout.me"/>
@@ -50,6 +52,8 @@
 			<exclude-mapping path="/parkingSearch.get"/>
 			<exclude-mapping path="/qnaListView.qn"/>
 			<exclude-mapping path="/detail.qn"/>
+			<exclude-mapping path="/getRoute.get"/>
+			<exclude-mapping path="/reviewListView.rv"/>
 			
 			<beans:bean class="com.kh.parking.common.interceptor.LoginInterceptor"/>
 				
