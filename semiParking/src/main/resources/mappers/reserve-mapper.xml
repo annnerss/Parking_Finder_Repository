@@ -111,4 +111,10 @@
 		WHERE RESERVATION_NO = #{rNo}
 	</update>
 	
+	<update id="expireUpdate">
+        UPDATE RESERVATION
+        SET STATUS = 'N'
+        WHERE END_TIME &lt; SYSDATE
+    </update>
+	
  </mapper>

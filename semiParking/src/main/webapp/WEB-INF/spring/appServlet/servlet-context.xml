@@ -33,10 +33,13 @@
 			<mapping path="/*.pk"/>
 			<mapping path="/*.qn"/>
 			<mapping path="/*.re"/>
+			<mapping path="/*.rv"/>
+			<mapping path="/*.co"/>
 			<mapping path="/reserve.port"/>
 			<mapping path="/payment/ready"/>
 			<mapping path="/payment/approve"/>
-			<mapping path="/*.rv"/>
+			<mapping path="/couponPage.get"/>
+			
 			
 			<exclude-mapping path="/enrollForm.me"/>
 			<exclude-mapping path="/service.pk"/>

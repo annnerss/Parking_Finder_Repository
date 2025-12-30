@@ -85,6 +85,8 @@ public class parkingLotDao {
 	public int deletePost(SqlSessionTemplate sqlSession, int rNo) {
 		return sqlSession.update("reserveMapper.deletePost",rNo);
 	}
-
-    
+	
+	public void expireUpdate(SqlSessionTemplate sqlSession) {
+        sqlSession.update("reserveMapper.expireUpdate");
+    }
 }
