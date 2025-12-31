@@ -3,18 +3,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 public class Reservation {
-    private int reservationNo; //¿¹¾à¹øÈ£
-    private Date startTime; //ÀÔÂ÷¿¹¾à½Ã°£
-    private Date endTime; //ÃâÂ÷¿¹¾à½Ã°£
-    private String status; //»óÅÂ¿©ºÎ(¿¹¾àÁß/¿¹¾àÃë¼Ò/ÁÖÂ÷¿Ï·á?)
-    private int parkingNo; //ÁÖÂ÷Àå °ü¸®¹øÈ£(¿Ü·¡Å°)
-    private String memberId; //ÀÌ¿ëÀÚ ¾ÆÀÌµğ(¿Ü·¡Å°)
+    private int reservationNo; //ì˜ˆì•½ë²ˆí˜¸
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date startTime; //ì…ì°¨ì˜ˆì•½ì‹œê°„
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date endTime; //ì¶œì°¨ì˜ˆì•½ì‹œê°„
+    private String status; //ìƒíƒœì—¬ë¶€(ì˜ˆì•½ì¤‘/ì˜ˆì•½ì·¨ì†Œ/ì£¼ì°¨ì™„ë£Œ?)
+    private String parkingName; //ì£¼ì°¨ì¥ ì´ë¦„
+    private String parkingNo; //ì£¼ì°¨ì¥ ê´€ë¦¬ë²ˆí˜¸(ì™¸ë˜í‚¤)
+    private String memberId; //ì´ìš©ì ì•„ì´ë””(ì™¸ë˜í‚¤)
 }
