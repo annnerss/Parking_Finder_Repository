@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="reviewMapper">
+
+
+
+	<resultMap id="reviewResultSet" type="Review">
+	    <id column="R_NO" property="rNo"/>
+	    <result column="MEM_ID" property="memId"/>
+	    <result column="POINT" property="point"/>
+	    <result column="P_NO" property="pNo"/>
+	    <result column="CONTENT" property="content"/>
+	    <result column="ORIGIN_NAME" property="originName"/>
+	    <result column="CHANGE_NAME" property="changeName"/>
+	    <result column="CREATE_DATE" property="createDate"/>
+		<result column="STATUS" property="status"/>
+			    
+	    <!-- 1:N 관계인 첨부파일 처리 -->
+	    <collection property="attachmentList" ofType="Attachment">
+	        <id column="FILE_NO" property="fileNo"/>
+	        <result column="REF_RNO" property="refRno"/>
+	        <result column="ORIGIN_NAME" property="originName"/>
+	        <result column="CHANGE_NAME" property="changeName"/>
+	        <result column="FILE_PATH" property="filePath"/>
+	        <result column="UPLOAD_DATE" property="uploadDate"/>
+	        <result column="STATUS" property="status"/>
+	    </collection>
+	</resultMap>
+	
+	<select id="reviewList" parameterType="string" resultMap="reviewResultSet">
+	    SELECT R.R_NO, 
+	           R.MEM_ID, 
+	           R.POINT, 
+	           R.P_NO, 
+	           R.CONTENT, 
+	           R.CREATE_DATE, 
+	           A.FILE_NO, 
+	           A.REF_RNO,
+	           A.ORIGIN_NAME,
+	           A.FILE_PATH || A.CHANGE_NAME "CHANGE_NAME"
+	    FROM REVIEW R
+	    LEFT JOIN ATTACHMENT A ON (R.R_NO = A.REF_RNO)
+	    WHERE R.P_NO = #{pNo}
+	    AND R.STATUS = 'Y'
+	    ORDER BY R.CREATE_DATE DESC
+	</select>
+
+	<!-- 사진 리뷰 작성 -->
+	<insert id="insertReview" parameterType="Review">
+		<selectKey keyProperty="rNo" resultType="int" order="BEFORE">
+			SELECT SEQ_RNO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO REVIEW (R_NO
+						  , MEM_ID
+						  , POINT
+						  , P_NO
+						  , CONTENT
+		)
+		VALUES(#{rNo}
+			  , #{memId}
+			  , #{point}
+			  , #{pNo}
+			  , #{content}
+		)
+	</insert>
+	
+	<!-- 첨부파일 추가 -->
+	<insert id="insertAttachment">
+	    INSERT INTO ATTACHMENT (FILE_NO
+	    						,REF_RNO
+	    						,ORIGIN_NAME
+	           					,CHANGE_NAME
+	          			 		,FILE_PATH)
+	    SELECT SEQ_FNO.NEXTVAL,A.* FROM (
+		    <foreach collection="list" item="at" separator="UNION ALL">
+		        SELECT #{at.refRno}
+			           ,#{at.originName}
+			           ,#{at.changeName}
+			           ,#{at.filePath}
+		        FROM DUAL
+		    </foreach>
+		    ) A
+	</insert>
+	
+	<!-- 첨부파일 목록 -->
+	<select id="attachmentList" resultType="Attachment">
+		SELECT FILE_NO
+			  ,ORIGIN_NAME
+			  ,FILE_PATH||CHANGE_NAME "CHANGE_NAME"
+		FROM ATTACHMENT
+		WHERE REF_RNO = #{rNo}
+		ORDER BY FILE_NO
+	</select>
+</mapper>

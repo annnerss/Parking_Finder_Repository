@@ -10,7 +10,18 @@
   	</settings>
   	
     <typeAliases>
-  		
+  		<typeAlias type="com.kh.parking.payment.model.vo.PaymentApprove" alias="PaymentApprove"/>
+  		<typeAlias type="com.kh.parking.reservation.model.vo.Reservation" alias="Reservation"/>
+        <typeAlias type="com.kh.parking.parkinglot.model.vo.ParkingLot" alias="ParkingLot"/>
+        <typeAlias type="com.kh.parking.member.model.vo.Member" alias="Member"/>
+        <typeAlias type="com.kh.parking.member.model.vo.History" alias="History"/>
+        <typeAlias type="com.kh.parking.member.model.vo.Favorite" alias="Favorite"/>
+        <typeAlias type="com.kh.parking.qna.model.vo.Qna" alias="Qna"/>
+        <typeAlias type="com.kh.parking.qna.model.vo.Reply" alias="Reply"/>
+        <typeAlias type="com.kh.parking.review.model.vo.Review" alias="Review"/>
+        <typeAlias type="com.kh.parking.review.model.vo.Attachment" alias="Attachment"/>
+        <typeAlias type="com.kh.parking.member.model.vo.Coupon" alias="Coupon"/>
+        <typeAlias type="com.kh.parking.member.model.vo.MemberCoupon" alias="MemberCoupon"/>
   	</typeAliases>
   
   </configuration>
