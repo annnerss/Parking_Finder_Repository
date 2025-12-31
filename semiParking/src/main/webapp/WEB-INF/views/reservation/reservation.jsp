@@ -46,7 +46,7 @@
 	            
 	            <div class="form-group">
 	            	<label>쿠폰 사용</label>
-	            	<select id="couponList" class="form-control" onchange="calcPrice()">
+	            	<select id="couponList" class="form-control">
 	            		<option value="1">보유 쿠폰 목록</option>
 	            	</select>
 	            </div>
@@ -63,7 +63,7 @@
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 	<script>
-		let totalDiscount = 0;
+		let totalDiscount = 0; //글로벌 최종 할인율 변수
 		
 		$(document).ready(function(){
 			const couponList = $("#couponList");
@@ -75,7 +75,7 @@
 			        dataType: "json",
 			        success:function(list){
 			        	$.each(list, function(index, coupon) {
-		                    const dPrice = (coupon.DISCOUNT * 100);
+		                    const dPrice = (coupon.DISCOUNT * 100); //할인율 퍼센트로 변환해서 저장
 		                    const option = $('<option>')
 		                        .val(`\${coupon.REF_CID}`)
 		                        .text(`\${coupon.REF_CID} (\${dPrice}% 할인)`)
@@ -93,7 +93,7 @@
 		        const selected = $(this).find('option:selected');
 		        const discount = parseFloat(selected.data('discount')) || 0;
 		        totalDiscount = (discount / 100);
-		        calcPrice();
+		        calcPrice(); //쿠폰 선택이 달라질때마다 최종금액 계산
 		    });
 			
 		});
@@ -110,7 +110,7 @@
 	            if(startDate < now){
 	                alert("현재 시간보다 이전 시간은 예약할 수 없습니다.");
 	                $(this).val("");
-	                $("#couponList").val("1"); 
+	                $("#couponList").val("1"); //option 리셋
 	                return;
 	            }
 	
@@ -120,7 +120,7 @@
 	                if(endDate <= startDate){
 	                    alert("입차시간보다 빠른 시간은 예약할 수 없습니다.")
 	                    $("#endTime").val("");
-	                    $("#couponList").val("1"); 
+	                    $("#couponList").val("1"); //option 리셋
 	                } 
 	            }
 	        });
@@ -132,7 +132,7 @@
 	            if(!startVal){
 	                alert("입차 시간을 먼저 설정해 주세요");
 	                $(this).val("");
-	                $("#couponList").val("1"); 
+	                $("#couponList").val("1"); //option 리셋
 	                return;
 	            }
 	
@@ -142,7 +142,7 @@
 	            if(endDate < startDate){
 	                alert("출차 시간은 입차시간보다 이후여야 합니다.");
 	                $(this).val("");
-	                $("#couponList").val("1"); 
+	                $("#couponList").val("1"); //option 리셋
 	                return;
 	            }
 	        })
@@ -153,7 +153,6 @@
 	        const endVal = document.getElementById("endTime").value;
 	        const basePrice = parseInt(document.getElementById("basePrice").value); 
 	        let unitPrice = parseInt(document.getElementById("unitPrice").value);
-	        const coupon = totalDiscount;
 	        
 	        if(unitPrice == 0) {
 	            unitPrice = 500;
@@ -176,11 +175,10 @@
 	
 	            if(diffHours <= 1){
 	                total = basePrice;
-	            }else{
-	                totalDiscount = (basePrice + ((Math.ceil(diffHours)-1) * unitPrice)) * totalDiscount;
-		            total = (basePrice + ((Math.ceil(diffHours)-1) * unitPrice)) - totalDiscount;
-	                
-		            console.log("total "+total);
+	            }else{ 
+	            	let tempPrice = (basePrice + ((Math.ceil(diffHours)-1) * unitPrice));
+	                totalDiscount = tempPrice * totalDiscount; //할인 금액 계산 후 최종 금액에서 빼기
+		            total = tempPrice - totalDiscount;
 	            }
 	           
 	            document.getElementById("totalPrice").value = total;

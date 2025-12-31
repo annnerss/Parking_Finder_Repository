@@ -81,7 +81,6 @@ public class CouponController {
 	@ResponseBody
 	@GetMapping("/couponList.co")
 	public List<Map<String, Object>> couponList(HttpSession session) {
-
 	    Member loginMem = (Member) session.getAttribute("loginMember");
 
 	    if (loginMem == null) {

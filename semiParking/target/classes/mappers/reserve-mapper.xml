@@ -94,6 +94,12 @@
 		AND RESERVATION_NO = #{rNo}
 	</select>
 	
+	<update id="deletePost" parameterType="_int">
+		UPDATE RESERVATION
+		SET STATUS = 'X'
+		WHERE RESERVATION_NO = #{rNo}
+	</update>
+	
 	<update id="deleteReserve" parameterType="_int">
 		UPDATE RESERVATION
 		SET STATUS = 'N'
@@ -104,12 +110,6 @@
 		DELETE FROM PAYMENT
 		WHERE RESERVATION_NO = #{rNo}
 	</delete>
-	
-	<update id="deletePost" parameterType="_int">
-		UPDATE RESERVATION
-		SET STATUS = 'X'
-		WHERE RESERVATION_NO = #{rNo}
-	</update>
 	
 	<update id="expireUpdate">
         UPDATE RESERVATION

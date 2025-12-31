@@ -199,9 +199,20 @@
             	<li><a href="${contextRoot }"><img src="${contextRoot }/resources/Logo.jpg" alt="로고" style="width:100px"></a></li>
                 <li><a href="${contextRoot}/service.pk">서비스 소개</a></li>
                 <li><a href="${contextRoot }/qnaListView.qn">문의사항</a></li>
-                <li class="logo"><img src="https://img.icons8.com/?size=100&id=aflTW0mA9OBv&format=png&color=000000" style="width:30px" onclick="toggleMenu2()"></li>
-            	<li class="logo"><a href="${contextRoot}/favorites.parking"><img src="https://img.icons8.com/?size=100&id=85033&format=png&color=000000" alt="하트 이모티콘" style="width:30px"></a></li>
-            	<li class="logo"><img src="https://img.icons8.com/?size=100&id=15263&format=png&color=000000" style="width:30px" onclick="toggleMenu1()"></li>
+                <li class="logo">
+                	<img src="https://img.icons8.com/?size=100&id=aflTW0mA9OBv&format=png&color=000000" 
+                	style="width:30px" alt="메뉴바　이모티콘"onclick="toggleMenu2()">
+                </li>
+            	<li class="logo">
+            		<a href="${contextRoot}/favorites.parking">
+            			<img src="https://img.icons8.com/?size=100&id=85033&format=png&color=000000" 
+            			alt="하트 이모티콘" style="width:30px">
+            		</a>
+            	</li>
+            	<li class="logo">
+            		<img src="https://img.icons8.com/?size=100&id=15263&format=png&color=000000" 
+            		 alt="사람 이모티콘"style="width:30px"onclick="toggleMenu1()">
+            	</li>
             </ul>
             <div id="menu1">
             	<ul>

@@ -166,10 +166,10 @@
 	    	    } else {
 	    	        $("#btn-pay-ready").prop("disabled", true);  // disable
 	    	    }
-
 	    	});
+	    	
+	    	//이용 약관 동의 버튼 클릭시
 	        $("#btn-pay-ready").click(function() {
-	            // 아래 데이터 외에도 필요한 데이터를 원하는 대로 담고, Controller에서 @RequestBody로 받으면 됨
 	            let data = {
 	            	partner_order_id : ${reservation.reservationNo},
 	            	partner_user_id : "${reservation.memberId}",
@@ -178,14 +178,13 @@
 	            	total_amount: ${price}
 	            };
 	            
-	            console.log(data);
-
 	            $.ajax({
 	                type: 'POST',
 	                url: '${pageContext.request.contextPath}/payment/ready',
 	                data: JSON.stringify(data),
 	                contentType: 'application/json',
 	                success: function(response) {
+	                	//성공하면 카카오페이 결제 팝업창으로
 	                	location.href = response.next_redirect_pc_url;
 	                },
 	                error:function(e){
