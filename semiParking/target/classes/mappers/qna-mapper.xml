@@ -39,7 +39,7 @@
 	    FROM QNA Q
 	    JOIN MEMBER M ON Q.MEM_ID = M.MEM_ID
 	    JOIN PARKINGLOT P ON Q.P_NO = P.P_NO
-	    WHERE Q_NO = #{qNo} 
+	    WHERE Q_NO = #{qno} 
 	    AND Q.STATUS = 'Y'
 	    ORDER BY Q.CREATE_DATE DESC
 	</select>
@@ -50,6 +50,7 @@
 	    FROM PARKINGLOT
 	    WHERE P_NAME = #{pNo}
 	</select>
+	
 	
 	<!-- 문의사항 게시글 등록 -->
 	<insert id="qnaInsert" parameterType="Qna">
@@ -82,6 +83,12 @@
 		WHERE Q_NO = #{qNo}
 		AND STATUS = 'Y'
 	</update>
+	
+	<!-- 댓글 전체 삭제 -->
+	<delete id="deleteReplyByQno">
+		DELETE FROM REPLY
+		WHERE REF_QNO = #{qno}
+	</delete>
 	
 	<!-- 문의사항 게시글 삭제 -->
 	<delete id="qnaDelete" parameterType="_int">
@@ -169,4 +176,12 @@
 				#{replyContent},
 				#{refQno})
 	</insert>
+	
+	<update id="deleteReply" parameterType="Reply">
+		UPDATE REPLY
+		SET STATUS = 'N'
+		WHERE REPLY_NO = #{replyNo}
+		AND REPLY_WRITER = #{replyWriter}
+	</update>
+	
 </mapper>

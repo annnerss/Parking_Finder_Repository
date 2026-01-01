@@ -3,13 +3,14 @@ package com.kh.parking.qna.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.parking.common.model.vo.PageInfo;
+import com.kh.parking.member.model.vo.Member;
 import com.kh.parking.qna.model.dao.QnaDao;
 import com.kh.parking.qna.model.vo.Qna;
 import com.kh.parking.qna.model.vo.Reply;
@@ -44,44 +45,18 @@ public class QnaServiceImpl implements QnaService{
 		return dao.qnaDetail(sqlSession, qno);
 	}
 	
+
 	//문의사항 게시글 작성 - pName으로 pNo 리턴받기
 	@Override
 	public String selectPNoByPName(String pNo) {
 		return dao.selectPNoByPName(sqlSession, pNo);
 	}
-	
+
+  
 	//문의사항 게시글 등록
 	@Override
 	public int qnaInsert(Qna q) {
 		return dao.qnaInsert(sqlSession, q);
-	}
-
-	//문의사항 게시글 수정
-	@Override
-	public int qnaUpdate(Qna q) {
-
-		return dao.qnaUpdate(sqlSession, q);
-	}
-	
-	//문의사항 게시글 삭제
-	@Override
-	public int qnaDelete(int qno) {
-
-		return dao.qnaDelete(sqlSession, qno);
-	}
-	
-	//문의사항 게시글 검색
-	@Override
-	public ArrayList<Qna> searchList(HashMap<String, String> map, PageInfo pi) {
-
-		return dao.searchList(sqlSession, map, pi);
-	}
-	
-	//검색 게시글 수
-	@Override
-	public int searchListCount(HashMap<String, String> map) {
-	
-		return dao.searchListCount(sqlSession, map);
 	}
 
 	@Override
@@ -104,7 +79,40 @@ public class QnaServiceImpl implements QnaService{
 		return dao.insertReply(sqlSession,r);
 	}
 
+	@Override
+	public int deleteReply(Reply r) {
+		return dao.deleteReply(sqlSession,r);
+	}
 
+	//문의사항 게시글 수정
+	@Override
+	public int qnaUpdate(Qna q) {
+		return dao.qnaUpdate(sqlSession, q);
+	}
+		
+	//문의사항 게시글 삭제
+	@Override
+	@Transactional
+	public int qnaDeleteWithReply(int qno) {
+		
+		//댓글 먼저 삭제
+		dao.deleteReplyByQno(sqlSession, qno);
+		
+		//게시글 삭제
+		return dao.qnaDelete(sqlSession, qno);
+	}
+
+	//문의사항 게시글 검색
+	@Override
+	public ArrayList<Qna> searchList(HashMap<String, String> map, PageInfo pi) {
+		return dao.searchList(sqlSession, map, pi);
+	}
+		
+	//검색 게시글 수
+	@Override
+	public int searchListCount(HashMap<String, String> map) {
+		return dao.searchListCount(sqlSession, map);
+	}
 
 
 }

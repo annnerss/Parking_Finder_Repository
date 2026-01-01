@@ -1,4 +1,3 @@
-
 package com.kh.parking.common.model.vo;
 
 import lombok.AllArgsConstructor;

@@ -15,6 +15,7 @@ public class Scheduler {
     @Scheduled(cron = "*/5 * * * * *")
     public void currentUpdate(){
         service.currentUpdate();
-        //System.out.println(new java.util.Date()+"주차장 현황 갱신");
+        service.expireUpdate();
+        service.couponExpire();
     }
 }

@@ -7,27 +7,10 @@
 <meta charset="UTF-8">
 <title>게시글 목록 조회</title>
 <style>
-	.content {
-        background-color:rgb(247, 245, 245);
-        width:80%;
-        margin:auto;
-    }
-    
-    .innerOuter {
-        border:1px solid lightgray;
-        width:80%;
-        margin:auto;
-        padding:5% 10%;
-        background-color:white;
-    }
-    
 	#qnaList>tbody>tr:hover {cursor:pointer;}
 	.select, .text{display: inline-block;}
-	
 	#pagingArea{ width:fit-content; margin:auto; }
-	
-	#qnaList{width:100%;}
-	
+	.text .input{ border-radius: 15px; }
 </style>
 
 </head>
@@ -35,19 +18,18 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
 
-	<div class="content">
-		<br><br>
-		<div class="innerOuter">
-			<h2 class="text-center">문의사항 게시판</h2>
+	<div class="content-wrapper">
+			<h2>문의사항 게시판</h2>
 			<br>
 			
 			<!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
 			<c:if test="${not empty loginMember }">
 	            <a class="btn btn-secondary" style="float:right;" href="${contextRoot}/qnaInsert.qn">글쓰기</a>
+            	<br>
+            	<br>
             </c:if>
-            <br><br>
 			
-			<table id="qnaList" align="center">
+			<table class="table table-hover" id="qnaList" align="center">
 				<thead>
 					<tr>
 						<th>글 번호</th>
@@ -82,8 +64,6 @@
 					</c:choose>
 				</tbody>
 			</table>		
-			
-			<br><br>
 			<!-- 게시글 클릭하여 해당 게시글 상세보기 처리 -->
 			<c:if test="${not empty list }">
 				<script>
@@ -160,40 +140,35 @@
 				<!-- currentPage 값은 페이징바 만드는 반복문에서 각 페이지 숫자 넣어줄 것 -->
 				<c:param name="page"></c:param>
 			</c:url>
-	
+			<br>
 			<div id="pagingArea">
-                <ul class="pagination">
-                    
-                    <c:choose>
-    					<c:when test="${pi.currentPage eq  1}"> <!-- 현재페이지 1이면 이전버튼 비활성화 -->
-		                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-    					</c:when>                
-    					<c:otherwise>
-    						<li class="page-item"><a class="page-link" href="${url}${pi.currentPage-1}">Previous</a></li>
-    					</c:otherwise>
-    					
-                    </c:choose>
-					
+				<ul class="pagination">
+					<c:choose>
+						<c:when test="${pi.currentPage eq  1}"> <!-- 현재페이지 1이면 이전버튼 비활성화 -->
+		                	<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+						</c:when>                
+						<c:otherwise>
+							<li class="page-item"><a class="page-link" href="${url}${pi.currentPage-1}">Previous</a></li>
+						</c:otherwise>
+					</c:choose>
 					
 					<c:forEach begin="${pi.startPage}" end="${pi.endPage}" var="i">
 						<!-- el표기법으로 3항연산자를 이용하여 조건이 부합할땐 disabled 속성 넣기 아닐땐 빈값처리 -->
-	                    <li class="page-item ${i eq pi.currentPage? 'disabled':'' }"><a class="page-link" href="${url }${i}">${i}</a></li>
-                    	
+		            	<li class="page-item ${i eq pi.currentPage? 'disabled':'' }"><a class="page-link" href="${url }${i}">${i}</a></li>
 					</c:forEach>					                    
-                    
-                    <c:choose>
+		                    
+					<c:choose>
 						<c:when test="${pi.currentPage eq pi.maxPage }">
-		                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+		               		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
 						</c:when>
 						<c:otherwise>
 							<li class="page-item"><a class="page-link" href="${url}${pi.currentPage+1}">Next</a></li>
 						</c:otherwise>                    
-                    </c:choose>
-                
-                
-                </ul>
-            </div>
-            
+					</c:choose>
+					
+				</ul>
+			</div>
+		
 			<br clear="both"><br>
 		
 			<!-- 검색 후 선택상자 선택시키기 -->
@@ -216,13 +191,12 @@
 				</div>
 			
 				<div class="text">
-					<input type="text" class="form-control" name="keyword" value="${map.keyword }">
+					<input type="text" class="input form-control" name="keyword" value="${map.keyword }">
 				</div>
-				<button type="submit" class="searchBtn btn btn-secondary">검색</button>	
+				<button class="btn" type="submit">검색</button>	
 			</form>
 			<br><br>
 		</div>
-	</div>
 		
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>

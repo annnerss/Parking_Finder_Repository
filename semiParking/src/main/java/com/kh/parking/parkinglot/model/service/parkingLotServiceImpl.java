@@ -99,4 +99,14 @@ public class parkingLotServiceImpl implements parkingLotService{
 		return dao.deletePost(sqlSession,rNo);
 	}
 
+	 @Override
+	 public void expireUpdate() {
+	    dao.expireUpdate(sqlSession);
+	 }
+
+	@Override
+	public void couponExpire() {
+		dao.couponExpire(sqlSession);
+	}
+
 }

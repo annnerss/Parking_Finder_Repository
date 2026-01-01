@@ -16,7 +16,8 @@ public interface CouponService {
 	//쿠폰 리스트
 	List<Map<String, Object>> couponList(String memId);
 
-
+	//회원가입시 쿠폰 자동 쿠폰 발급
+	void welcomeCoupon(String memId);
 
 
 

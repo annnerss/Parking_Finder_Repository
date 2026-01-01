@@ -1,142 +1,97 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>주차장 예약</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<style>
-	    #reserve-container div{ 
-		    text-align:left;
-	    }
-	    
-	</style>
+<meta charset="UTF-8">
+<title>예약 정보 목록</title>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
-	
+	<%@include file="/WEB-INF/views/common/menubar.jsp" %>
 	<div class="content-wrapper">
-	        <h2 class="text-center">주차장 예약</h2>
-	        <br>
-	        <input type="hidden" id="basePrice" value="${parkingLot.price*10}">
-	        <input type="hidden" id="unitPrice" value="${parkingLot.priceTime}">
+		<h2>예약 리스트</h2>
+			<table class="table table-hover" id="reserveList">
+				<thead>
+					<tr>
+			            <th width="10%">예약 번호</th>
+	                    <th width="25%">예약 시작시간</th>
+	                    <th width="25%">예약 종료시간</th>
+	                    <th width="20%">주차장</th>
+	                    <th width="10%">멤버 아이디</th>
+	                    <th width="10%">관리</th>
+		            </tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${rList }" var="r">
+						<tr>
+							<td>${r.reservationNo }</td>
+							<td>${r.startTime }</td>
+							<td>${r.endTime }</td>
+							<td>${r.parkingName }</td>
+							<td>${r.memberId }</td>
+							<td>
+								<c:if test="${r.status eq 'X' }">
+									<button type="button" class="btn btn-delete deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}">삭제</button>
+								</c:if>
+								<c:if test="${r.status eq 'Y' }">
+									<button type="button" class="btn btn-delete deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}" disabled>삭제</button>
+								</c:if>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<script>
+				$(function(){
+					$(".deleteBtn").click(function(){
+						let rNo = $(this).data("reservationno"); 
+						$("#deleterNo").val(rNo);
+					});
+					
+					$("#deleteConfirm").click(function(){
+						let rNo = parseInt($("#deleterNo").val(), 10); // 숫자로 변환
+						$.ajax({
+							url:"/parking/delete.re",
+							data: {rNo : rNo},
+							type: "POST",
+							success:function(response){
+								if(response.status == "success"){
+									alert(response.message);
+									location.reload();
+								}else{
+									alert(response.message);
+								}
+							},
+							error:function(){
+								alert("예약 내역 삭제를 실패했습니다");
+							}
+						});
+					});
+				});
+			</script>
+			
+			<div class="modal fade" id="deleteReserve">
+		        <div class="modal-dialog modal-sm">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <h4 class="modal-title">예약 삭제</h4>
+		                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+		                </div>
+		                <div class="modal-body">
+		                    <div align="center">
+		                        삭제 후 복구가 불가능합니다. <br>
+		                        정말로 삭제 하시겠습니까? <br>
+		                    </div>
+		                </div>
+		                <input type="hidden" id="deleterNo" name="deleterNo">
+		                <div class="modal-footer" align="center">
+		                   <button type="submit" class="btn btn-danger" id="deleteConfirm">삭제하기</button>
+		                </div>
+		            </div>
+		        </div>
+	    	</div>
+		</div>
 	
-	        <form id="reserve-container" action="reserve.port" method="post">
-	            <div class="form-group">
-	                <label>주차장 이름:</label>
-	                <input type="text" class="form-control" name="parkingName" value="${parkingLot.parkingName}" readonly>
-	                <input type="hidden" class="form-control" name="parkingNo" value="${parkingLot.parkingNo}">
-	            </div>
-	
-	            <div class="form-group">
-	                <label>예약자ID:</label>
-	                <input type="text" class="form-control" name="memberId" value="${loginMember.memId}" required>
-	            </div>
-	
-	            <div class="form-group">
-	                <label>입차 예정 시간:</label>
-	                <input type="datetime-local" class="form-control" id="startTime" name="startTime" onchange="calcPrice()" required> 
-	            </div>
-	
-	            <div class="form-group">
-	                <label>출차 예정 시간:</label>
-	                <input type="datetime-local" class="form-control" id="endTime" name="endTime" onchange="calcPrice()"required>
-	            </div>
-	
-	            <div class="form-group">
-	                <label>예상 결제 요금 : </label>
-	                <input type="text" class="form-control" id="totalPrice" name="price" readonly placeholder="시간을 선택하면 자동 계산됩니다.">
-	            </div>
-				<br>
-	            <button type="submit" class="btn">결제하기</button>
-	            <button type="button" class="btn btn-delete" onclick="history.back()">취소</button>
-	        </form>
-	    </div>
-	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
-
-	<script>
-	    $(function(){
-	        $("#startTime").change(function(){
-	            const startVal = $(this).val();
-	
-	            if(!startVal) return;
-	
-	            const startDate = new Date(startVal);
-	            const now = new Date();
-	
-	            if(startDate < now){
-	                alert("현재 시간보다 이전 시간은 예약할 수 없습니다.");
-	                $(this).val("");
-	                return;
-	            }
-	
-	            const endVal = $("#endTime").val();
-	            if(endVal){
-	                const endDate = new Date(endVal);
-	                if(endDate <= startDate){
-	                    alert("입차시간보다 빠른 시간은 예약할 수 없습니다.")
-	                    $("#endTime").val("");
-	                } 
-	            }
-	        });
-	
-	        $("#endTime").change(function(){
-	            const startVal = $("#startTime").val();
-	            const endVal = $(this).val();
-	
-	            if(!startVal){
-	                alert("입차 시간을 먼저 설정해 주세요");
-	                $(this).val("");
-	                return;
-	            }
-	
-	            const endDate = new Date(endVal);
-	            const startDate = new Date(startVal);
-	
-	            if(endDate < startDate){
-	                alert("출차 시간은 입차시간보다 이후여야 합니다.");
-	                $(this).val("");
-	                return;
-	            }
-	        })
-	    })
-	
-	    function calcPrice() {
-	        const startVal = document.getElementById("startTime").value;
-	        const endVal = document.getElementById("endTime").value;
-	        const basePrice = parseInt(document.getElementById("basePrice").value); 
-	        let unitPrice = parseInt(document.getElementById("unitPrice").value);
-	        if(unitPrice == 0) {
-	            unitPrice = 500;
-	        }
-	        if (startVal && endVal) {
-	            const start = new Date(startVal);
-	            const end = new Date(endVal);
-	
-	            const diffMS = end - start;
-	            const diffHours = diffMS / (1000 * 60 * 60); //ms단위 *초 *분 *시간
-	
-	            console.log(diffHours);
-	
-	            if (diffHours <= 0) {
-	                alert("출차 시간은 입차 시간보다 뒤여야 합니다.");
-	                document.getElementById("totalPrice").value = "";
-	                return;
-	            }
-	
-	            let total = 0;
-	
-	            if(diffHours <= 1){
-	                total = basePrice;
-	            }else{
-	                console.log(Math.ceil(diffHours))
-	                total = basePrice + ((Math.ceil(diffHours)-1) * unitPrice);
-	            }
-	           
-	            document.getElementById("totalPrice").value = total;
-	        }
-	    }
-	</script>
+	 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

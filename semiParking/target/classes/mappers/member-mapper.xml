@@ -91,4 +91,10 @@
   		SET STATUS = 'N'
   		WHERE MEM_ID = #{memId} 
   	</update>
+  	
+  	<update id="changeMemberPwd" parameterType="Member">
+  		UPDATE MEMBER
+  		SET MEM_PWD = #{memPwd}
+  		WHERE MEM_ID = #{memId}
+  	</update>
 </mapper>

@@ -30,7 +30,7 @@ public class CouponController {
 		if(loginMem == null) {
 			return "redirect:/";
 		}
-		return "coupon/couponPage";
+		return "member/couponPage";
 	}
 	
 	//쿠폰 등록

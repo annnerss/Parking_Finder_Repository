@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.parking.coupon.model.service.CouponService;
 import com.kh.parking.member.model.service.MemberService;
 import com.kh.parking.member.model.vo.Member;
 
@@ -20,6 +21,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService service; // 자동으로 빈 주입. 
+	
+	@Autowired
+	private CouponService couponService; // 자동으로 빈 주입. 
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt; // 암호화하는 빈 주입. 
@@ -154,6 +158,10 @@ public class MemberController {
 		int result = service.insertMember(member); // 회원 가입 처리 
 		
 		if(result > 0) {
+			
+			//회원가입시 쿠폰 자동 등록
+			couponService.welcomeCoupon(member.getMemId());
+			
 			session.setAttribute("alertMsg", "회원 가입 성공!"); // 재요청이 되니까 모델에 있는 값은 사라진다. 
 			return "redirect:/"; // 회원 가입이 끝나면 메인 페이지로 이동.
 		} else {

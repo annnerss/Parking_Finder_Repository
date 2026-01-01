@@ -5,21 +5,20 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>문의사항 작성</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style>
 		#qnaEnroll{ width:100%;}
-		
+		.table th{ width:30%; }
+		.table input,textarea{ max-width:90%; }
 	</style>
 <body>
 	<%@ include file="/WEB-INF/views/common/menubar.jsp"%>
-	<div class="content">
-		<br><br>
-		<div class="innerOuter">
-			<h2 class="text-center">문의사항 글 작성</h2>
+	<div class="content-wrapper">
+		<h2 class="text-center">문의사항 글 작성</h2>
 			<br>
 			<form id="enrollForm" method="post" action="${contextRoot }/qnaInsert.qn">
-				<table align="center" id="qnaEnroll">
+				<table class="table" align="center" id="qnaEnroll">
 				<!-- 공개 범위, 주차장명, 작성자, 내용 -->
 					<tr>
 						<th id="qnaRange">공개 범위 설정</th>
@@ -34,7 +33,7 @@
 					</tr>
 					<tr>
 						<th><label for="qnaWriter">작성자</label></th>
-						<td colspan="4"><input type="text" id="qnaWriter" name="memId" class="form-control" value="${loginMember.memId }" readonly></td>
+                        <td colspan="4"><input type="text" id="qnaWriter" name="memId" class="form-control" value="${loginMember.memId }" readonly></td>
 					</tr>
 					<tr>
 						<th><label for="qnaTitle">제목</label></th>
@@ -47,15 +46,12 @@
 				</table>
 				<br><br>
 				<div align="center">
-					<button type="submit">등록하기</button>
-					<button type="reset">취소하기</button>
+					<button class="btn" type="submit">등록하기</button>
+					<button class="btn btn-delete" type="reset">취소하기</button>
 				</div>
 			</form>
 		</div>
 		
-	</div>
-	
-	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	
 </body>

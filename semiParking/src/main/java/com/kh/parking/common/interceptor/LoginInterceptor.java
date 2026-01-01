@@ -34,6 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 				// uri가 /mypage.me , /favorites.parking으로 끝날때 휴면 회원이여도 마이페이지랑 찜 목록 조회는 이용 가능하게 한다. 
 				return true; 
 			} else if(uri.endsWith(REMOVE_FAVORITES_URI)) { // 찜 목록에서 삭제하기 버튼은 흐름 유지 X.
+				session.setAttribute("alertMsg", "휴면 해제 후 이용 가능한 서비스입니다.");
 				return false; 
 			}
 			

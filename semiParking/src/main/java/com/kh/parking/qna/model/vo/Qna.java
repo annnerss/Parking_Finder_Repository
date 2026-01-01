@@ -21,4 +21,3 @@ public class Qna {
 	private String memId;
 	private String pNo;
 }
-

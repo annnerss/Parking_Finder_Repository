@@ -76,7 +76,7 @@
     
     <script>
         $(function(){
-            $("#remove").click(function(){
+            $(".btn-delete").click(function(){
                 let parkingNo = $(this).closest(".favorite-card").find("#parkingNo").val(); // 버튼을 눌렀을때 기준으로 가장 가까운 상위 태그 (지정한 선택자가 가장 가까운 범위에 있을때)
                 
                 let removeTag = $(this).closest(".favorite-card"); // 버튼을 눌렀을때 기준으로 가장 가까운 상위 태그 (지정한 선택자가 가장 가까운 범위에 있을때)

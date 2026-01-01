@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.parking.coupon.model.dao.CouponDao;
 import com.kh.parking.member.model.vo.Coupon;
@@ -46,7 +47,15 @@ public class CouponServiceImpl implements CouponService {
 		
 		return dao.couponInsert(sqlSession, mc);
 	}
-
+	
+	//회원가입시 쿠폰 자동 발급
+	@Transactional
+	@Override
+	public void welcomeCoupon(String memId) {
+		
+		this.couponInsert(memId, "WELCOME10");
+	}
+	
 	//쿠폰 리스트
 	@Override
 	public List<Map<String, Object>> couponList(String memId) {

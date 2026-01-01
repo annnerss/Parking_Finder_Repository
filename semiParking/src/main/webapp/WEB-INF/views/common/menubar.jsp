@@ -203,7 +203,6 @@
             	<li class="logo"><a href="${contextRoot}/favorites.parking"><img src="https://img.icons8.com/?size=100&id=85033&format=png&color=000000" alt="하트 이모티콘" style="width:30px"></a></li>
             	<li class="logo"><img src="https://img.icons8.com/?size=100&id=15263&format=png&color=000000" style="width:30px" onclick="toggleMenu1()"></li>
             </ul>
-            
             <div id="menu1">
             	<ul>
 		               	<c:choose>
@@ -271,9 +270,9 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <label for="userId" class="mr-sm-2">ID : </label>
-                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="memId" name="memId"> <br>
+                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="memId" name="memId" required> <br>
                         <label for="userPwd" class="mr-sm-2">Password : </label>
-                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="memPwd" name="memPwd">
+                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="memPwd" name="memPwd" required>
                     </div>
                            
                     <!-- Modal footer -->

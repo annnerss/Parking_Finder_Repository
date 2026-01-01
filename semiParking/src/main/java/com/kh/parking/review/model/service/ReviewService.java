@@ -19,5 +19,8 @@ public interface ReviewService {
 	//사진 리뷰 추가
 	int photoInsert(Review r, ArrayList<Attachment> atList);
 
+	//별점 평점
+	Double reviewAvgPoint(String pNo);
+
 
 }

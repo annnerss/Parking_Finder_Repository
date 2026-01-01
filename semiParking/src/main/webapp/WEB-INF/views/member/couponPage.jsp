@@ -6,51 +6,37 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 	<style>
-		.content {
-	        background-color:rgb(247, 245, 245);
-	        width:80%;
-	        margin:auto;
-	    }
-	    
-	    .innerOuter {
-	        border:1px solid lightgray;
-	        width:80%;
-	        margin:auto;
-	        padding:5% 10%;
-	        background-color:white;
-	    }
+		#couponEnroll { width:500px; }
+		.coupon-container {
+		    display: flex;
+		    gap: 10px;
+		    align-items: center;
+		}
+		
 	</style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/menubar.jsp" %>
-	<div class="content">
-		<br><br>
-		<div class="innerOuter">
-<!-- 			<h2>쿠폰 관리</h2> -->
-			
-<%-- 			<%@ include file="couponRegister.jsp" %> --%>
-<!-- 			<br><br> -->
-<%-- 			<jsp:include page="couponListView.jsp" > --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
-			
-			<h2 class="text-center">쿠폰 등록하기</h2>
-			<br>
+	<div class="content-wrapper">
 			<div>
-				<table id="couponEnroll" align="center" border="1">
+			<h5 class="text-center">쿠폰 등록하기</h5>
+				<table class="table" id="couponEnroll" align="center">
 					<tr>
-						<th>쿠폰 코드</th>
-						<td><input type="text" id="couponCode" name="couponCode"></td>
-						<th><button id="couponBtn">쿠폰 등록</button></th>
+						<th>쿠폰</th>
+						<td style="padding:0 20px;">
+							<div class="coupon-container" style="display: flex; gap: 8px;">
+						        <input class="form-control" type="text" id="couponCode" name="couponCode" placeholder="쿠폰 코드를 입력해주세요" style="flex: 1;">
+						        <button class="btn" type="button" id="couponBtn" style="white-space: nowrap;">쿠폰 등록</button>
+						    </div>
+						</td>
 					</tr>
 				</table>
 			</div>
 			<br><br>
 			<div align="center">
-				<h2 class="text-center">쿠폰 목록</h2>
-				<table id="couponList" align="center" border="1">
+				<h2 class="text-center">보유 쿠폰 목록</h2>
+				<table class="table" id="couponList" align="center">
 					<thead>
 						<tr>
 							<th>쿠폰 종류</th>
@@ -61,24 +47,6 @@
 						</tr>	
 					</thead>	
 					<tbody>
-<%-- 						<c:choose> --%>
-<%-- 							<c:when test="${empty list}"> --%>
-<!-- 								<tr> -->
-<!-- 									<td colspan="5">보유한 쿠폰이 없습니다.</td> -->
-<!-- 								</tr> -->
-<%-- 							</c:when> --%>
-<%-- 							<c:otherwise> --%>
-<%-- 								<c:forEach items="${list}" var="mc"> --%>
-<!-- 									<tr> -->
-<%-- 										<td>${mc.refCid}</td> --%>
-<%-- 										<td>${mc.discount}%</td> --%>
-<%-- 										<td>${mc.issueDate}</td> --%>
-<%-- 										<td>${mc.expireDate}</td> --%>
-<%-- 										<td>${mc.status}</td> --%>
-<!-- 									</tr> -->
-<%-- 								</c:forEach> --%>
-<%-- 							</c:otherwise> --%>
-<%-- 						</c:choose>		 --%>
 					</tbody>
 				</table>
 			</div>
@@ -132,11 +100,10 @@
 			            }
 
 			            list.forEach(mc => {
-			            	
 			                tbody.append(`
 			                    <tr>
 			                        <td>\${mc.REF_CID}</td>
-			                        <td>\${mc.DISCOUNT}%</td>
+			                        <td>\${mc.DISCOUNT}</td>
 			                        <td>\${mc.ISSUE_DATE}</td>
 			                        <td>\${mc.EXPIRE_DATE}</td>
 			                        <td>\${mc.STATUS}</td>
@@ -149,11 +116,7 @@
 			        }
 			    });
 			}
-
 		</script>
-	</div>
-	
-	
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>

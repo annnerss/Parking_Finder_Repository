@@ -3,13 +3,13 @@ package com.kh.parking.qna.model.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.parking.common.model.vo.PageInfo;
+import com.kh.parking.member.model.vo.Member;
 import com.kh.parking.qna.model.vo.Qna;
 import com.kh.parking.qna.model.vo.Reply;
 
@@ -52,21 +52,46 @@ public class QnaDao {
 		return sqlSession.insert("qnaMapper.qnaInsert", q);
 	}
 
+	public String checkMem(SqlSessionTemplate sqlSession, String memId) {
+		return sqlSession.selectOne("qnaMapper.checkMem",memId);
+	}
+
+	public String adminPwd(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("qnaMapper.adminPwd");
+	}
+
+	//댓글 목록
+	public List<Reply> replyList(SqlSessionTemplate sqlSession, int qNo) {
+		return sqlSession.selectList("qnaMapper.replyList",qNo);
+	}
+
+	//댓글 추가
+	public int insertReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.insert("qnaMapper.insertReply",r);
+	}
+
+	//댓글 삭제
+	public int deleteReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.update("qnaMapper.deleteReply",r);
+	}
+
 	//문의사항 글 수정
 	public int qnaUpdate(SqlSessionTemplate sqlSession, Qna q) {
-
 		return sqlSession.update("qnaMapper.qnaUpdate", q);
+	}
+	
+	//댓글 전체 삭제
+	public int deleteReplyByQno(SqlSessionTemplate sqlSession, int qno) {
+		return sqlSession.delete("qnaMapper.deleteReplyByQno", qno);
 	}
 
 	//문의사항 글 삭제
 	public int qnaDelete(SqlSessionTemplate sqlSession, int qno) {
-
 		return sqlSession.delete("qnaMapper.qnaDelete", qno);
 	}
 	
 	//문의사항 게시글 검색
 	public ArrayList<Qna> searchList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi) {
-		
 		int limit = pi.getBoardLimit();  //몇개씩 보여줄 것인지
 		int offset = (pi.getCurrentPage()-1)*limit;  //몇개를 건너뛸 것인지
 		
@@ -79,26 +104,8 @@ public class QnaDao {
 	
 	//검색 게시글 수
 	public int searchListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
-		
 		return sqlSession.selectOne("qnaMapper.searchListCount", map);
 	}
-
-	public String checkMem(SqlSessionTemplate sqlSession, String memId) {
-		return sqlSession.selectOne("qnaMapper.checkMem",memId);
-	}
-
-	public String adminPwd(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("qnaMapper.adminPwd");
-	}
-	
-	public List<Reply> replyList(SqlSessionTemplate sqlSession, int qNo) {
-		return sqlSession.selectList("qnaMapper.replyList",qNo);
-	}
-
-	public int insertReply(SqlSessionTemplate sqlSession, Reply r) {
-		return sqlSession.insert("qnaMapper.insertReply",r);
-	}
-
 
 
 
