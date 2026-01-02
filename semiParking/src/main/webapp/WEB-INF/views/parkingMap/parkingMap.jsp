@@ -102,7 +102,7 @@
                     map: map,
                     title: "내 위치",
                     icon: {
-                        content: '<div style="border-spacing: 0;overflow: hidden;min-width: 280px;border-radius:15px;"></div>',
+                    	content: '<div style="width:18px; height:18px; background-color:#007bff; border:2px solid #fff; border-radius:50%; box-shadow:0 0 5px rgba(0,0,0,0.5);"></div>',
                         anchor: new naver.maps.Point(10, 10)
                     }
                 });

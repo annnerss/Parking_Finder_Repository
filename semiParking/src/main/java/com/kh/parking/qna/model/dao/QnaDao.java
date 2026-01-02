@@ -44,6 +44,8 @@ public class QnaDao {
 	
 	//문의사항 게시글 작성 - pName으로 pNo 리턴받기
 	public String selectPNoByPName(SqlSessionTemplate sqlSession, String pNo) {
+		String st = sqlSession.selectOne("qnaMapper.selectPNoByPName",pNo);
+		System.out.println(st);
 		return sqlSession.selectOne("qnaMapper.selectPNoByPName",pNo);
 	}
 	
