@@ -61,7 +61,8 @@ public class parkingLotController {
     
   //관리자용 주차장 리스트
     @RequestMapping("/parkingListView.get")
-    public String ParkingListView(@RequestParam(value="page",defaultValue="1") int currentPage, Model model, HttpSession session){
+    public String ParkingListView(@RequestParam(value="page",defaultValue="1") 
+    							int currentPage, Model model, HttpSession session){
     	int listCount = service.listCount();
     	int boardLimit = 10;
     	int pageLimit = 10;
@@ -132,7 +133,9 @@ public class parkingLotController {
 
     //회원 예약 결제 페이지
     @PostMapping("/reserve.port")
-    public String reserve(Reservation reservation, @RequestParam(value = "price") int price, Model model) {
+    public String reserve(Reservation reservation, 
+			    		 @RequestParam(value = "price") int price, 
+			    		 Model model) {
         //예약 정보를 넘겨서 예약이 성공한다면 예약 번호를 발급하고 결제정보를 리턴한다.
         int result = service.reserve(reservation);
 
@@ -193,7 +196,6 @@ public class parkingLotController {
     			res.put("status", "fail");
         		res.put("message", "예약 취소 요청을 실패했습니다");
     		}
-    		
     		return res;
     	}
     	
@@ -207,7 +209,6 @@ public class parkingLotController {
     		res.put("status", "fail");
     		res.put("message", "예약 삭제를 실패했습니다");
     	}
-    	
     	return res;
     }
     

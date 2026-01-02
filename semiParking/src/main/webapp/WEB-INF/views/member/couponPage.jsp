@@ -53,6 +53,7 @@
 		</div>
 
 		<script>
+			//쿠폰 등록
 			$("#couponBtn").click(function(){
 				$.ajax({
 					url: "couponInsert.co",

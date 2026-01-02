@@ -31,10 +31,12 @@
 							<td>${r.memberId }</td>
 							<td>
 								<c:if test="${r.status eq 'X' }">
-									<button type="button" class="btn btn-delete deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}">삭제</button>
+									<button type="button" class="btn btn-delete deleteBtn" data-toggle="modal" 
+									data-target="#deleteReserve" data-reservationno="${r.reservationNo}">삭제</button>
 								</c:if>
 								<c:if test="${r.status eq 'Y' }">
-									<button type="button" class="btn btn-delete deleteBtn" data-toggle="modal" data-target="#deleteReserve" data-reservationno="${r.reservationNo}" disabled>삭제</button>
+									<button type="button" class="btn btn-delete deleteBtn" data-toggle="modal" 
+									data-target="#deleteReserve" data-reservationno="${r.reservationNo}" disabled>삭제</button>
 								</c:if>
 							</td>
 						</tr>

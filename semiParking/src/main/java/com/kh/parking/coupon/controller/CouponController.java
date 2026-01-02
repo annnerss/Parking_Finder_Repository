@@ -42,6 +42,7 @@ public class CouponController {
 		Member loginMem = (Member)session.getAttribute("loginMember");
 		if (loginMem != null) {
 			
+			//대문자로 변환 처리
 			couponCode = couponCode.toUpperCase();
 			
 			int result = service.couponInsert(loginMem.getMemId(), couponCode);

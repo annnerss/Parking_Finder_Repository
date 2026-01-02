@@ -108,5 +108,4 @@ public class parkingLotServiceImpl implements parkingLotService{
 	public void couponExpire() {
 		dao.couponExpire(sqlSession);
 	}
-
 }

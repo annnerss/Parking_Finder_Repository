@@ -12,9 +12,6 @@ public interface ReviewService {
 	
 	//리뷰 목록 조회
 	ArrayList<Review> reviewList(String pNo);
-
-	//리뷰 작성 
-//	int reviewInsert(Review r);
 	
 	//사진 리뷰 추가
 	int photoInsert(Review r, ArrayList<Attachment> atList);

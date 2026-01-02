@@ -25,8 +25,7 @@
 			<!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
 			<c:if test="${not empty loginMember }">
 	            <a class="btn btn-secondary" style="float:right;" href="${contextRoot}/qnaInsert.qn">글쓰기</a>
-            	<br>
-            	<br>
+            	<br><br>
             </c:if>
 			
 			<table class="table table-hover" id="qnaList" align="center">
