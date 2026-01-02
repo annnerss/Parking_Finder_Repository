@@ -43,10 +43,13 @@
 	
 	<select id="couponList" resultType="map">
 		SELECT MC.REF_CID
-			  ,C.DISCOUNT
-			  ,MC.ISSUE_DATE
-			  ,MC.EXPIRE_DATE
-			  ,MC.STATUS
+			  ,(C.DISCOUNT * 100) AS DISCOUNT
+			  ,TO_CHAR(MC.ISSUE_DATE, 'YYYY-MM-DD') AS ISSUE_DATE
+			  ,TO_CHAR(MC.EXPIRE_DATE, 'YYYY-MM-DD') AS EXPIRE_DATE
+			  ,CASE
+			   WHEN MC.STATUS = 'Y' THEN '사용 가능'
+			   ELSE '사용 불가'
+			   END AS STATUS
 		FROM MEM_COUPON MC
 		JOIN COUPON C ON MC.REF_CID = C.C_ID
 		WHERE MC.MEM_ID = #{memId}

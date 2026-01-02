@@ -75,11 +75,11 @@
 			        dataType: "json",
 			        success:function(list){
 			        	$.each(list, function(index, coupon) {
-		                    const dPrice = (coupon.DISCOUNT * 100); //할인율 퍼센트로 변환해서 저장
+		                    ///const dPrice = (coupon.DISCOUNT * 100); //할인율 퍼센트로 변환해서 저장
 		                    const option = $('<option>')
 		                        .val(`\${coupon.REF_CID}`)
-		                        .text(`\${coupon.REF_CID} (\${dPrice}% 할인)`)
-		                        .attr('data-discount', dPrice);
+		                        .text(`\${coupon.REF_CID} (\${coupon.DISCOUNT}% 할인)`)
+		                        .attr('data-discount', coupon.DISCOUNT);
 		                    couponList.append(option);
 		                });
 			        },

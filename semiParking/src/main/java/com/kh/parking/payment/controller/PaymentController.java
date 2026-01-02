@@ -54,7 +54,6 @@ public class PaymentController {
         	System.out.println(rStartDate);
         	model.addAttribute("pay",approve);
         	model.addAttribute("rStartDate",rStartDate);
-        	session.setAttribute("alertMsg", "결제 성공");
         }else {
         	session.setAttribute("alertMsg", "결제 실패");
         }

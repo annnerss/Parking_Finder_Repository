@@ -186,7 +186,7 @@ public class parkingLotController {
     	Map<String,String> res = new HashMap<>();
     	Member user = (Member)session.getAttribute("loginMember");
     	
-    	if(user.getMemId() != "admin") {
+    	if(!user.getMemId().equals("admin")) {
     		int result = service.deletePost(rNo);
     		
     		if(result > 0) {
@@ -257,6 +257,7 @@ public class parkingLotController {
     @RequestMapping(value="/searchParking.pk", produces="application/json;charset=UTF-8")
     public List<ParkingLot> searchParking(String keyword){
     	List<ParkingLot> pList = service.searchParking(keyword);
+    	System.out.println(pList);
     	return pList;
     }
 }
