@@ -52,8 +52,9 @@
 ## 5.1 Language
 |  |  |
 |-----------------|-----------------|
-| CSS    |  <img src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white" alt="CSS" width="100"> | ?    |
-| JavaScript    |  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white" alt="JavaScript" width="100"> | ?    |
+| CSS    |  <img src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white" alt="CSS" width="100"> |
+| JavaScript    |  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white" alt="JavaScript" width="100"> |
+| HTML    |  <img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white" alt="HTML" width="100"> |
 
 https://github.com/envoy1084/awesome-badges
 <br/>
@@ -92,7 +93,3 @@ https://github.com/envoy1084/awesome-badges
   - 모든 기능 개발은 이 브랜치에서 이루어집니다.
 
 <br/>
-<br/>
-
-UI개발을 위한 라이브러리 styled-components 설치
-```
