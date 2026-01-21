@@ -53,15 +53,15 @@
 |  |  |
 |-----------------|-----------------|
 | Spring    |  <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring" width="100"> |
-| NaverMap API    |  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white" alt="NaverMap API" width="100"> |
+| NaverMap API    |  <img src="https://navermaps.github.io/maps.js.en/docs/img/logo_200x200.png" alt="NaverMap API" width="100"> |
 | KakaoPay API    |  <img src="https://velog.velcdn.com/images/rockstar/post/df543d17-a459-477e-8c21-096582c2308f/image.png" alt="KakaoPay API" width="100"> |
 
 https://github.com/envoy1084/awesome-badges
 <br/>
 
 ## 5.2 Frotend
-|  |  |  |
-|-----------------|-----------------|-----------------|
+|  |  |
+|-----------------|-----------------|
 | CSS    |  <img src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white" alt="CSS" width="100"> |
 | JavaScript    |  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white" alt="JavaScript" width="100"> |
 | HTML    |  <img src="https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white" alt="HTML" width="100"> |
@@ -71,16 +71,16 @@ https://github.com/envoy1084/awesome-badges
 <br/>
 
 ## 5.3 Backend
-|  |  |  |
-|-----------------|-----------------|-----------------|
+|  |  |
+|-----------------|-----------------|
 | Java    |  <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" width="100">    |
-| JSP&Servlet    |  <img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=black" alt="SqlDeveloper" width="100">    |
-| MyBatis    |  <img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=black" alt="SqlDeveloper" width="100">    |
+| JSP&Servlet    |  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuBNJAkDstdVkcciRnhZzvzQYRfkx0fikSDw&s" alt="SqlDeveloper" width="100">    |
+| MyBatis    |  <img src="https://avatars.githubusercontent.com/u/1483254?s=280&v=4" alt="SqlDeveloper" width="100">    |
 <br/>
 
 ## 5.4 DB
-|  |  |  |
-|-----------------|-----------------|-----------------|
+|  |  |
+|-----------------|-----------------|
 | Oracle SQLDeveloper    |  <img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=black" alt="SqlDeveloper" width="100">    |
 <br/>
 
