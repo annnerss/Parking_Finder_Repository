@@ -107,5 +107,6 @@ https://github.com/envoy1084/awesome-badges
 <br/>
 
 # 7. WebPage Overview (웹사이트 시현)
-(이미지/영상)
+<img width="1898" height="865" alt="스크린샷 2026-02-10 165307" src="https://github.com/user-attachments/assets/c3f5106a-7466-4392-ac65-b63521f9a7bf" />
+
 
