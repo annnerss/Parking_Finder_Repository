@@ -111,8 +111,9 @@ https://github.com/envoy1084/awesome-badges
 <img width="1899" height="866" alt="스크린샷 2026-02-10 165707" src="https://github.com/user-attachments/assets/3b044ae4-3ab5-43e1-8aa6-f336f27a1a07" />
 <img width="1642" height="866" alt="스크린샷 2026-02-10 165826" src="https://github.com/user-attachments/assets/4efceb61-f8cc-4a1e-87f5-b964fc9927f2" />
 <img width="1780" height="828" alt="스크린샷 2026-02-10 165902" src="https://github.com/user-attachments/assets/705d19fd-716c-48e5-a74a-b5550ed63c09" />
-<img width="626" height="797" alt="스크린샷 2026-02-10 165916" src="https://github.com/user-attachments/assets/4d6c8cef-cadd-482e-98fe-d63528f20278" />
+<img width="500" height="600" alt="스크린샷 2026-02-10 165916" src="https://github.com/user-attachments/assets/4d6c8cef-cadd-482e-98fe-d63528f20278" />
 <img width="656" height="601" alt="스크린샷 2026-02-10 165949" src="https://github.com/user-attachments/assets/1291b626-ad67-4486-b424-9536a39a659b" />
 <img width="1685" height="863" alt="스크린샷 2026-02-10 165505" src="https://github.com/user-attachments/assets/878389e5-0841-4e25-a817-ece5fb80313e" />
+<img width="1235" height="403" alt="스크린샷 2026-02-10 170240" src="https://github.com/user-attachments/assets/105028de-d512-4e9a-9899-01ca0ff544a0" />
 
 
